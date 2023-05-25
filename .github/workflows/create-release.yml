@@ -26,4 +26,4 @@ jobs:
         run: npm pack | xargs -I {} mv {} package.tgz
       - uses: ncipollo/release-action@v1
         with:
-          artifacts: ./package.tgz
+          artifacts: package.tgz
