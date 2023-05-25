@@ -380,6 +380,8 @@ export class Material<E extends Event = Event, TEvents = string> extends EventDi
      */
     dispose(): void;
 
+    onAfterRender(renderer: WebGLRenderer, scene: Scene, camera: Camera, geometry: BufferGeometry, object: Object3D): void
+
     /**
      * An optional callback that is executed immediately before the shader program is compiled.
      * This function is called with the shader source code as a parameter.
