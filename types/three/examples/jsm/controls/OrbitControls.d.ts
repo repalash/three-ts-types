@@ -184,6 +184,11 @@ export class OrbitControls {
     autoRotateSpeed: number;
 
     /**
+     * Max number of updates in a second, set to 0 to disable throttling.
+     */
+    throttleUpdate: number;
+
+    /**
      * This object contains references to the keycodes for controlling
      * camera panning. Default is the 4 arrow keys.
      */

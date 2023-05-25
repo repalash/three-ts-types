@@ -15,4 +15,5 @@ export class DRACOLoader extends Loader {
     setWorkerLimit(workerLimit: number): DRACOLoader;
     preload(): DRACOLoader;
     dispose(): DRACOLoader;
+    _loadLibrary(url: string, responseType: string): Promise<any>;
 }

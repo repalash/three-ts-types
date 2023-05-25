@@ -529,4 +529,8 @@ export class WebGLRenderer implements Renderer {
      * @deprecated Use {@link WebGLRenderer#setScissorTest .setScissorTest()} instead.
      */
     enableScissorTest(boolean: any): any;
+
+    onContextLost(event: WebGLContextEvent): void;
+
+    onContextRestore(event: WebGLContextEvent): void;
 }
