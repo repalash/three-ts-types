@@ -1,4 +1,4 @@
-import {Camera, MOUSE, TOUCH, Vector3, EventDispatcher, Event } from '../../../src/Three';
+import { Camera, MOUSE, TOUCH, Vector3, EventDispatcher, Event } from '../../../src/Three';
 
 /**
  * Orbit controls allow the camera to orbit around a target.
@@ -7,7 +7,7 @@ import {Camera, MOUSE, TOUCH, Vector3, EventDispatcher, Event } from '../../../s
  * @param domElement - The HTML element used for
  * event listeners.
  */
-export class OrbitControls extends EventDispatcher<Event, 'change'|'start'|'end'> {
+export class OrbitControls extends EventDispatcher<Event, 'change' | 'start' | 'end'> {
     constructor(object: Camera, domElement?: HTMLElement);
 
     /**
