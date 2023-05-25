@@ -20,10 +20,8 @@ jobs:
         with:
           node-version: 18
           cache: 'npm'
-      - name: cd to types
-        run: cd types/three
       - name: Pack
-        run: npm pack | xargs -I {} mv {} ../../package.tgz
+        run: cd types/three && npm pack | xargs -I {} mv {} ../../package.tgz
       - uses: ncipollo/release-action@v1
         with:
           artifacts: package.tgz
