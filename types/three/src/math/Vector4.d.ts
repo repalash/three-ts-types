@@ -79,7 +79,7 @@ export class Vector4 implements Vector {
     /**
      * Copies value of v to this vector.
      */
-    copy(v: Vector4): this;
+    copy(v: {x: number, y: number, z: number, w: number}): this;
 
     /**
      * Adds v to this vector.

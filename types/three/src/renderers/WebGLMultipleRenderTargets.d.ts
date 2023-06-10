@@ -1,6 +1,8 @@
 import { EventDispatcher } from '../core/EventDispatcher';
 import { Texture } from '../textures/Texture';
 import { WebGLRenderTargetOptions } from './WebGLRenderTarget';
+import { Vector4 } from "../math/Vector4";
+import { DepthTexture } from "../textures/DepthTexture";
 
 /**
  * This class originall extended WebGLMultipleRenderTarget
@@ -32,4 +34,24 @@ export class WebGLMultipleRenderTargets extends EventDispatcher {
      * @default 0
      */
     samples: number;
+
+    scissor: Vector4;
+    /**
+     * @default false
+     */
+    scissorTest: boolean;
+    viewport: Vector4;
+    /**
+     * @default true
+     */
+    depthBuffer: boolean;
+    /**
+     * @default true
+     */
+    stencilBuffer: boolean;
+    /**
+     * @default null
+     */
+    depthTexture: DepthTexture;
+
 }
