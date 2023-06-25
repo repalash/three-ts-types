@@ -1,8 +1,8 @@
 import { EventDispatcher } from '../core/EventDispatcher';
 import { Texture } from '../textures/Texture';
 import { WebGLRenderTargetOptions } from './WebGLRenderTarget';
-import { Vector4 } from "../math/Vector4";
-import { DepthTexture } from "../textures/DepthTexture";
+import { Vector4 } from '../math/Vector4';
+import { DepthTexture } from '../textures/DepthTexture';
 
 /**
  * This class originall extended WebGLMultipleRenderTarget
@@ -58,5 +58,4 @@ export class WebGLMultipleRenderTargets extends EventDispatcher {
      * @default null
      */
     depthTexture: DepthTexture;
-
 }

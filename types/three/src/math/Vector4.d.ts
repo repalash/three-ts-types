@@ -1,6 +1,6 @@
 import { Matrix4 } from './Matrix4';
 import { Quaternion } from './Quaternion';
-import { BufferAttribute } from './../core/BufferAttribute';
+import { BufferAttribute } from "../core/BufferAttribute";
 import { Vector } from './Vector2';
 
 export type Vector4Tuple = [number, number, number, number];
@@ -79,7 +79,7 @@ export class Vector4 implements Vector {
     /**
      * Copies value of v to this vector.
      */
-    copy(v: {x: number, y: number, z: number, w: number}): this;
+    copy(v: { x: number; y: number; z: number; w: number }): this;
 
     /**
      * Adds v to this vector.

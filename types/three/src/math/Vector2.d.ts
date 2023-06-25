@@ -1,5 +1,5 @@
 import { Matrix3 } from './Matrix3';
-import { BufferAttribute } from './../core/BufferAttribute';
+import { BufferAttribute } from "../core/BufferAttribute";
 
 export type Vector2Tuple = [number, number];
 
@@ -30,7 +30,7 @@ export interface Vector {
     /**
      * copy(v:T):T;
      */
-    copy(v: {x: number, y: number, z?: number, w?: number}): this;
+    copy(v: { x: number; y: number; z?: number; w?: number }): this;
 
     /**
      * NOTE: The second argument is deprecated.
@@ -190,7 +190,7 @@ export class Vector2 implements Vector {
     /**
      * Copies value of v to this vector.
      */
-    copy(v: {x: number, y: number}): this;
+    copy(v: { x: number; y: number }): this;
 
     /**
      * Adds v to this vector.
