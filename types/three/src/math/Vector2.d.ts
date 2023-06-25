@@ -1,5 +1,5 @@
 import { Matrix3 } from './Matrix3';
-import { BufferAttribute } from "../core/BufferAttribute";
+import { BufferAttribute } from '../core/BufferAttribute';
 
 export type Vector2Tuple = [number, number];
 

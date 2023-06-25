@@ -154,3 +154,14 @@ export interface GLTFLoaderPlugin {
     createNodeMesh?: ((nodeIndex: number) => Promise<Group | Mesh | SkinnedMesh> | null) | undefined;
     createNodeAttachment?: ((nodeIndex: number) => Promise<Object3D> | null) | undefined;
 }
+
+export class GLTFBinaryExtension {
+    name: string;
+    content: string; // content cannot be null, an error is thrown otherwise
+    body: ArrayBuffer | null;
+    header: {
+        magic: string;
+        version: number;
+        length: number;
+    };
+}

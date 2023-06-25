@@ -1,6 +1,6 @@
 import { Matrix4 } from './Matrix4';
 import { Quaternion } from './Quaternion';
-import { BufferAttribute } from "../core/BufferAttribute";
+import { BufferAttribute } from '../core/BufferAttribute';
 import { Vector } from './Vector2';
 
 export type Vector4Tuple = [number, number, number, number];
