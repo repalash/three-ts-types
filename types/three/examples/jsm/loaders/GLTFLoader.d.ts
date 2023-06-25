@@ -156,6 +156,7 @@ export interface GLTFLoaderPlugin {
 }
 
 export class GLTFBinaryExtension {
+    constructor(data: ArrayBuffer);
     name: string;
     content: string; // content cannot be null, an error is thrown otherwise
     body: ArrayBuffer | null;
