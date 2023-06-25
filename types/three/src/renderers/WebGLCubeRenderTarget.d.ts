@@ -6,6 +6,8 @@ import { CubeTexture } from './../textures/CubeTexture';
 export class WebGLCubeRenderTarget extends WebGLRenderTarget {
     constructor(size?: number, options?: WebGLRenderTargetOptions);
 
+    readonly isWebGLCubeRenderTarget = true;
+
     texture: CubeTexture;
 
     fromEquirectangularTexture(renderer: WebGLRenderer, texture: Texture): this;
