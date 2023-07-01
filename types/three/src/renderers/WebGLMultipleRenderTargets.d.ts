@@ -5,7 +5,7 @@ import { Vector4 } from '../math/Vector4';
 import { DepthTexture } from '../textures/DepthTexture';
 
 /**
- * This class originall extended WebGLMultipleRenderTarget
+ * This class original extended WebGLMultipleRenderTarget
  * However, there are some issues with this method as documented below
  */
 export class WebGLMultipleRenderTargets extends EventDispatcher {
@@ -27,8 +27,6 @@ export class WebGLMultipleRenderTargets extends EventDispatcher {
     copy(source: WebGLMultipleRenderTargets): this;
     clone(): this;
     dispose(): void;
-    // This is an available method, however it will break the code see https://github.com/mrdoob/three.js/issues/21930
-    setTexture(texture: Texture): void;
 
     width: number;
     height: number;
