@@ -271,4 +271,7 @@ export class OrbitControls extends EventDispatcher<Event, 'change' | 'start' | '
      * Returns the distance from the camera to the target.
      */
     getDistance(): number;
+
+    zoomIn(delta: number): void;
+    zoomOut(delta: number): void;
 }
