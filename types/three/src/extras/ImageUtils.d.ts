@@ -10,9 +10,11 @@ export namespace ImageUtils {
     /**
      * Returns a data URI containing a representation of the given image.
      * @param image The image object.
+     * @param forcePng If set, the image will always be in png format, otherwise they will be exported as jpeg if the size is more than 2048
      */
     function getDataURL(
         image: HTMLImageElement | HTMLCanvasElement | CanvasImageSource | ImageBitmap | ImageData,
+        forcePng?: boolean,
     ): string;
 
     /**

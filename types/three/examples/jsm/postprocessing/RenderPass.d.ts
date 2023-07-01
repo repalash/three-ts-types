@@ -7,7 +7,7 @@ import {
     WebGLRenderTarget,
     WebGLRenderer,
 } from '../../../src/Three';
-import { Pass, FullScreenQuad } from './Pass';
+import { Pass } from './Pass';
 
 export class RenderPass extends Pass {
     constructor(scene?: Scene, camera?: Camera, overrideMaterial?: Material, clearColor?: Color, clearAlpha?: number);
@@ -24,5 +24,6 @@ export class RenderPass extends Pass {
         writeBuffer?: WebGLMultipleRenderTargets | WebGLRenderTarget,
         deltaTime?: number,
         maskActive?: boolean,
+        depthBuffer?: /*WebGLRenderBuffer*/ any,
     ): void;
 }
