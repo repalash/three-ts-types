@@ -74,12 +74,14 @@ export class GLTFExporter {
      * @param onDone Will be called when the export completes. The argument will be the generated glTF JSON or binary ArrayBuffer.
      * @param onError Will be called if there are any errors during the gltf generation.
      * @param options Export options
+     * @param gltfWriter Optional custom GLTFWriter object
      */
     parse(
         input: Object3D | Object3D[],
         onDone: (gltf: ArrayBuffer | { [key: string]: any }) => void,
         onError: (error: ErrorEvent) => void,
         options?: GLTFExporterOptions,
+        gltfWriter?: GLTFWriter,
     ): void;
 
     parseAsync(
@@ -115,7 +117,7 @@ declare class GLTFWriter {
     processObjects(objects: Object3D[]): void;
     processScene(scene: Object3D): void;
     processMaterial(material: Material): number | null;
-    processImage(image: any, format: PixelFormat, flipY: boolean, mimeType?: string): number;
+    processImage(image: any, format: PixelFormat, flipY: boolean, mimeType?: string, width?: number, height?: number): number;
     processBufferViewImage(blob: Blob): Promise<number>;
     processSampler(map: Texture): number;
     processTexture(map: Texture): number;
