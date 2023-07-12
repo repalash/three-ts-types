@@ -64,6 +64,7 @@ export class GLTFLoader extends Loader {
         path: string,
         onLoad: (gltf: GLTF) => void,
         onError?: (event: ErrorEvent) => void,
+        url?: string,
     ): void;
 
     parseAsync(data: ArrayBuffer | string, path: string): Promise<GLTF>;
