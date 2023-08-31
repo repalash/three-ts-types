@@ -6,7 +6,7 @@ import { Matrix4 } from '../math/Matrix4';
 import { Quaternion } from '../math/Quaternion';
 import { Vector2 } from '../math/Vector2';
 import { Vector3 } from '../math/Vector3';
-import { BaseEvent, EventDispatcher } from './EventDispatcher';
+import { Event, BaseEvent, EventDispatcher } from './EventDispatcher';
 import { GLBufferAttribute } from './GLBufferAttribute';
 
 export type NormalBufferAttributes = Record<string, BufferAttribute | InterleavedBufferAttribute>;
