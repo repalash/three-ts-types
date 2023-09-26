@@ -5,7 +5,7 @@ import { InstancedBufferAttribute } from '../core/InstancedBufferAttribute';
 import { Mesh } from './Mesh';
 import { Matrix4 } from './../math/Matrix4';
 import { Color } from './../math/Color';
-import { Box3, Sphere } from '../Three';
+import { Box3, Object3D, Sphere } from '../Three';
 
 /**
  * A special version of {@link THREE.Mesh | Mesh} with instanced rendering support
@@ -133,4 +133,6 @@ export class InstancedMesh<
      * Call this method whenever this instance is no longer used in your app.
      */
     dispose(): void;
+
+    copy(source: Object3D, recursive?: boolean): this;
 }

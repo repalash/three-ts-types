@@ -83,4 +83,6 @@ export class Mesh<
      * @param target
      */
     getVertexPosition(index: number, target: Vector3): Vector3;
+
+    copy(source: Object3D, recursive?: boolean): this;
 }

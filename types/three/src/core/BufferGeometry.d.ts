@@ -326,7 +326,7 @@ export class BufferGeometry<
     /**
      * Center the geometry based on the bounding box.
      */
-    center(): this;
+    center(target?: Vector3): this;
 
     /**
      * Sets the attributes for this BufferGeometry from an array of points.
