@@ -15,5 +15,5 @@ export class Rhino3dmLoader extends Loader {
     setWorkerLimit(workerLimit: number): Rhino3dmLoader;
     dispose(): Rhino3dmLoader;
 
-    protected _createMaterial( material: any ): Material;
+    protected _createMaterial(material: any): Material;
 }

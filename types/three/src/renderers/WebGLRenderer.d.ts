@@ -23,6 +23,8 @@ import { Vector3 } from '../math/Vector3';
 import { Box3 } from '../math/Box3';
 import { DataArrayTexture } from '../textures/DataArrayTexture';
 import { WebGLProgram } from './webgl/WebGLProgram';
+import { WebGLCubeMaps } from './webgl/WebGLCubeMaps';
+import { WebGLCubeUVMaps } from './webgl/WebGLCubeUVMaps';
 
 export interface Renderer {
     domElement: HTMLCanvasElement;
@@ -225,6 +227,10 @@ export class WebGLRenderer implements Renderer {
     properties: WebGLProperties;
     renderLists: WebGLRenderLists;
     state: WebGLState;
+    background: /*WebGLBackground*/ any;
+    cubemaps: WebGLCubeMaps;
+    cubeuvmaps: WebGLCubeUVMaps;
+    materials: /*WebGLMaterials*/ any;
 
     xr: WebXRManager;
 

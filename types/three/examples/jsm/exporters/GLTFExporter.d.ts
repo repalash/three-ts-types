@@ -117,7 +117,14 @@ declare class GLTFWriter {
     processObjects(objects: Object3D[]): void;
     processScene(scene: Object3D): void;
     processMaterial(material: Material): number | null;
-    processImage(image: any, format: PixelFormat, flipY: boolean, mimeType?: string, width?: number, height?: number): number;
+    processImage(
+        image: any,
+        format: PixelFormat,
+        flipY: boolean,
+        mimeType?: string,
+        width?: number,
+        height?: number,
+    ): number;
     processBufferViewImage(blob: Blob): Promise<number>;
     processSampler(map: Texture): number;
     processTexture(map: Texture): number;
