@@ -3,6 +3,7 @@ import { Texture } from './../textures/Texture';
 import { Vector2 } from './../math/Vector2';
 import { MaterialParameters, Material } from './Material';
 import { Combine, NormalMapTypes } from '../constants';
+import { Event } from '../core/EventDispatcher';
 
 export interface MeshPhongMaterialParameters extends MaterialParameters {
     /** geometry color in hexadecimal. Default is 0xffffff. */
@@ -40,7 +41,7 @@ export interface MeshPhongMaterialParameters extends MaterialParameters {
     flatShading?: boolean | undefined;
 }
 
-export class MeshPhongMaterial extends Material {
+export class MeshPhongMaterial<E extends Event = Event, TEvents = ''> extends Material<E, TEvents> {
     constructor(parameters?: MeshPhongMaterialParameters);
 
     /**
