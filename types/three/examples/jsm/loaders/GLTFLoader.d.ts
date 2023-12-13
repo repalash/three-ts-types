@@ -118,7 +118,7 @@ export class GLTFParser {
             texCoord?: number | undefined;
             extensions?: any;
         },
-    ) => Promise<void>;
+    ) => Promise<Texture>;
     assignFinalMaterial: (object: Mesh) => void;
     getMaterialType: () => typeof MeshStandardMaterial;
     loadMaterial: (materialIndex: number) => Promise<Material>;

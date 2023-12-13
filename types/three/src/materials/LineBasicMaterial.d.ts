@@ -1,6 +1,7 @@
 import { Color, ColorRepresentation } from '../math/Color';
 import { MaterialParameters, Material } from './Material';
 import { Texture } from '../textures/Texture';
+import { Event } from '../core/EventDispatcher';
 
 export interface LineBasicMaterialParameters extends MaterialParameters {
     color?: ColorRepresentation | undefined;
@@ -10,7 +11,7 @@ export interface LineBasicMaterialParameters extends MaterialParameters {
     linejoin?: string | undefined;
 }
 
-export class LineBasicMaterial extends Material {
+export class LineBasicMaterial<E extends Event = Event, TEvents = ''> extends Material<E, TEvents> {
     constructor(parameters?: LineBasicMaterialParameters);
 
     /**

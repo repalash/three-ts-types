@@ -1,4 +1,4 @@
-import { Color, MaterialParameters, ShaderMaterial, Vector2 } from '../../../src/Three';
+import { Color, Event, MaterialParameters, ShaderMaterial, Vector2 } from '../../../src/Three';
 
 export interface LineMaterialParameters extends MaterialParameters {
     alphaToCoverage?: boolean | undefined;
@@ -14,7 +14,7 @@ export interface LineMaterialParameters extends MaterialParameters {
     worldUnits?: boolean | undefined;
 }
 
-export class LineMaterial extends ShaderMaterial {
+export class LineMaterial<E extends Event = Event, TEvents = ''> extends ShaderMaterial<E, TEvents> {
     constructor(parameters?: LineMaterialParameters);
     color: Color;
     dashed: boolean;
