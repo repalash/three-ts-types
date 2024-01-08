@@ -17,6 +17,15 @@ import {
     FileLoader,
     ImageBitmapLoader,
     Skeleton,
+    DirectionalLight,
+    PointLight,
+    SpotLight,
+    MeshBasicMaterial,
+    MeshPhysicalMaterial,
+    LineBasicMaterial,
+    PointsMaterial,
+    PerspectiveCamera,
+    OrthographicCamera,
 } from '../../../src/Three';
 
 import { DRACOLoader } from './DRACOLoader';
@@ -68,6 +77,19 @@ export class GLTFLoader extends Loader {
     ): void;
 
     parseAsync(data: ArrayBuffer | string, path: string): Promise<GLTF>;
+
+    static ObjectConstructors: {
+        DirectionalLight: typeof DirectionalLight,
+        PointLight: typeof PointLight,
+        SpotLight: typeof SpotLight,
+        MeshStandardMaterial: typeof MeshStandardMaterial,
+        MeshBasicMaterial: typeof MeshBasicMaterial,
+        MeshPhysicalMaterial: typeof MeshPhysicalMaterial,
+        LineBasicMaterial: typeof LineBasicMaterial,
+        PointsMaterial: typeof PointsMaterial,
+        PerspectiveCamera: typeof PerspectiveCamera,
+        OrthographicCamera: typeof OrthographicCamera
+    }
 }
 
 export type GLTFReferenceType = 'materials' | 'nodes' | 'textures' | 'meshes';

@@ -14,7 +14,7 @@ export interface LineMaterialParameters extends MaterialParameters {
     worldUnits?: boolean | undefined;
 }
 
-export class LineMaterial<E extends Event = Event, TEvents = ''> extends ShaderMaterial<E, TEvents> {
+export class LineMaterial<E extends Event = Event, TEvents = string> extends ShaderMaterial<E, TEvents> {
     constructor(parameters?: LineMaterialParameters);
     color: Color;
     dashed: boolean;

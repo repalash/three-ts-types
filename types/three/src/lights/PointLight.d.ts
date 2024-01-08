@@ -1,6 +1,7 @@
 import { ColorRepresentation } from '../math/Color';
 import { Light } from './Light';
 import { PointLightShadow } from './PointLightShadow';
+import { BaseEvent, Event } from '../core/EventDispatcher';
 
 /**
  * A light that gets emitted from a single point in all directions
@@ -19,7 +20,7 @@ import { PointLightShadow } from './PointLightShadow';
  * @see {@link https://threejs.org/docs/index.html#api/en/lights/PointLight | Official Documentation}
  * @see {@link https://github.com/mrdoob/three.js/blob/master/src/lights/PointLight.js | Source}
  */
-export class PointLight extends Light<PointLightShadow> {
+export class PointLight<E extends BaseEvent = Event, ET = string> extends Light<PointLightShadow, E, ET> {
     /**
      * Creates a new PointLight.
      * @param color Hexadecimal color of the light. Default is 0xffffff (white). Expects a `Integer`

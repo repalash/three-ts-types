@@ -1,12 +1,13 @@
 import { Color, ColorRepresentation } from '../math/Color';
 import { LightShadow } from './LightShadow';
 import { Object3D } from '../core/Object3D';
+import { BaseEvent, Event } from '../core/EventDispatcher';
 
 /**
  * Abstract base class for lights.
  * @remarks All other light types inherit the properties and methods described here.
  */
-export abstract class Light<TShadowSupport extends LightShadow | undefined = LightShadow | undefined> extends Object3D {
+export abstract class Light<TShadowSupport extends LightShadow | undefined = LightShadow | undefined, E extends BaseEvent = Event, ET = string> extends Object3D<E, ET> {
     /**
      * Creates a new {@link Light}
      * @remarks

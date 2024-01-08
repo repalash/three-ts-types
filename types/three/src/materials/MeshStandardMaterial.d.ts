@@ -36,7 +36,7 @@ export interface MeshStandardMaterialParameters extends MaterialParameters {
     flatShading?: boolean | undefined;
 }
 
-export class MeshStandardMaterial<E extends Event = Event, TEvents = ''> extends Material<E, TEvents> {
+export class MeshStandardMaterial<E extends Event = Event, TEvents = string> extends Material<E, TEvents> {
     constructor(parameters?: MeshStandardMaterialParameters);
 
     /**

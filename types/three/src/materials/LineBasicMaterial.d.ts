@@ -11,7 +11,7 @@ export interface LineBasicMaterialParameters extends MaterialParameters {
     linejoin?: string | undefined;
 }
 
-export class LineBasicMaterial<E extends Event = Event, TEvents = ''> extends Material<E, TEvents> {
+export class LineBasicMaterial<E extends Event = Event, TEvents = string> extends Material<E, TEvents> {
     constructor(parameters?: LineBasicMaterialParameters);
 
     /**

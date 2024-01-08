@@ -27,7 +27,7 @@ export interface MeshBasicMaterialParameters extends MaterialParameters {
     wireframeLinejoin?: string | undefined;
 }
 
-export class MeshBasicMaterial<E extends Event = Event, TEvents = ''> extends Material<E, TEvents> {
+export class MeshBasicMaterial<E extends Event = Event, TEvents = string> extends Material<E, TEvents> {
     constructor(parameters?: MeshBasicMaterialParameters);
 
     /**

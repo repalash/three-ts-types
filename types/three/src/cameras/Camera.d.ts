@@ -11,7 +11,7 @@ import { BaseEvent, Event } from '../core/EventDispatcher';
  * @see {@link https://threejs.org/docs/index.html#api/en/cameras/Camera | Official Documentation}
  * @see {@link https://github.com/mrdoob/three.js/blob/master/src/cameras/Camera.js | Source}
  */
-export abstract class Camera<E extends BaseEvent = Event, ET = string> extends Object3D<E, ET> {
+export class Camera<E extends BaseEvent = Event, ET = string> extends Object3D<E, ET> {
     /**
      * @remarks
      * Note that this class is not intended to be called directly; you probably want a

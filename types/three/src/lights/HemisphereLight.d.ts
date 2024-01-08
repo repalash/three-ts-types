@@ -1,6 +1,7 @@
 import { Color, ColorRepresentation } from './../math/Color';
 import { Vector3 } from '../math/Vector3';
 import { Light } from './Light';
+import { BaseEvent, Event } from '../core/EventDispatcher';
 
 /**
  * A light source positioned directly above the scene, with color fading from the sky color to the ground color.
@@ -18,7 +19,7 @@ import { Light } from './Light';
  * @see {@link https://threejs.org/docs/index.html#api/en/lights/HemisphereLight | Official Documentation}
  * @see {@link https://github.com/mrdoob/three.js/blob/master/src/lights/HemisphereLight.js | Source}
  */
-export class HemisphereLight extends Light<undefined> {
+export class HemisphereLight<E extends BaseEvent = Event, ET = string> extends Light<undefined, E, ET> {
     /**
      * Creates a new {@link HemisphereLight}.
      * @param skyColor Hexadecimal color of the sky. Expects a `Integer`. Default `0xffffff` _(white)_.

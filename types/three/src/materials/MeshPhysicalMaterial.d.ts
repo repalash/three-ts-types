@@ -42,7 +42,7 @@ export interface MeshPhysicalMaterialParameters extends MeshStandardMaterialPara
     iridescenceThicknessMap?: Texture | null | undefined;
 }
 
-export class MeshPhysicalMaterial<E extends Event = Event, TEvents = ''> extends MeshStandardMaterial<E, TEvents> {
+export class MeshPhysicalMaterial<E extends Event = Event, TEvents = string> extends MeshStandardMaterial<E, TEvents> {
     constructor(parameters?: MeshPhysicalMaterialParameters);
 
     /**
