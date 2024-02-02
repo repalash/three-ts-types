@@ -7,7 +7,11 @@ import { BaseEvent, Event } from '../core/EventDispatcher';
  * Abstract base class for lights.
  * @remarks All other light types inherit the properties and methods described here.
  */
-export abstract class Light<TShadowSupport extends LightShadow | undefined = LightShadow | undefined, E extends BaseEvent = Event, ET = string> extends Object3D<E, ET> {
+export abstract class Light<
+    TShadowSupport extends LightShadow | undefined = LightShadow | undefined,
+    E extends BaseEvent = Event,
+    ET = string,
+> extends Object3D<E, ET> {
     /**
      * Creates a new {@link Light}
      * @remarks

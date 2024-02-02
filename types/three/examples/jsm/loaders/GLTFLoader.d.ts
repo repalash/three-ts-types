@@ -79,17 +79,17 @@ export class GLTFLoader extends Loader {
     parseAsync(data: ArrayBuffer | string, path: string): Promise<GLTF>;
 
     static ObjectConstructors: {
-        DirectionalLight: typeof DirectionalLight,
-        PointLight: typeof PointLight,
-        SpotLight: typeof SpotLight,
-        MeshStandardMaterial: typeof MeshStandardMaterial,
-        MeshBasicMaterial: typeof MeshBasicMaterial,
-        MeshPhysicalMaterial: typeof MeshPhysicalMaterial,
-        LineBasicMaterial: typeof LineBasicMaterial,
-        PointsMaterial: typeof PointsMaterial,
-        PerspectiveCamera: typeof PerspectiveCamera,
-        OrthographicCamera: typeof OrthographicCamera
-    }
+        DirectionalLight: typeof DirectionalLight;
+        PointLight: typeof PointLight;
+        SpotLight: typeof SpotLight;
+        MeshStandardMaterial: typeof MeshStandardMaterial;
+        MeshBasicMaterial: typeof MeshBasicMaterial;
+        MeshPhysicalMaterial: typeof MeshPhysicalMaterial;
+        LineBasicMaterial: typeof LineBasicMaterial;
+        PointsMaterial: typeof PointsMaterial;
+        PerspectiveCamera: typeof PerspectiveCamera;
+        OrthographicCamera: typeof OrthographicCamera;
+    };
 }
 
 export type GLTFReferenceType = 'materials' | 'nodes' | 'textures' | 'meshes';

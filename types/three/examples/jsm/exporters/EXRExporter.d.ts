@@ -10,7 +10,7 @@ import {
     WebGLRenderTarget,
     TextureDataType,
     DataTexture,
-    WebGLMultipleRenderTargets
+    WebGLMultipleRenderTargets,
 } from '../../../src/Three';
 
 export const NO_COMPRESSION: 0;
@@ -27,7 +27,11 @@ export interface EXRExporterParseOptions {
 }
 
 export class EXRExporter {
-    parse(renderer: WebGLRenderer, renderTarget: WebGLRenderTarget|WebGLMultipleRenderTargets, options?: EXRExporterParseOptions): Uint8Array;
+    parse(
+        renderer: WebGLRenderer,
+        renderTarget: WebGLRenderTarget | WebGLMultipleRenderTargets,
+        options?: EXRExporterParseOptions,
+    ): Uint8Array;
     parse(
         renderer: WebGLRenderer | undefined,
         renderTarget: DataTexture,
