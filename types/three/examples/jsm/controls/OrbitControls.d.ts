@@ -274,4 +274,5 @@ export class OrbitControls extends EventDispatcher<Event, 'change' | 'start' | '
 
     zoomIn(delta: number): void;
     zoomOut(delta: number): void;
+    stopDamping(): void;
 }

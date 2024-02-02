@@ -25,6 +25,7 @@ import { DataArrayTexture } from '../textures/DataArrayTexture';
 import { WebGLProgram } from './webgl/WebGLProgram';
 import { WebGLCubeMaps } from './webgl/WebGLCubeMaps';
 import { WebGLCubeUVMaps } from './webgl/WebGLCubeUVMaps';
+import { WebGLMaterials } from './webgl/WebGLMaterials';
 
 export interface Renderer {
     domElement: HTMLCanvasElement;
@@ -230,7 +231,7 @@ export class WebGLRenderer implements Renderer {
     background: /*WebGLBackground*/ any;
     cubemaps: WebGLCubeMaps;
     cubeuvmaps: WebGLCubeUVMaps;
-    materials: /*WebGLMaterials*/ any;
+    materials: WebGLMaterials;
 
     xr: WebXRManager;
 
@@ -421,6 +422,7 @@ export class WebGLRenderer implements Renderer {
         height: number,
         buffer: any,
         activeCubeFaceIndex?: number,
+        textureIndex?: number,
     ): void;
 
     /**
