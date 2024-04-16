@@ -40,6 +40,10 @@ export interface MeshPhysicalMaterialParameters extends MeshStandardMaterialPara
     iridescence?: number | undefined;
     iridescenceThicknessRange?: [number, number] | undefined;
     iridescenceThicknessMap?: Texture | null | undefined;
+
+    anisotropy?: number | undefined;
+    anisotropyRotation?: number | undefined;
+    anisotropyMap?: Texture | null | undefined;
 }
 
 export class MeshPhysicalMaterial<E extends Event = Event, TEvents = string> extends MeshStandardMaterial<E, TEvents> {
@@ -194,4 +198,19 @@ export class MeshPhysicalMaterial<E extends Event = Event, TEvents = string> ext
      * @default null
      */
     iridescenceThicknessMap: Texture | null;
+
+    /**
+     * @default 0
+     */
+    anisotropy?: number;
+
+    /**
+     * @default 0
+     */
+    anisotropyRotation?: number;
+
+    /**
+     * @default null
+     */
+    anisotropyMap?: Texture | null;
 }

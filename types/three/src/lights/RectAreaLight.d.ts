@@ -67,7 +67,7 @@ export class RectAreaLight<E extends BaseEvent = Event, ET = string> extends Lig
     /**
      * The light's intensity.
      * @remarks Changing the intensity will also change the light's power.
-     * In **{@link WebGLRenderer.physicallyCorrectLights | physically correct} rendering mode** — intensity is the luminance (brightness) of the light measured in nits (cd/m^2).
+     * When **{@link WebGLRenderer.useLegacyLights | legacy lighting mode} is disabled** — intensity is the luminance (brightness) of the light measured in nits (cd/m^2).
      * @remarks Expects a `Float`
      * @defaultValue `1`
      */
@@ -76,7 +76,7 @@ export class RectAreaLight<E extends BaseEvent = Event, ET = string> extends Lig
     /**
      * The light's power.
      * @remarks Changing the power will also change the light's intensity.
-     * In **{@link WebGLRenderer.physicallyCorrectLights | physically correct} rendering mode** — power is the luminous power of the light measured in lumens (lm).
+     * When **{@link WebGLRenderer.useLegacyLights | legacy lighting mode} is disabled** — power is the luminous power of the light measured in lumens (lm).
      * @remarks Expects a `Float`
      */
     power: number;

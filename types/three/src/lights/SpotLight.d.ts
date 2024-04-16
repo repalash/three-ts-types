@@ -98,7 +98,7 @@ export class SpotLight<E extends BaseEvent = Event, ET = string> extends Light<S
     /**
      * The light's intensity.
      * @remarks Changing the intensity will also change the light's power.
-     * When **{@link WebGLRenderer.physicallyCorrectLights | Physically correct} rendering mode** — intensity is the luminous intensity of the light measured in candela (cd).
+     * When **{@link WebGLRenderer.useLegacyLights | legacy lighting mode} is disabled** — intensity is the luminous intensity of the light measured in candela (cd).
      * @remarks Expects a `Float`
      * @defaultValue `1`
      */
@@ -108,7 +108,7 @@ export class SpotLight<E extends BaseEvent = Event, ET = string> extends Light<S
      * When **Default mode** — When distance is zero, light does not attenuate. When distance is non-zero,
      * light will attenuate linearly from maximum intensity at the light's position down to zero at this distance from the light.
      *
-     * When **{@link WebGLRenderer.physicallyCorrectLights | Physically correct} rendering mode** — When distance is zero,
+     * When **{@link WebGLRenderer.useLegacyLights | legacy lighting mode} is disabled** — When distance is zero,
      * light will attenuate according to inverse-square law to infinite distance.
      * When distance is non-zero, light will attenuate according to inverse-square law until near the distance cutoff,
      * where it will then attenuate quickly and smoothly to `0`. Inherently, cutoffs are not physically correct.
@@ -127,7 +127,7 @@ export class SpotLight<E extends BaseEvent = Event, ET = string> extends Light<S
 
     /**
      * The amount the light dims along the distance of the light.
-     * In **{@link WebGLRenderer.physicallyCorrectLights | physically correct} rendering mode** — the default value should not be changed.
+     * In context of physically-correct rendering the default value should not be changed.
      * @remarks Expects a `Float`
      * @defaultValue `2`
      */
@@ -142,7 +142,7 @@ export class SpotLight<E extends BaseEvent = Event, ET = string> extends Light<S
     /**
      * The light's power.
      * @remarks Changing the power will also change the light's intensity.
-     * In **{@link WebGLRenderer.physicallyCorrectLights | physically correct} rendering mode** —  power is the luminous power of the light measured in lumens (lm).
+     * When **{@link WebGLRenderer.useLegacyLights | legacy lighting mode} is disabled** —  power is the luminous power of the light measured in lumens (lm).
      * @remarks Expects a `Float`
      */
     power: number;

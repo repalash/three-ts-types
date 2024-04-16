@@ -733,6 +733,27 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "magnostherobot",
+      "name": "Tom Harley",
+      "avatar_url": "https://avatars.githubusercontent.com/u/24718981?v=4",
+      "profile": "https://github.com/magnostherobot",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "OndrejSpanel",
+      "name": "Ondřej Španěl",
+      "avatar_url": "https://avatars.githubusercontent.com/u/6927223?v=4",
+      "profile": "https://github.com/OndrejSpanel",
+      "contributions": [
+        "bug",
+        "code",
+        "doc",
+        "maintenance"
+      ]
     }
   ],
   "skipCi": true,
