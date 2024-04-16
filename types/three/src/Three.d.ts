@@ -233,3 +233,4 @@ export * from './textures/DepthTexture';
 export * from './textures/FramebufferTexture';
 export * from './textures/Source';
 export * from './textures/Texture';
+export * from './textures/types';
