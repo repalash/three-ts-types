@@ -1,5 +1,5 @@
-import { Light } from './Light';
-import { ColorRepresentation } from '../math/Color';
+import { Light } from './Light.js';
+import { ColorRepresentation } from '../math/Color.js';
 import { BaseEvent, Event } from '../core/EventDispatcher';
 
 /**

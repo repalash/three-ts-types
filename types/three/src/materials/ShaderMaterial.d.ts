@@ -1,10 +1,12 @@
-import { IUniform } from '../renderers/shaders/UniformsLib';
-import { MaterialParameters, Material } from './Material';
-import { GLSLVersion } from '../constants';
+import { IUniform } from '../renderers/shaders/UniformsLib.js';
+import { MaterialParameters, Material } from './Material.js';
+import { GLSLVersion } from '../constants.js';
+import { UniformsGroup } from '../core/UniformsGroup.js';
 import { Event } from '../core/EventDispatcher';
 
 export interface ShaderMaterialParameters extends MaterialParameters {
     uniforms?: { [uniform: string]: IUniform } | undefined;
+    uniformsGroups?: UniformsGroup[] | undefined;
     vertexShader?: string | undefined;
     fragmentShader?: string | undefined;
     linewidth?: number | undefined;
@@ -41,7 +43,11 @@ export class ShaderMaterial<E extends Event = Event, ET = string> extends Materi
      * @default {}
      */
     uniforms: { [uniform: string]: IUniform };
+
+    uniformsGroups: UniformsGroup[];
+
     vertexShader: string;
+
     fragmentShader: string;
 
     /**

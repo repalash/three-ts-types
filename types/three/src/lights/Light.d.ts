@@ -1,6 +1,6 @@
-import { Color, ColorRepresentation } from '../math/Color';
-import { LightShadow } from './LightShadow';
-import { Object3D } from '../core/Object3D';
+import { Color, ColorRepresentation } from '../math/Color.js';
+import { LightShadow } from './LightShadow.js';
+import { Object3D } from '../core/Object3D.js';
 import { BaseEvent, Event } from '../core/EventDispatcher';
 
 /**

@@ -1,7 +1,7 @@
-import { Plane } from './../math/Plane';
-import { Event, EventDispatcher } from './../core/EventDispatcher';
-import { WebGLRenderer } from './../renderers/WebGLRenderer';
-import { Shader } from './../renderers/shaders/ShaderLib';
+import { Plane } from '../math/Plane.js';
+import { Event, EventDispatcher } from '../core/EventDispatcher.js';
+import { WebGLRenderer } from '../renderers/WebGLRenderer.js';
+import { Shader } from '../renderers/shaders/ShaderLib.js';
 import {
     BlendingDstFactor,
     BlendingEquation,
@@ -12,13 +12,14 @@ import {
     StencilFunc,
     StencilOp,
     PixelFormat,
-} from '../constants';
+} from '../constants.js';
 import { Scene } from '../scenes/Scene';
 import { Camera } from '../cameras/Camera';
 import { BufferGeometry } from '../core/BufferGeometry';
 import { Object3D } from '../core/Object3D';
 
 export interface MaterialParameters {
+    alphaHash?: boolean | undefined;
     alphaTest?: number | undefined;
     alphaToCoverage?: boolean | undefined;
     blendDst?: BlendingDstFactor | undefined;
@@ -68,6 +69,8 @@ export interface MaterialParameters {
  */
 export class Material<E extends Event = Event, TEvents = string> extends EventDispatcher<E, TEvents | 'dispose'> {
     constructor();
+
+    alphaHash: boolean;
 
     /**
      * Sets the alpha value to be used when running an alpha test. Default is 0.
@@ -136,7 +139,7 @@ export class Material<E extends Event = Event, TEvents = string> extends EventDi
      * See the WebGL / clipping /intersection example. Default is null.
      * @default null
      */
-    clippingPlanes: any;
+    clippingPlanes: Plane[];
 
     /**
      * Defines whether to clip shadows according to the clipping planes specified on this material. Default is false.

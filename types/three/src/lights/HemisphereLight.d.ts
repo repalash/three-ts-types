@@ -1,6 +1,6 @@
-import { Color, ColorRepresentation } from './../math/Color';
-import { Vector3 } from '../math/Vector3';
-import { Light } from './Light';
+import { Color, ColorRepresentation } from './../math/Color.js';
+import { Vector3 } from '../math/Vector3.js';
+import { Light } from './Light.js';
 import { BaseEvent, Event } from '../core/EventDispatcher';
 
 /**

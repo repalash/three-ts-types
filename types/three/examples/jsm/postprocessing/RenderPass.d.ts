@@ -6,8 +6,8 @@ import {
     WebGLMultipleRenderTargets,
     WebGLRenderTarget,
     WebGLRenderer,
-} from '../../../src/Three';
-import { Pass } from './Pass';
+} from '../../../src/Three.js';
+import { Pass } from './Pass.js';
 
 export class RenderPass extends Pass {
     constructor(scene?: Scene, camera?: Camera, overrideMaterial?: Material, clearColor?: Color, clearAlpha?: number);

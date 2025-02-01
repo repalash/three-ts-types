@@ -1,5 +1,6 @@
 {
     "private": true,
+    "type": "module",
     "exports": {
         ".": {
             "import": "./build/three.module.js",
@@ -14,8 +15,9 @@
     "dependencies": {
         "@tweenjs/tween.js": "~18.6.4",
         "fflate": "~0.6.9",
-        "lil-gui": "~0.17.0"
+        "lil-gui": "~0.17.0",
+        "meshoptimizer": "~0.18.1"
     },
     "name": "@types/three",
-    "version": "0.153.1002"
+    "version": "0.155.1001"
 }

@@ -1,13 +1,13 @@
-import { Loader } from './Loader';
-import { LoadingManager } from './LoadingManager';
-import { Object3D } from './../core/Object3D';
+import { Loader } from './Loader.js';
+import { LoadingManager } from './LoadingManager.js';
+import { Object3D } from '../core/Object3D.js';
 import { Shape } from './../extras/core/Shape';
-import { Texture } from './../textures/Texture';
-import { Material } from './../materials/Material';
-import { AnimationClip } from './../animation/AnimationClip';
-import { InstancedBufferGeometry } from '../core/InstancedBufferGeometry';
-import { BufferGeometry } from '../core/BufferGeometry';
-import { Source } from '../textures/Source';
+import { Texture } from '../textures/Texture.js';
+import { Material } from '../materials/Material.js';
+import { AnimationClip } from '../animation/AnimationClip.js';
+import { InstancedBufferGeometry } from '../core/InstancedBufferGeometry.js';
+import { BufferGeometry } from '../core/BufferGeometry.js';
+import { Source } from '../textures/Source.js';
 import { Skeleton } from '../objects/Skeleton';
 
 export class ObjectLoader extends Loader {

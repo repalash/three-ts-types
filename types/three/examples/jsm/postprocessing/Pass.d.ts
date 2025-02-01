@@ -1,4 +1,4 @@
-import { Material, WebGLMultipleRenderTargets, WebGLRenderer, WebGLRenderTarget } from '../../../src/Three';
+import { Material, WebGLMultipleRenderTargets, WebGLRenderer, WebGLRenderTarget } from '../../../src/Three.js';
 
 export class Pass {
     constructor();

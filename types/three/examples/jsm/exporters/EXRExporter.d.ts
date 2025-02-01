@@ -11,7 +11,7 @@ import {
     TextureDataType,
     DataTexture,
     WebGLMultipleRenderTargets,
-} from '../../../src/Three';
+} from '../../../src/Three.js';
 
 export const NO_COMPRESSION: 0;
 export const ZIPS_COMPRESSION: 2;
