@@ -3,25 +3,33 @@ import {
     Camera,
     Material,
     Color,
-    WebGLMultipleRenderTargets,
     WebGLRenderTarget,
     WebGLRenderer,
 } from '../../../src/Three.js';
 import { Pass } from './Pass.js';
 
 export class RenderPass extends Pass {
-    constructor(scene?: Scene, camera?: Camera, overrideMaterial?: Material, clearColor?: Color, clearAlpha?: number);
+    constructor(
+        scene?: Scene,
+        camera?: Camera,
+        overrideMaterial?: Material | null,
+        clearColor?: Color | null,
+        clearAlpha?: number | null,
+    );
+
     scene?: Scene;
     camera?: Camera;
-    overrideMaterial?: Material;
-    clearColor?: Color;
-    clearAlpha: number;
+
+    overrideMaterial?: Material | null;
+
+    clearColor?: Color | null;
+    clearAlpha: number | null;
     clearDepth: boolean;
 
     render(
         renderer: WebGLRenderer,
-        _: WebGLMultipleRenderTargets | WebGLRenderTarget | null,
-        writeBuffer?: WebGLMultipleRenderTargets | WebGLRenderTarget,
+        _: WebGLRenderTarget | null,
+        writeBuffer?: WebGLRenderTarget,
         deltaTime?: number,
         maskActive?: boolean,
         depthBuffer?: /*WebGLRenderBuffer*/ any,

@@ -5,13 +5,7 @@
  * https://www.openexr.com/documentation/openexrfilelayout.pdf
  */
 
-import {
-    WebGLRenderer,
-    WebGLRenderTarget,
-    TextureDataType,
-    DataTexture,
-    WebGLMultipleRenderTargets,
-} from '../../../src/Three.js';
+import { DataTexture, TextureDataType, WebGLRenderer, WebGLRenderTarget } from '../../../src/Three.js';
 
 export const NO_COMPRESSION: 0;
 export const ZIPS_COMPRESSION: 2;
@@ -27,14 +21,6 @@ export interface EXRExporterParseOptions {
 }
 
 export class EXRExporter {
-    parse(
-        renderer: WebGLRenderer,
-        renderTarget: WebGLRenderTarget | WebGLMultipleRenderTargets,
-        options?: EXRExporterParseOptions,
-    ): Uint8Array;
-    parse(
-        renderer: WebGLRenderer | undefined,
-        renderTarget: DataTexture,
-        options?: EXRExporterParseOptions,
-    ): Uint8Array;
+    parse(renderer: WebGLRenderer, renderTarget: WebGLRenderTarget, options?: EXRExporterParseOptions): Uint8Array;
+    parse(dataTexture: DataTexture, options?: EXRExporterParseOptions): Uint8Array;
 }

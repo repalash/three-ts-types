@@ -1,48 +1,41 @@
 import { Loader } from './Loader.js';
 import { LoadingManager } from './LoadingManager.js';
 import { Object3D } from '../core/Object3D.js';
-import { Shape } from './../extras/core/Shape';
+import { Shape } from '../extras/core/Shape.js';
 import { Texture } from '../textures/Texture.js';
 import { Material } from '../materials/Material.js';
 import { AnimationClip } from '../animation/AnimationClip.js';
 import { InstancedBufferGeometry } from '../core/InstancedBufferGeometry.js';
 import { BufferGeometry } from '../core/BufferGeometry.js';
 import { Source } from '../textures/Source.js';
-import { Skeleton } from '../objects/Skeleton';
+import { Skeleton } from '../objects/Skeleton.js';
 
-export class ObjectLoader extends Loader {
+export class ObjectLoader extends Loader<Object3D> {
     constructor(manager?: LoadingManager);
 
     load(
         url: string,
-        onLoad?: (object: Object3D) => void,
+        onLoad?: (data: Object3D) => void,
         onProgress?: (event: ProgressEvent) => void,
-        onError?: (event: Error | ErrorEvent) => void,
+        onError?: (err: unknown) => void,
     ): void;
-    loadAsync<ObjectType extends Object3D>(
-        url: string,
-        onProgress?: (event: ProgressEvent) => void,
-    ): // tslint:disable-next-line:no-unnecessary-generics
-    Promise<ObjectType>;
-    // tslint:disable-next-line:no-unnecessary-generics
-    parse<T extends Object3D>(json: any, onLoad?: (object: Object3D) => void): T;
-    // tslint:disable-next-line:no-unnecessary-generics
-    parseAsync<T extends Object3D>(json: any): Promise<T>;
-    parseGeometries(json: any[], shapes: Shape[]): { [key: string]: InstancedBufferGeometry | BufferGeometry }; // Array of BufferGeometry or Geometry or Geometry2.
-    parseMaterials(json: any[], textures: { [key: string]: Texture }): { [key: string]: Material }; // Array of Classes that inherits from Matrial.
-    parseAnimations(json: any[]): { [key: string]: AnimationClip };
+
+    parse(json: unknown, onLoad?: (object: Object3D) => void): Object3D;
+    parseAsync(json: unknown): Promise<Object3D>;
+    parseGeometries(json: unknown): { [key: string]: InstancedBufferGeometry | BufferGeometry };
+    parseMaterials(json: unknown, textures: { [key: string]: Texture }): { [key: string]: Material };
+    parseAnimations(json: unknown): { [key: string]: AnimationClip };
     parseShapes(json: any[]): { [key: string]: Shape };
-    parseImages(json: any[], onLoad?: () => void): { [key: string]: Source };
-    parseImagesAsync(json: any[]): Promise<{ [key: string]: Source }>;
-    parseTextures(json: any[], images: any): { [key: string]: Texture };
-    parseSkeletons(json: any[], object: Object3D): { [key: string]: Skeleton };
+    parseImages(json: unknown, onLoad?: () => void): { [key: string]: Source };
+    parseImagesAsync(json: unknown): Promise<{ [key: string]: Source }>;
+    parseTextures(json: unknown, images: { [key: string]: Source }): { [key: string]: Texture };
+    parseSkeletons(json: unknown[], object: Object3D): { [key: string]: Skeleton };
     bindSkeletons(object: Object3D, skeletons: Record<string, Skeleton>): void;
-    parseObject<T extends Object3D>(
-        data: any,
-        geometries: Record<string, InstancedBufferGeometry | BufferGeometry>,
-        materials: Record<string, Material>,
-        textures: Record<string, Texture>,
-        animations: Record<string, AnimationClip>,
-    ): // tslint:disable-next-line:no-unnecessary-generics
-    T;
+    parseObject(
+        data: unknown,
+        geometries: { [key: string]: InstancedBufferGeometry | BufferGeometry },
+        materials: { [key: string]: Material },
+        textures: { [key: string]: Texture },
+        animations: { [key: string]: AnimationClip },
+    ): Object3D;
 }

@@ -1,4 +1,10 @@
-import { Camera, MOUSE, TOUCH, Vector3, EventDispatcher, Event } from '../../../src/Three.js';
+import { Camera, EventDispatcher, MOUSE, TOUCH, Vector3, EventDispatcher, Event } from '../../../src/Three.js';
+
+export interface OrbitControlsEventMap {
+    change: {};
+    start: {};
+    end: {};
+}
 
 /**
  * Orbit controls allow the camera to orbit around a target.
@@ -7,7 +13,7 @@ import { Camera, MOUSE, TOUCH, Vector3, EventDispatcher, Event } from '../../../
  * @param domElement - The HTML element used for
  * event listeners.
  */
-export class OrbitControls extends EventDispatcher<Event, 'change' | 'start' | 'end'> {
+export class OrbitControls extends EventDispatcher<OrbitControlsEventMap> {
     constructor(object: Camera, domElement?: HTMLElement);
 
     /**
@@ -175,8 +181,9 @@ export class OrbitControls extends EventDispatcher<Event, 'change' | 'start' | '
 
     /**
      * Set to true to automatically rotate around the target.
-     * Note that if this is enabled, you must call
-     * .update () in your animation loop.
+     * Note that if this is enabled, you must call .update() in your animation loop. If you want the auto-rotate speed
+     * to be independent of the frame rate (the refresh rate of the display), you must pass the time `deltaTime`, in
+     * seconds, to .update().
      */
     autoRotate: boolean;
 
@@ -204,13 +211,17 @@ export class OrbitControls extends EventDispatcher<Event, 'change' | 'start' | '
      * This object contains references to the mouse actions used
      * by the controls.
      */
-    mouseButtons: Partial<{ LEFT: MOUSE; MIDDLE: MOUSE; RIGHT: MOUSE }>;
+    mouseButtons: {
+        LEFT?: MOUSE | null | undefined;
+        MIDDLE?: MOUSE | null | undefined;
+        RIGHT?: MOUSE | null | undefined;
+    };
 
     /**
      * This object contains references to the touch actions used by
      * the controls.
      */
-    touches: Partial<{ ONE: TOUCH; TWO: TOUCH }>;
+    touches: { ONE?: TOUCH | null | undefined; TWO?: TOUCH | null | undefined };
 
     /**
      * Used internally by the .saveState and .reset methods.
@@ -228,11 +239,11 @@ export class OrbitControls extends EventDispatcher<Event, 'change' | 'start' | '
     zoom0: number;
 
     /**
-     * Update the controls. Must be called after any manual changes
-     * to the camera's transform, or in the update loop if .autoRotate
-     * or .enableDamping are set.
+     * Update the controls. Must be called after any manual changes to the camera's transform, or in the update loop if
+     * .autoRotate or .enableDamping are set. `deltaTime`, in seconds, is optional, and is only required if you want the
+     * auto-rotate speed to be independent of the frame rate (the refresh rate of the display).
      */
-    update(): boolean;
+    update(deltaTime?: number): boolean;
 
     /**
      * Adds key event listeners to the given DOM element. `window`
