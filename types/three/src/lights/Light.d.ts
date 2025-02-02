@@ -1,12 +1,15 @@
 import { Color, ColorRepresentation } from '../math/Color.js';
 import { LightShadow } from './LightShadow.js';
-import { Object3D } from '../core/Object3D.js';
+import { Object3D, Object3DEventMap } from '../core/Object3D.js';
 
 /**
  * Abstract base class for lights.
  * @remarks All other light types inherit the properties and methods described here.
  */
-export abstract class Light<TShadowSupport extends LightShadow | undefined = LightShadow | undefined> extends Object3D {
+export abstract class Light<
+    TShadowSupport extends LightShadow | undefined = LightShadow | undefined,
+    TEventMap extends Object3DEventMap = Object3DEventMap,
+> extends Object3D<TEventMap> {
     /**
      * Creates a new {@link Light}
      * @remarks

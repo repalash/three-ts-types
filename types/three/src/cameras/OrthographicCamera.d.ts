@@ -1,4 +1,5 @@
 import { Camera } from './Camera.js';
+import { Object3DEventMap } from '../core/Object3D';
 
 /**
  * Camera that uses {@link https://en.wikipedia.org/wiki/Orthographic_projection | orthographic projection}.
@@ -21,7 +22,7 @@ import { Camera } from './Camera.js';
  * @see {@link https://threejs.org/docs/index.html#api/en/cameras/OrthographicCamera | Official Documentation}
  * @see {@link https://github.com/mrdoob/three.js/blob/master/src/cameras/OrthographicCamera.js | Source}
  */
-export class OrthographicCamera extends Camera {
+export class OrthographicCamera<TEventMap extends Object3DEventMap = Object3DEventMap> extends Camera<TEventMap> {
     /**
      * Creates a new {@link OrthographicCamera}.
      * @remarks Together these define the camera's {@link https://en.wikipedia.org/wiki/Viewing_frustum | viewing frustum}.

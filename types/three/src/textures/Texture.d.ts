@@ -20,6 +20,11 @@ import {
 // tslint:disable-next-line:no-empty-interface
 export interface OffscreenCanvas extends EventTarget {}
 
+export interface TextureEventMap {
+    dispose: {};
+    update: {};
+}
+
 /**
  * Create a {@link Texture} to apply to a surface or as a reflection or refraction map.
  * @remarks
@@ -38,7 +43,7 @@ export interface OffscreenCanvas extends EventTarget {}
  * @see {@link https://threejs.org/docs/index.html#api/en/textures/Texture | Official Documentation}
  * @see {@link https://github.com/mrdoob/three.js/blob/master/src/Textures/Texture.js | Source}
  */
-export class Texture extends EventDispatcher<{ dispose: {} }> {
+export class Texture<TE extends TextureEventMap = TextureEventMap> extends EventDispatcher<TE> {
     /**
      * This creates a new {@link THREE.Texture | Texture} object.
      * @param image See {@link Texture.image | .image}. Default {@link THREE.Texture.DEFAULT_IMAGE}

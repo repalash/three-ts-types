@@ -1,4 +1,5 @@
 import { Camera } from './Camera.js';
+import { Object3DEventMap } from '../core/Object3D';
 
 /**
  * Camera that uses {@link https://en.wikipedia.org/wiki/Perspective_(graphical) | perspective projection}.
@@ -18,7 +19,7 @@ import { Camera } from './Camera.js';
  * @see {@link https://threejs.org/docs/index.html#api/en/cameras/PerspectiveCamera | Official Documentation}
  * @see {@link https://github.com/mrdoob/three.js/blob/master/src/cameras/PerspectiveCamera.js | Source}
  */
-export class PerspectiveCamera extends Camera {
+export class PerspectiveCamera<TEventMap extends Object3DEventMap = Object3DEventMap> extends Camera<TEventMap> {
     /**
      * Creates a new {@link PerspectiveCamera}.
      * @remarks Together these define the camera's {@link https://en.wikipedia.org/wiki/Viewing_frustum | viewing frustum}.
