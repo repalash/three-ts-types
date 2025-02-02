@@ -1,8 +1,8 @@
 import { Color, ColorRepresentation } from './../math/Color.js';
 import { Texture } from './../textures/Texture.js';
-import { MaterialParameters, Material } from './Material.js';
+import { Material, MaterialEventMap, MaterialParameters } from './Material.js';
 import { Combine } from '../constants.js';
-import { Event } from '../core/EventDispatcher';
+
 /**
  * parameters is an object with one or more properties defining the material's appearance.
  */
@@ -27,7 +27,7 @@ export interface MeshBasicMaterialParameters extends MaterialParameters {
     wireframeLinejoin?: string | undefined;
 }
 
-export class MeshBasicMaterial<E extends Event = Event, TEvents = string> extends Material<E, TEvents> {
+export class MeshBasicMaterial<TE extends MaterialEventMap = MaterialEventMap> extends Material<TE> {
     constructor(parameters?: MeshBasicMaterialParameters);
 
     /**

@@ -6,7 +6,7 @@ import { Matrix4 } from '../math/Matrix4.js';
 import { Quaternion } from '../math/Quaternion.js';
 import { Vector2 } from '../math/Vector2.js';
 import { Vector3 } from '../math/Vector3.js';
-import { Event, BaseEvent, EventDispatcher } from './EventDispatcher.js';
+import { EventDispatcher } from './EventDispatcher.js';
 import { GLBufferAttribute } from './GLBufferAttribute.js';
 
 export type NormalBufferAttributes = Record<string, BufferAttribute | InterleavedBufferAttribute>;
@@ -14,6 +14,10 @@ export type NormalOrGLBufferAttributes = Record<
     string,
     BufferAttribute | InterleavedBufferAttribute | GLBufferAttribute
 >;
+
+export interface BufferGeometryEventMap {
+    dispose: {};
+}
 
 /**
  * A representation of mesh, line, or point geometry
@@ -75,7 +79,8 @@ export type NormalOrGLBufferAttributes = Record<
  */
 export class BufferGeometry<
     Attributes extends NormalOrGLBufferAttributes = NormalBufferAttributes,
-> extends EventDispatcher<{ dispose: {} }> {
+    TE extends BufferGeometryEventMap = BufferGeometryEventMap,
+> extends EventDispatcher<TE> {
     /**
      * This creates a new {@link THREE.BufferGeometry | BufferGeometry} object.
      */

@@ -1,5 +1,5 @@
 import { IUniform } from '../renderers/shaders/UniformsLib.js';
-import { MaterialParameters, Material } from './Material.js';
+import { MaterialParameters, Material, MaterialEventMap } from './Material.js';
 import { GLSLVersion } from '../constants.js';
 import { UniformsGroup } from '../core/UniformsGroup.js';
 import { Event } from '../core/EventDispatcher';
@@ -26,7 +26,7 @@ export interface ShaderMaterialParameters extends MaterialParameters {
     glslVersion?: GLSLVersion | undefined;
 }
 
-export class ShaderMaterial<E extends Event = Event, ET = string> extends Material<E, ET> {
+export class ShaderMaterial<TE extends MaterialEventMap = MaterialEventMap> extends Material<TE> {
     constructor(parameters?: ShaderMaterialParameters);
 
     /**

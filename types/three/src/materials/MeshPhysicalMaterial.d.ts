@@ -1,8 +1,8 @@
 import { Texture } from './../textures/Texture.js';
 import { Vector2 } from './../math/Vector2.js';
-import { MeshStandardMaterialParameters, MeshStandardMaterial } from './MeshStandardMaterial.js';
+import { MeshStandardMaterial, MeshStandardMaterialParameters } from './MeshStandardMaterial.js';
 import { Color } from './../math/Color.js';
-import { Event } from '../core/EventDispatcher';
+import { MaterialEventMap } from './Material.js';
 
 export interface MeshPhysicalMaterialParameters extends MeshStandardMaterialParameters {
     clearcoat?: number | undefined;
@@ -46,7 +46,7 @@ export interface MeshPhysicalMaterialParameters extends MeshStandardMaterialPara
     anisotropyMap?: Texture | null | undefined;
 }
 
-export class MeshPhysicalMaterial<E extends Event = Event, TEvents = string> extends MeshStandardMaterial<E, TEvents> {
+export class MeshPhysicalMaterial<TE extends MaterialEventMap = MaterialEventMap> extends MeshStandardMaterial<TE> {
     constructor(parameters?: MeshPhysicalMaterialParameters);
 
     /**

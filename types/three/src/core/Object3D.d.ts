@@ -17,6 +17,22 @@ import { AnimationClip } from '../animation/AnimationClip.js';
 export interface Object3DEventMap {
     added: {};
     removed: {};
+    beforeRender: {
+        renderer: WebGLRenderer;
+        scene: Scene;
+        camera: Camera;
+        geometry: BufferGeometry;
+        material: Material;
+        group: Group;
+    };
+    afterRender: {
+        renderer: WebGLRenderer;
+        scene: Scene;
+        camera: Camera;
+        geometry: BufferGeometry;
+        material: Material;
+        group: Group;
+    };
 }
 
 /**

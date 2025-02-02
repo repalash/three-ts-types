@@ -1,6 +1,5 @@
 import { ColorRepresentation } from '../math/Color.js';
 import { Light } from './Light.js';
-import { BaseEvent, Event } from '../core/EventDispatcher';
 
 /**
  * This light globally illuminates all objects in the scene equally.
@@ -13,7 +12,7 @@ import { BaseEvent, Event } from '../core/EventDispatcher';
  * @see {@link https://threejs.org/docs/index.html#api/en/lights/AmbientLight | Official Documentation}
  * @see {@link https://github.com/mrdoob/three.js/blob/master/src/lights/AmbientLight.js | Source}
  */
-export class AmbientLight<E extends BaseEvent = Event, ET = string> extends Light<undefined, E, ET> {
+export class AmbientLight extends Light {
     /**
      * Creates a new {@link AmbientLight}.
      * @param color Numeric value of the RGB component of the color. Default `0xffffff`

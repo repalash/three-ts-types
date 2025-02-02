@@ -1,17 +1,17 @@
 import { Plane } from '../math/Plane.js';
-import { Event, EventDispatcher } from '../core/EventDispatcher.js';
+import { EventDispatcher } from '../core/EventDispatcher.js';
 import { WebGLRenderer } from '../renderers/WebGLRenderer.js';
 import { Shader } from '../renderers/shaders/ShaderLib.js';
 import {
+    Blending,
     BlendingDstFactor,
     BlendingEquation,
-    Blending,
     BlendingSrcFactor,
     DepthModes,
+    PixelFormat,
     Side,
     StencilFunc,
     StencilOp,
-    PixelFormat,
 } from '../constants.js';
 import { Scene } from '../scenes/Scene';
 import { Camera } from '../cameras/Camera';
@@ -64,10 +64,14 @@ export interface MaterialParameters {
     userData?: any;
 }
 
+export interface MaterialEventMap {
+    dispose: {};
+}
+
 /**
  * Materials describe the appearance of objects. They are defined in a (mostly) renderer-independent way, so you don't have to rewrite materials if you decide to use a different renderer.
  */
-export class Material extends EventDispatcher<{ dispose: {} }> {
+export class Material<TE extends MaterialEventMap = MaterialEventMap> extends EventDispatcher<TE> {
     constructor();
 
     /**

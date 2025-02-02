@@ -22,7 +22,10 @@ export class ObjectLoader extends Loader<Object3D> {
 
     parse(json: unknown, onLoad?: (object: Object3D) => void): Object3D;
     parseAsync(json: unknown): Promise<Object3D>;
-    parseGeometries(json: unknown): { [key: string]: InstancedBufferGeometry | BufferGeometry };
+    parseGeometries(
+        json: unknown,
+        shapes: { [key: string]: Shape },
+    ): { [key: string]: InstancedBufferGeometry | BufferGeometry };
     parseMaterials(json: unknown, textures: { [key: string]: Texture }): { [key: string]: Material };
     parseAnimations(json: unknown): { [key: string]: AnimationClip };
     parseShapes(json: any[]): { [key: string]: Shape };

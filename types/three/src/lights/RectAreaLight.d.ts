@@ -1,6 +1,5 @@
 import { Light } from './Light.js';
 import { ColorRepresentation } from '../math/Color.js';
-import { BaseEvent, Event } from '../core/EventDispatcher';
 
 /**
  * {@link RectAreaLight} emits light uniformly across the face a rectangular plane
@@ -26,7 +25,7 @@ import { BaseEvent, Event } from '../core/EventDispatcher';
  * @see {@link https://threejs.org/docs/index.html#api/en/lights/RectAreaLight | Official Documentation}
  * @see {@link https://github.com/mrdoob/three.js/blob/master/src/lights/RectAreaLight.js | Source}
  */
-export class RectAreaLight<E extends BaseEvent = Event, ET = string> extends Light<undefined, E, ET> {
+export class RectAreaLight extends Light<undefined> {
     /**
      * Creates a new {@link RectAreaLight}.
      * @param color Hexadecimal color of the light. Default `0xffffff` _(white)_.

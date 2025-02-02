@@ -1,11 +1,4 @@
-import {
-    Scene,
-    Camera,
-    Material,
-    Color,
-    WebGLRenderTarget,
-    WebGLRenderer,
-} from '../../../src/Three.js';
+import { Camera, Color, Material, Scene, WebGLRenderer, WebGLRenderTarget } from '../../../src/Three.js';
 import { Pass } from './Pass.js';
 
 export class RenderPass extends Pass {

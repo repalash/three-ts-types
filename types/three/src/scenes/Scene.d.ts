@@ -1,10 +1,9 @@
 import { FogBase } from './Fog.js';
 import { Material } from './../materials/Material.js';
-import { Object3D } from './../core/Object3D.js';
+import { Object3D, Object3DEventMap } from './../core/Object3D.js';
 import { Color } from '../math/Color.js';
 import { Texture } from '../textures/Texture.js';
 import { CubeTexture } from '../Three.js';
-import { BaseEvent, Event } from '../core/EventDispatcher';
 
 /**
  * Scenes allow you to set up what and where is to be rendered by three.js
@@ -15,7 +14,7 @@ import { BaseEvent, Event } from '../core/EventDispatcher';
  * @see {@link https://threejs.org/docs/index.html#api/en/scenes/Scene | Official Documentation}
  * @see {@link https://github.com/mrdoob/three.js/blob/master/src/scenes/Scene.js | Source}
  */
-export class Scene<E extends BaseEvent = Event, ET = string> extends Object3D<E, ET> {
+export class Scene<TEventMap extends Object3DEventMap = Object3DEventMap> extends Object3D<TEventMap> {
     /**
      * Create a new {@link Scene} object.
      */

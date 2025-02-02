@@ -1,4 +1,4 @@
-import { Color, Event, MaterialParameters, ShaderMaterial, Vector2 } from '../../../src/Three.js';
+import { Color, MaterialEventMap, MaterialParameters, ShaderMaterial, Vector2 } from '../../../src/Three.js';
 
 export interface LineMaterialParameters extends MaterialParameters {
     alphaToCoverage?: boolean | undefined;
@@ -14,7 +14,7 @@ export interface LineMaterialParameters extends MaterialParameters {
     worldUnits?: boolean | undefined;
 }
 
-export class LineMaterial<E extends Event = Event, TEvents = string> extends ShaderMaterial<E, TEvents> {
+export class LineMaterial<TE extends MaterialEventMap = MaterialEventMap> extends ShaderMaterial<TE> {
     constructor(parameters?: LineMaterialParameters);
     color: Color;
     dashed: boolean;

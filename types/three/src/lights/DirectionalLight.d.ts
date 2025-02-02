@@ -3,7 +3,6 @@ import { DirectionalLightShadow } from './DirectionalLightShadow.js';
 import { Light } from './Light.js';
 import { Vector3 } from '../math/Vector3.js';
 import { ColorRepresentation } from '../math/Color.js';
-import { BaseEvent, Event } from '../core/EventDispatcher';
 
 /**
  * A light that gets emitted in a specific direction
@@ -30,7 +29,7 @@ import { BaseEvent, Event } from '../core/EventDispatcher';
  * @see {@link https://threejs.org/docs/index.html#api/en/lights/DirectionalLight | Official Documentation}
  * @see {@link https://github.com/mrdoob/three.js/blob/master/src/lights/DirectionalLight.js | Source}
  */
-export class DirectionalLight<E extends BaseEvent = Event, ET = string> extends Light<DirectionalLightShadow, E, ET> {
+export class DirectionalLight extends Light<DirectionalLightShadow> {
     /**
      * Creates a new {@link DirectionalLight}.
      * @param color Hexadecimal color of the light. Default `0xffffff` _(white)_.

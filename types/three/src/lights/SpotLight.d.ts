@@ -4,7 +4,6 @@ import { SpotLightShadow } from './SpotLightShadow.js';
 import { Light } from './Light.js';
 import { ColorRepresentation } from '../math/Color.js';
 import { Texture } from '../textures/Texture.js';
-import { BaseEvent, Event } from '../core/EventDispatcher';
 
 /**
  * This light gets emitted from a single point in one direction, along a cone that increases in size the further from the light it gets.
@@ -27,7 +26,7 @@ import { BaseEvent, Event } from '../core/EventDispatcher';
  * @see {@link https://threejs.org/docs/index.html#api/en/lights/SpotLight | Official Documentation}
  * @see {@link https://github.com/mrdoob/three.js/blob/master/src/lights/SpotLight.js | Source}
  */
-export class SpotLight<E extends BaseEvent = Event, ET = string> extends Light<SpotLightShadow, E, ET> {
+export class SpotLight extends Light<SpotLightShadow> {
     /**
      * Creates a new SpotLight.
      * @param color Hexadecimal color of the light. Default `0xffffff` _(white)_.
