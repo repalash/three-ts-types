@@ -1,4 +1,4 @@
-import { Camera, Color, Material, Scene, WebGLRenderer, WebGLRenderTarget } from '../../../src/Three.js';
+import { Camera, Color, Material, Scene, Texture, WebGLRenderer, WebGLRenderTarget } from '../../../src/Three.js';
 import { Pass } from './Pass.js';
 
 export class RenderPass extends Pass {
@@ -21,8 +21,8 @@ export class RenderPass extends Pass {
 
     render(
         renderer: WebGLRenderer,
-        _: WebGLRenderTarget | null,
-        writeBuffer?: WebGLRenderTarget,
+        _: WebGLRenderTarget<Texture|Texture[]> | null,
+        writeBuffer?: WebGLRenderTarget<Texture|Texture[]>,
         deltaTime?: number,
         maskActive?: boolean,
         depthBuffer?: /*WebGLRenderBuffer*/ any,

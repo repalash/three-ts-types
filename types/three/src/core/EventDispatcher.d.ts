@@ -17,6 +17,10 @@ export type EventListener<TEventData, TEventType extends string, TTarget> = (
     event: TEventData & Event<TEventType, TTarget>,
 ) => void;
 
+export type EventListener2<TEventType extends string, TEventMap extends Record<TEventType, any>, TTarget> = (
+    event: TEventMap[TEventType] & Event<TEventType, TTarget>,
+) => void
+
 /**
  * JavaScript events for custom objects
  * @example

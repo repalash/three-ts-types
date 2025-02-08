@@ -17,5 +17,5 @@
         "meshoptimizer": "~0.18.1"
     },
     "name": "@types/three",
-    "version": "0.157.1003"
+    "version": "0.157.1004"
 }
