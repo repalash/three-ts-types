@@ -45,6 +45,18 @@ export interface GLTFExporterOptions {
      * Export custom glTF extensions defined on an object's userData.gltfExtensions property. Default is false.
      */
     includeCustomExtensions?: boolean;
+
+    /**
+     * [Non-standard]
+     * If set to true, the exporter ignores clips with morph targets that it cannot export. Otherwise, an error is thrown.
+     */
+    ignoreInvalidMorphTargetTracks?: boolean
+
+    /**
+     * [Non-standard]
+     * If set to true, the exporter ignores textures without `image`(`source.data`) property. Otherwise, an error is thrown.
+     */
+    ignoreEmptyTextures?: boolean
 }
 
 export class GLTFExporter {
@@ -164,6 +176,14 @@ declare class GLTFWriter {
     processBufferViewImageBuffer(buffer: ArrayBuffer): number;
 
     _invokeAll(func: (plugin: GLTFExporterPlugin) => void): void;
+
+    /**
+     * [Non-standard]
+     * Checks whether a map is null or empty. (only if `ignoreEmptyTextures` is set)
+     * @param map
+     */
+    checkEmptyMap( map: Texture ): boolean
+
 }
 
 export interface GLTFExporterPlugin {
