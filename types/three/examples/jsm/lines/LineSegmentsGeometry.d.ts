@@ -1,13 +1,17 @@
 import {
+    BufferGeometryEventMap,
     EdgesGeometry,
     InstancedBufferGeometry,
     LineSegments,
     Matrix4,
-    Mesh,
+    Mesh, NormalBufferAttributes, NormalOrGLBufferAttributes,
     WireframeGeometry,
 } from '../../../src/Three.js';
 
-export class LineSegmentsGeometry extends InstancedBufferGeometry {
+export class LineSegmentsGeometry<
+    Attributes extends NormalOrGLBufferAttributes = NormalBufferAttributes,
+    TE extends BufferGeometryEventMap = BufferGeometryEventMap,
+> extends InstancedBufferGeometry<Attributes, TE> {
     constructor();
     readonly isLineSegmentsGeometry: true;
 

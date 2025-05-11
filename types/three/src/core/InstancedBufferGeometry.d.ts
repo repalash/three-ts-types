@@ -1,11 +1,19 @@
-import { BufferGeometry } from './BufferGeometry.js';
+import {
+    BufferGeometry,
+    BufferGeometryEventMap,
+    NormalBufferAttributes,
+    NormalOrGLBufferAttributes,
+} from './BufferGeometry.js';
 
 /**
  * An instanced version of {@link THREE.BufferGeometry | BufferGeometry}.
  * @see {@link https://threejs.org/docs/index.html#api/en/core/InstancedBufferGeometry | Official Documentation}
  * @see {@link https://github.com/mrdoob/three.js/blob/master/src/core/InstancedBufferGeometry.js | Source}
  */
-export class InstancedBufferGeometry extends BufferGeometry {
+export class InstancedBufferGeometry<
+    Attributes extends NormalOrGLBufferAttributes = NormalBufferAttributes,
+    TE extends BufferGeometryEventMap = BufferGeometryEventMap,
+> extends BufferGeometry<Attributes, TE> {
     /**
      * Create a new instance of {@link InstancedBufferGeometry}
      */
