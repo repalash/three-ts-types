@@ -41,8 +41,7 @@ export abstract class Light<
 
     /**
      * The light's intensity, or strength.
-     * When {@link THREE.WebGLRenderer.useLegacyLights | legacy lighting mode} is disabled, the units of intensity depend on the type of light.
-     * @remarks Expects a `Float`
+     * The units of intensity depend on the type of light.
      * @defaultValue `1`
      */
     intensity: number;
