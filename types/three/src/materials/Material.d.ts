@@ -33,7 +33,7 @@ export interface MaterialParameters {
     blendSrc?: BlendingSrcFactor | BlendingDstFactor | undefined;
     blendSrcAlpha?: number | undefined | null;
     clipIntersection?: boolean | undefined;
-    clippingPlanes?: Plane[] | undefined;
+    clippingPlanes?: Plane[] | undefined | null;
     clipShadows?: boolean | undefined;
     colorWrite?: boolean | undefined;
     defines?: any;
