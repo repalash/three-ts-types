@@ -42,5 +42,5 @@ export class InstancedBufferGeometry<
      * @param source
      * @override
      */
-    copy(source: InstancedBufferGeometry): this;
+    copy(source: InstancedBufferGeometry): InstancedBufferGeometry;
 }

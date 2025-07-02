@@ -1,7 +1,7 @@
 {
     "private": true,
     "name": "@types/three",
-    "version": "0.158.1003",
+    "version": "0.158.1004",
     "projects": [
         "https://threejs.org/"
     ],
