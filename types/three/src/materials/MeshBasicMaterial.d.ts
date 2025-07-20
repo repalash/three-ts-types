@@ -1,8 +1,7 @@
-import { Color, ColorRepresentation } from './../math/Color.js';
-import { Texture } from './../textures/Texture.js';
+import { Color, ColorRepresentation } from '../math/Color.js';
+import { Texture } from '../textures/Texture.js';
 import { Material, MaterialEventMap, MaterialParameters } from './Material.js';
 import { Combine } from '../constants.js';
-
 /**
  * parameters is an object with one or more properties defining the material's appearance.
  */
@@ -29,6 +28,13 @@ export interface MeshBasicMaterialParameters extends MaterialParameters {
 
 export class MeshBasicMaterial<TE extends MaterialEventMap = MaterialEventMap> extends Material<TE> {
     constructor(parameters?: MeshBasicMaterialParameters);
+
+    /**
+     * Read-only flag to check if a given object is of type {@link MeshBasicMaterial}.
+     * @remarks This is a _constant_ value
+     * @defaultValue `true`
+     */
+    readonly isMeshBasicMaterial: true;
 
     /**
      * @default 'MeshBasicMaterial'

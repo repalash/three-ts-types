@@ -49,7 +49,12 @@ export interface MeshPhysicalMaterialParameters extends MeshStandardMaterialPara
 export class MeshPhysicalMaterial<TE extends MaterialEventMap = MaterialEventMap> extends MeshStandardMaterial<TE> {
     constructor(parameters?: MeshPhysicalMaterialParameters);
 
-    isMeshPhysicalMaterial: boolean;
+    /**
+     * Read-only flag to check if a given object is of type {@link MeshPhysicalMaterial}.
+     * @remarks This is a _constant_ value
+     * @defaultValue `true`
+     */
+    readonly isMeshPhysicalMaterial: true;
 
     /**
      * @default 'MeshPhysicalMaterial'

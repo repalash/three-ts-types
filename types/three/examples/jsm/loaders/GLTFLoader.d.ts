@@ -45,7 +45,7 @@ export interface GLTF {
         extras?: any;
     };
     parser: GLTFParser;
-    userData: any;
+    userData: Record<string, any>;
 }
 
 export class GLTFLoader extends Loader<GLTF> {

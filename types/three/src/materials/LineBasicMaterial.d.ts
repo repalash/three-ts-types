@@ -14,6 +14,13 @@ export class LineBasicMaterial<TE extends MaterialEventMap = MaterialEventMap> e
     constructor(parameters?: LineBasicMaterialParameters);
 
     /**
+     * Read-only flag to check if a given object is of type {@link LineBasicMaterial}.
+     * @remarks This is a _constant_ value
+     * @defaultValue `true`
+     */
+    readonly isLineBasicMaterial: true;
+
+    /**
      * @default 'LineBasicMaterial'
      */
     type: string;

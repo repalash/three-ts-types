@@ -1,6 +1,6 @@
-import { Color, ColorRepresentation } from './../math/Color.js';
-import { Texture } from './../textures/Texture.js';
-import { Vector2 } from './../math/Vector2.js';
+import { Color, ColorRepresentation } from '../math/Color.js';
+import { Texture } from '../textures/Texture.js';
+import { Vector2 } from '../math/Vector2.js';
 import { Material, MaterialEventMap, MaterialParameters } from './Material.js';
 import { NormalMapTypes } from '../constants.js';
 
@@ -37,6 +37,13 @@ export interface MeshStandardMaterialParameters extends MaterialParameters {
 
 export class MeshStandardMaterial<TE extends MaterialEventMap = MaterialEventMap> extends Material<TE> {
     constructor(parameters?: MeshStandardMaterialParameters);
+
+    /**
+     * Read-only flag to check if a given object is of type {@link MeshStandardMaterial}.
+     * @remarks This is a _constant_ value
+     * @defaultValue `true`
+     */
+    readonly isMeshStandardMaterial: true;
 
     /**
      * @default 'MeshStandardMaterial'
@@ -199,8 +206,6 @@ export class MeshStandardMaterial<TE extends MaterialEventMap = MaterialEventMap
      * @default fog
      */
     fog: boolean;
-
-    isMeshStandardMaterial: boolean;
 
     setValues(parameters: MeshStandardMaterialParameters): void;
 }

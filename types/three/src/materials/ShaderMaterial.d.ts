@@ -30,6 +30,13 @@ export class ShaderMaterial<TE extends MaterialEventMap = MaterialEventMap> exte
     constructor(parameters?: ShaderMaterialParameters);
 
     /**
+     * Read-only flag to check if a given object is of type {@link ShaderMaterial}.
+     * @remarks This is a _constant_ value
+     * @defaultValue `true`
+     */
+    readonly isShaderMaterial: true;
+
+    /**
      * @default 'ShaderMaterial'
      */
     type: string;
@@ -86,13 +93,14 @@ export class ShaderMaterial<TE extends MaterialEventMap = MaterialEventMap> exte
     derivatives: any;
 
     /**
-     * @default { derivatives: false, fragDepth: false, drawBuffers: false, shaderTextureLOD: false }
+     * @default { derivatives: false, fragDepth: false, drawBuffers: false, shaderTextureLOD: false, clipCullDistance: false }
      */
     extensions: {
         derivatives: boolean;
         fragDepth: boolean;
         drawBuffers: boolean;
         shaderTextureLOD: boolean;
+        clipCullDistance: boolean;
     };
 
     /**
@@ -114,8 +122,6 @@ export class ShaderMaterial<TE extends MaterialEventMap = MaterialEventMap> exte
      * @default null
      */
     glslVersion: GLSLVersion | null;
-
-    isShaderMaterial: boolean;
 
     setValues(parameters: ShaderMaterialParameters): void;
     toJSON(meta: any): any;
