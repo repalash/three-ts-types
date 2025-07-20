@@ -50,13 +50,13 @@ export interface GLTFExporterOptions {
      * [Non-standard]
      * If set to true, the exporter ignores clips with morph targets that it cannot export. Otherwise, an error is thrown.
      */
-    ignoreInvalidMorphTargetTracks?: boolean
+    ignoreInvalidMorphTargetTracks?: boolean;
 
     /**
      * [Non-standard]
      * If set to true, the exporter ignores textures without `image`(`source.data`) property. Otherwise, an error is thrown.
      */
-    ignoreEmptyTextures?: boolean
+    ignoreEmptyTextures?: boolean;
 }
 
 export class GLTFExporter {
@@ -182,8 +182,7 @@ declare class GLTFWriter {
      * Checks whether a map is null or empty. (only if `ignoreEmptyTextures` is set)
      * @param map
      */
-    checkEmptyMap( map: Texture ): boolean
-
+    checkEmptyMap(map: Texture): boolean;
 }
 
 export interface GLTFExporterPlugin {

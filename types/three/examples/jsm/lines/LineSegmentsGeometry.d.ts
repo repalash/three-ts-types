@@ -4,7 +4,9 @@ import {
     InstancedBufferGeometry,
     LineSegments,
     Matrix4,
-    Mesh, NormalBufferAttributes, NormalOrGLBufferAttributes,
+    Mesh,
+    NormalBufferAttributes,
+    NormalOrGLBufferAttributes,
     WireframeGeometry,
 } from '../../../src/Three.js';
 

@@ -17,11 +17,15 @@ export type EventListener<TEventData, TEventType extends string, TTarget> = (
     event: TEventData & Event<TEventType, TTarget>,
 ) => void;
 
-export type Event2<TEventType extends string, TEventMap extends Record<TEventType, any>, TTarget> = TEventMap[TEventType] & Event<TEventType, TTarget>;
+export type Event2<
+    TEventType extends string,
+    TEventMap extends Record<TEventType, any>,
+    TTarget,
+> = TEventMap[TEventType] & Event<TEventType, TTarget>;
 
 export type EventListener2<TEventType extends string, TEventMap extends Record<TEventType, any>, TTarget> = (
     event: TEventMap[TEventType] & Event<TEventType, TTarget>,
-) => void
+) => void;
 
 /**
  * JavaScript events for custom objects
