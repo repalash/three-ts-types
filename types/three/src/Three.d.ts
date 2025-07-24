@@ -146,7 +146,7 @@ export * from './math/Sphere.js';
 export * from './math/Ray.js';
 export * from './math/Matrix4.js';
 export * from './math/Matrix3.js';
-export * from "./math/Matrix2.js";
+export * from './math/Matrix2.js';
 export * from './math/Box3.js';
 export * from './math/Box2.js';
 export * from './math/Line3.js';
