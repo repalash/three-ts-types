@@ -1,7 +1,7 @@
 {
     "private": true,
     "name": "@types/three",
-    "version": "0.160.1002",
+    "version": "0.160.1003",
     "projects": [
         "https://threejs.org/"
     ],
@@ -21,7 +21,6 @@
     "dependencies": {
         "@types/stats.js": "*",
         "@types/webxr": "*",
-        "fflate": "~0.6.10",
         "meshoptimizer": "~0.18.1"
     },
     "owners": [
