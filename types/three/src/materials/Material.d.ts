@@ -14,10 +14,10 @@ import { Color, ColorRepresentation } from "../math/Color.js";
 import { Plane } from "../math/Plane.js";
 import { WebGLProgramParametersWithUniforms } from "../renderers/webgl/WebGLPrograms.js";
 import { WebGLRenderer } from "../renderers/WebGLRenderer.js";
-import { Scene } from '../scenes/Scene';
-import { Camera } from '../cameras/Camera';
-import { BufferGeometry } from '../core/BufferGeometry';
-import { Object3D } from '../core/Object3D';
+import { Scene } from "../scenes/Scene";
+import { Camera } from "../cameras/Camera";
+import { BufferGeometry } from "../core/BufferGeometry";
+import { Object3D } from "../core/Object3D";
 
 export interface MaterialParameters {
     alphaHash?: boolean | undefined;

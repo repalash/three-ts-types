@@ -7,8 +7,8 @@ import { Source } from "../textures/Source.js";
 import { Texture } from "../textures/Texture.js";
 import { Loader } from "./Loader.js";
 import { LoadingManager } from "./LoadingManager.js";
-import { Skeleton } from '../objects/Skeleton.js';
-import { Shape } from '../extras/core/Shape.js';
+import { Skeleton } from "../objects/Skeleton.js";
+import { Shape } from "../extras/core/Shape.js";
 
 export class ObjectLoader extends Loader<Object3D> {
     constructor(manager?: LoadingManager);

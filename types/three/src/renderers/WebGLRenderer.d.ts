@@ -23,9 +23,9 @@ import { WebGLShadowMap } from "./webgl/WebGLShadowMap.js";
 import { WebGLState } from "./webgl/WebGLState.js";
 import { WebGLRenderTarget } from "./WebGLRenderTarget.js";
 import { WebXRManager } from "./webxr/WebXRManager.js";
-import { WebGLCubeMaps } from './webgl/WebGLCubeMaps';
-import { WebGLCubeUVMaps } from './webgl/WebGLCubeUVMaps';
-import { WebGLMaterials } from './webgl/WebGLMaterials';
+import { WebGLCubeMaps } from "./webgl/WebGLCubeMaps";
+import { WebGLCubeUVMaps } from "./webgl/WebGLCubeUVMaps";
+import { WebGLMaterials } from "./webgl/WebGLMaterials";
 
 export interface Renderer {
     domElement: HTMLCanvasElement;

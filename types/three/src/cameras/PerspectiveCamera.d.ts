@@ -1,6 +1,6 @@
 import { Vector2 } from "../math/Vector2.js";
 import { Camera } from "./Camera.js";
-import { Object3DEventMap } from '../core/Object3D';
+import { Object3DEventMap } from "../core/Object3D";
 
 /**
  * Camera that uses {@link https://en.wikipedia.org/wiki/Perspective_(graphical) | perspective projection}.
