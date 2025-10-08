@@ -2,7 +2,7 @@ import { Combine } from "../constants.js";
 import { Color, ColorRepresentation } from "../math/Color.js";
 import { Euler } from "../math/Euler.js";
 import { Texture } from "../textures/Texture.js";
-import { Material, MaterialParameters } from "./Material.js";
+import { Material, MaterialEventMap, MaterialParameters } from "./Material.js";
 
 /**
  * parameters is an object with one or more properties defining the material's appearance.

@@ -21,7 +21,6 @@ class ExamplePlugin implements GLTFLoaderPlugin {
     name: "example-plugin";
 
     parser: GLTFParser;
-    name = 'ExamplePlugin';
 
     constructor(parser: GLTFParser) {
         this.parser = parser;

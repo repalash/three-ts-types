@@ -1,4 +1,4 @@
-import { Group, Loader, LoadingManager, Mesh, Group } from "three";
+import { Group, Loader, LoadingManager, Mesh } from "three";
 
 export class USDAParser {
     parse(text: string): object;
