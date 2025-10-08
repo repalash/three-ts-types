@@ -1,7 +1,7 @@
-import { Mesh, Object3DEventMap } from '../../../src/Three.js';
+import { Mesh, Object3DEventMap } from "three";
 
-import { LineMaterial } from './LineMaterial.js';
-import { LineSegmentsGeometry } from './LineSegmentsGeometry.js';
+import { LineMaterial } from "./LineMaterial.js";
+import { LineSegmentsGeometry } from "./LineSegmentsGeometry.js";
 
 export class LineSegments2<
     TGeometry extends LineSegmentsGeometry = LineSegmentsGeometry,

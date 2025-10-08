@@ -1,4 +1,4 @@
-import { Loader, LoadingManager, Mesh, Group } from '../../../src/Three.js';
+import { Group, Loader, LoadingManager, Mesh, Group } from "three";
 
 export class USDAParser {
     parse(text: string): object;

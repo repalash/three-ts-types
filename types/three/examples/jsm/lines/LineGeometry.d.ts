@@ -3,9 +3,9 @@ import {
     Line,
     NormalBufferAttributes,
     NormalOrGLBufferAttributes,
-} from '../../../src/Three.js';
+} from "three";
 
-import { LineSegmentsGeometry } from './LineSegmentsGeometry.js';
+import { LineSegmentsGeometry } from "./LineSegmentsGeometry.js";
 
 export class LineGeometry<
     Attributes extends NormalOrGLBufferAttributes = NormalBufferAttributes,

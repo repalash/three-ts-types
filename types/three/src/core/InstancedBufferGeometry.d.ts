@@ -3,7 +3,7 @@ import {
     BufferGeometryEventMap,
     NormalBufferAttributes,
     NormalOrGLBufferAttributes,
-} from './BufferGeometry.js';
+} from "./BufferGeometry.js";
 
 /**
  * An instanced version of {@link THREE.BufferGeometry | BufferGeometry}.
@@ -32,7 +32,6 @@ export class InstancedBufferGeometry<
     readonly isInstancedBufferGeometry: true;
 
     /**
-     *
      * @defaultValue `Infinity`
      */
     instanceCount: number;

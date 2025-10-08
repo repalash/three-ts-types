@@ -1,4 +1,4 @@
-import { Camera } from './Camera.js';
+import { Camera } from "./Camera.js";
 import { Object3DEventMap } from '../core/Object3D';
 
 /**
@@ -46,7 +46,7 @@ export class OrthographicCamera<TEventMap extends Object3DEventMap = Object3DEve
      * @override
      * @defaultValue `OrthographicCamera`
      */
-    override readonly type: string | 'OrthographicCamera';
+    override readonly type: string | "OrthographicCamera";
 
     /**
      * Gets or sets the zoom factor of the camera.

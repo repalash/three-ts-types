@@ -1,7 +1,7 @@
-import { IUniform } from '../renderers/shaders/UniformsLib.js';
-import { MaterialParameters, Material, MaterialEventMap } from './Material.js';
-import { GLSLVersion } from '../constants.js';
-import { UniformsGroup } from '../core/UniformsGroup.js';
+import { GLSLVersion } from "../constants.js";
+import { UniformsGroup } from "../core/UniformsGroup.js";
+import { IUniform } from "../renderers/shaders/UniformsLib.js";
+import { Material, MaterialEventMap, MaterialParameters } from "./Material.js";
 
 export interface ShaderMaterialParameters extends MaterialParameters {
     uniforms?: { [uniform: string]: IUniform } | undefined;
@@ -16,11 +16,11 @@ export interface ShaderMaterialParameters extends MaterialParameters {
     fog?: boolean | undefined;
     extensions?:
         | {
-              derivatives?: boolean | undefined;
-              fragDepth?: boolean | undefined;
-              drawBuffers?: boolean | undefined;
-              shaderTextureLOD?: boolean | undefined;
-          }
+            derivatives?: boolean | undefined;
+            fragDepth?: boolean | undefined;
+            drawBuffers?: boolean | undefined;
+            shaderTextureLOD?: boolean | undefined;
+        }
         | undefined;
     glslVersion?: GLSLVersion | undefined;
 }
@@ -92,7 +92,14 @@ export class ShaderMaterial<TE extends MaterialEventMap = MaterialEventMap> exte
     derivatives: any;
 
     /**
-     * @default { derivatives: false, fragDepth: false, drawBuffers: false, shaderTextureLOD: false, clipCullDistance: false }
+     * @default {
+     *   derivatives: false,
+     *   fragDepth: false,
+     *   drawBuffers: false,
+     *   shaderTextureLOD: false,
+     *   clipCullDistance: false,
+     *   multiDraw: false
+     * }
      */
     extensions: {
         derivatives: boolean;
@@ -100,6 +107,7 @@ export class ShaderMaterial<TE extends MaterialEventMap = MaterialEventMap> exte
         drawBuffers: boolean;
         shaderTextureLOD: boolean;
         clipCullDistance: boolean;
+        multiDraw: boolean;
     };
 
     /**

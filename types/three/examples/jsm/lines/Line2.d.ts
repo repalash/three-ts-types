@@ -1,6 +1,6 @@
-import { LineGeometry } from './LineGeometry.js';
-import { LineSegments2 } from './LineSegments2.js';
-import { LineMaterial } from './LineMaterial.js';
+import { LineGeometry } from "./LineGeometry.js";
+import { LineMaterial } from "./LineMaterial.js";
+import { LineSegments2 } from "./LineSegments2.js";
 import { Object3DEventMap } from '../../../src/core/Object3D';
 
 export class Line2<

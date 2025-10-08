@@ -3,9 +3,9 @@ import {
     BufferGeometryEventMap,
     NormalBufferAttributes,
     NormalOrGLBufferAttributes,
-} from '../../../src/Three.js';
+} from "three";
 
-import { LineSegmentsGeometry } from './LineSegmentsGeometry.js';
+import { LineSegmentsGeometry } from "./LineSegmentsGeometry.js";
 
 export class WireframeGeometry2<
     Attributes extends NormalOrGLBufferAttributes = NormalBufferAttributes,

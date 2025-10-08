@@ -1,7 +1,3 @@
-import { Plane } from '../math/Plane.js';
-import { EventDispatcher } from '../core/EventDispatcher.js';
-import { WebGLProgramParametersWithUniforms } from '../renderers/webgl/WebGLPrograms.js';
-import { WebGLRenderer } from '../renderers/WebGLRenderer.js';
 import {
     Blending,
     BlendingDstFactor,
@@ -12,8 +8,12 @@ import {
     Side,
     StencilFunc,
     StencilOp,
-} from '../constants.js';
-import { Color, ColorRepresentation } from '../math/Color.js';
+} from "../constants.js";
+import { EventDispatcher } from "../core/EventDispatcher.js";
+import { Color, ColorRepresentation } from "../math/Color.js";
+import { Plane } from "../math/Plane.js";
+import { WebGLProgramParametersWithUniforms } from "../renderers/webgl/WebGLPrograms.js";
+import { WebGLRenderer } from "../renderers/WebGLRenderer.js";
 import { Scene } from '../scenes/Scene';
 import { Camera } from '../cameras/Camera';
 import { BufferGeometry } from '../core/BufferGeometry';
@@ -45,7 +45,7 @@ export interface MaterialParameters {
     polygonOffset?: boolean | undefined;
     polygonOffsetFactor?: number | undefined;
     polygonOffsetUnits?: number | undefined;
-    precision?: 'highp' | 'mediump' | 'lowp' | null | undefined;
+    precision?: "highp" | "mediump" | "lowp" | null | undefined;
     premultipliedAlpha?: boolean | undefined;
     forceSinglePass?: boolean | undefined;
     allowOverride?: boolean | undefined;
@@ -100,7 +100,9 @@ export class Material<TE extends MaterialEventMap = MaterialEventMap> extends Ev
     alphaTest: number;
 
     /**
-     * Enables alpha to coverage. Can only be used with MSAA-enabled rendering contexts.
+     * Enables alpha to coverage. Can only be used with MSAA-enabled rendering contexts (meaning when the renderer was
+     * created with *antialias* parameter set to `true`). Enabling this will smooth aliasing on clip plane edges and
+     * alphaTest-clipped edges.
      * @default false
      */
     alphaToCoverage: boolean;
@@ -313,7 +315,7 @@ export class Material<TE extends MaterialEventMap = MaterialEventMap> extends Ev
      * Override the renderer's default precision for this material. Can be "highp", "mediump" or "lowp". Defaults is null.
      * @default null
      */
-    precision: 'highp' | 'mediump' | 'lowp' | null;
+    precision: "highp" | "mediump" | "lowp" | null;
 
     /**
      * Whether to premultiply the alpha (transparency) value. See WebGL / Materials / Transparency for an example of the difference. Default is false.

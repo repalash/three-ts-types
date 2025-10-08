@@ -7,8 +7,8 @@ import {
     Mesh,
     NormalBufferAttributes,
     NormalOrGLBufferAttributes,
-    WireframeGeometry,
-} from '../../../src/Three.js';
+    WireframeGeometry
+} from "three";
 
 export class LineSegmentsGeometry<
     Attributes extends NormalOrGLBufferAttributes = NormalBufferAttributes,

@@ -5,7 +5,7 @@ import {
     MaterialParameters,
     ShaderMaterial,
     Vector2,
-} from '../../../src/Three.js';
+} from "three";
 
 export interface LineMaterialParameters extends MaterialParameters {
     alphaToCoverage?: boolean | undefined;
