@@ -2,9 +2,9 @@ import { Color } from "../../math/Color.js";
 import { Matrix3 } from "../../math/Matrix3.js";
 import { Vector2 } from "../../math/Vector2.js";
 
-// eslint-disable-next-line @typescript-eslint/naming-convention
 export interface IUniform<TValue = any> {
     value: TValue;
+    needsUpdate?: boolean
 }
 
 export const UniformsLib: {
