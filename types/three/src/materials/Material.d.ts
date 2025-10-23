@@ -418,6 +418,7 @@ export class Material<TE extends MaterialEventMap = MaterialEventMap> extends Ev
         camera: Camera,
         geometry: BufferGeometry,
         object: Object3D,
+        group: Group,
     ): void;
 
     /**
