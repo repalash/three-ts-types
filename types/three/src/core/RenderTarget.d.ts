@@ -34,7 +34,7 @@ export interface RenderTargetOptions {
     count?: number | undefined;
 }
 
-export class RenderTarget<TTexture extends Texture | Texture[] = Texture> extends EventDispatcher<{ dispose: {} }> {
+export class RenderTarget<TTexture extends Texture = Texture> extends EventDispatcher<{ dispose: {} }> {
     readonly isRenderTarget: true;
 
     width: number;

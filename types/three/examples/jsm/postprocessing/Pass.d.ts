@@ -1,4 +1,4 @@
-import { Material, WebGLMultipleRenderTargets, WebGLRenderer, WebGLRenderTarget } from "three";
+import { Material, WebGLRenderer, WebGLRenderTarget } from "three";
 
 export class Pass {
     constructor();
@@ -12,8 +12,8 @@ export class Pass {
     setSize(width: number, height: number): void;
     render(
         renderer: WebGLRenderer,
-        writeBuffer: WebGLMultipleRenderTargets | WebGLRenderTarget | null,
-        readBuffer?: WebGLMultipleRenderTargets | WebGLRenderTarget,
+        writeBuffer: WebGLRenderTarget | null,
+        readBuffer?: WebGLRenderTarget,
         deltaTime?: number,
         maskActive?: boolean,
     ): void;

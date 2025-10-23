@@ -23,7 +23,7 @@ export interface EXRExporterParseOptions {
 export class EXRExporter {
     parse(
         renderer: WebGLRenderer,
-        renderTarget: WebGLRenderTarget<Texture | Texture[]>,
+        renderTarget: WebGLRenderTarget<Texture>,
         options?: EXRExporterParseOptions,
     ): Uint8Array;
     parse(dataTexture: DataTexture, options?: EXRExporterParseOptions): Uint8Array;

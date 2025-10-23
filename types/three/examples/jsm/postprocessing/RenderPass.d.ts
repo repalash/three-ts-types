@@ -22,8 +22,8 @@ export class RenderPass extends Pass {
 
     render(
         renderer: WebGLRenderer,
-        _: WebGLRenderTarget<Texture | Texture[]> | null,
-        writeBuffer?: WebGLRenderTarget<Texture | Texture[]>,
+        _: WebGLRenderTarget<Texture> | null,
+        writeBuffer?: WebGLRenderTarget<Texture>,
         deltaTime?: number,
         maskActive?: boolean,
         depthBuffer?: /*WebGLRenderBuffer*/ any,
