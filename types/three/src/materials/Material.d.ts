@@ -1,3 +1,4 @@
+import { Camera } from "../cameras/Camera.js";
 import {
     Blending,
     BlendingDstFactor,
@@ -9,15 +10,15 @@ import {
     StencilFunc,
     StencilOp,
 } from "../constants.js";
+import { BufferGeometry } from "../core/BufferGeometry.js";
 import { EventDispatcher } from "../core/EventDispatcher.js";
+import { Object3D } from "../core/Object3D.js";
 import { Color, ColorRepresentation } from "../math/Color.js";
 import { Plane } from "../math/Plane.js";
+import { Group } from "../objects/Group.js";
 import { WebGLProgramParametersWithUniforms } from "../renderers/webgl/WebGLPrograms.js";
 import { WebGLRenderer } from "../renderers/WebGLRenderer.js";
-import { Scene } from "../scenes/Scene";
-import { Camera } from "../cameras/Camera";
-import { BufferGeometry } from "../core/BufferGeometry";
-import { Object3D } from "../core/Object3D";
+import { Scene } from "../scenes/Scene.js";
 
 export interface MaterialParameters {
     alphaHash?: boolean | undefined;
@@ -92,12 +93,6 @@ export class Material<TE extends MaterialEventMap = MaterialEventMap> extends Ev
      * resulting noise.
      */
     alphaHash: boolean;
-
-    /**
-     * Sets the alpha value to be used when running an alpha test. Default is 0.
-     * @default 0
-     */
-    alphaTest: number;
 
     /**
      * Enables alpha to coverage. Can only be used with MSAA-enabled rendering contexts (meaning when the renderer was
@@ -281,13 +276,6 @@ export class Material<TE extends MaterialEventMap = MaterialEventMap> extends Ev
     name: string;
 
     /**
-     * Specifies that the material needs to be updated, WebGL wise. Set it to true if you made changes that need to be reflected in WebGL.
-     * This property is automatically set to true when instancing a new material.
-     * @default false
-     */
-    needsUpdate: boolean;
-
-    /**
      * Opacity. Default is 1.
      * @default 1
      */
@@ -353,7 +341,8 @@ export class Material<TE extends MaterialEventMap = MaterialEventMap> extends Ev
 
     /**
      * Defines whether this material is tone mapped according to the renderer's
-     * {@link WebGLRenderer.toneMapping toneMapping} setting. It is ignored when rendering to a render target.
+     * {@link WebGLRenderer.toneMapping toneMapping} setting. It is ignored when rendering to a render target or using
+     * post processing.
      * @default true
      */
     toneMapped: boolean;
@@ -401,20 +390,27 @@ export class Material<TE extends MaterialEventMap = MaterialEventMap> extends Ev
     version: number;
 
     /**
-     * Return a new material with the same parameters as this material.
+     * Gets the alpha value to be used when running an alpha test. Default is 0.
+     * @default 0
      */
-    clone(): this;
+    get alphaTest(): number;
 
     /**
-     * Copy the parameters from the passed material into this material.
-     * @param material
+     * Sets the alpha value to be used when running an alpha test. Default is 0.
+     * @default 0
      */
-    copy(material: Material): this;
+    set alphaTest(value: number);
 
-    /**
-     * This disposes the material. Textures of a material don't get disposed. These needs to be disposed by {@link Texture}.
-     */
-    dispose(): void;
+    onBuild(object: Object3D, parameters: WebGLProgramParametersWithUniforms, renderer: WebGLRenderer): void;
+
+    onBeforeRender(
+        renderer: WebGLRenderer,
+        scene: Scene,
+        camera: Camera,
+        geometry: BufferGeometry,
+        object: Object3D,
+        group: Group,
+    ): void;
 
     onAfterRender(
         renderer: WebGLRenderer,
@@ -433,14 +429,6 @@ export class Material<TE extends MaterialEventMap = MaterialEventMap> extends Ev
      */
     onBeforeCompile(parameters: WebGLProgramParametersWithUniforms, renderer: WebGLRenderer): void;
 
-    onBeforeRender(
-        renderer: WebGLRenderer,
-        scene: Scene,
-        camera: Camera,
-        geometry: BufferGeometry,
-        object: Object3D,
-    ): void;
-
     /**
      * In case onBeforeCompile is used, this callback can be used to identify values of settings used in onBeforeCompile, so three.js can reuse a cached shader or recompile the shader as needed.
      */
@@ -457,4 +445,27 @@ export class Material<TE extends MaterialEventMap = MaterialEventMap> extends Ev
      * @param meta Object containing metadata such as textures or images for the material.
      */
     toJSON(meta?: any): any;
+
+    /**
+     * Return a new material with the same parameters as this material.
+     */
+    clone(): this;
+
+    /**
+     * Copy the parameters from the passed material into this material.
+     * @param material
+     */
+    copy(material: Material): this;
+
+    /**
+     * This disposes the material. Textures of a material don't get disposed. These needs to be disposed by {@link Texture}.
+     */
+    dispose(): void;
+
+    /**
+     * Specifies that the material needs to be updated, WebGL wise. Set it to true if you made changes that need to be reflected in WebGL.
+     * This property is automatically set to true when instancing a new material.
+     * @default false
+     */
+    set needsUpdate(value: boolean);
 }

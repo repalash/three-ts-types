@@ -68,7 +68,7 @@ export interface WebGLRendererParameters {
     antialias?: boolean | undefined;
 
     /**
-     * default is true.
+     * default is false.
      */
     stencil?: boolean | undefined;
 
@@ -180,7 +180,7 @@ export class WebGLRenderer implements Renderer {
     /**
      * @default []
      */
-    clippingPlanes: readonly Plane[];
+    clippingPlanes: Plane[];
 
     /**
      * @default false
