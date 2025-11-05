@@ -5,45 +5,47 @@ import { MeshStandardMaterial, MeshStandardMaterialParameters } from "./MeshStan
 import { MaterialEventMap } from "./Material.js";
 
 export interface MeshPhysicalMaterialParameters extends MeshStandardMaterialParameters {
-    clearcoat?: number | undefined;
+    anisotropyRotation?: number | undefined;
+    anisotropyMap?: Texture | null | undefined;
+
     clearcoatMap?: Texture | null | undefined;
     clearcoatRoughness?: number | undefined;
     clearcoatRoughnessMap?: Texture | null | undefined;
     clearcoatNormalScale?: Vector2 | undefined;
     clearcoatNormalMap?: Texture | null | undefined;
 
-    reflectivity?: number | undefined;
     ior?: number | undefined;
 
-    sheen?: number | undefined;
+    reflectivity?: number | undefined;
+
+    iridescenceMap?: Texture | null | undefined;
+    iridescenceIOR?: number | undefined;
+    iridescenceThicknessRange?: [number, number] | undefined;
+    iridescenceThicknessMap?: Texture | null | undefined;
+
     sheenColor?: ColorRepresentation | undefined;
     sheenColorMap?: Texture | null | undefined;
     sheenRoughness?: number | undefined;
     sheenRoughnessMap?: Texture | null | undefined;
 
-    transmission?: number | undefined;
     transmissionMap?: Texture | null | undefined;
 
     thickness?: number | undefined;
     thicknessMap?: Texture | null | undefined;
-
     attenuationDistance?: number | undefined;
     attenuationColor?: ColorRepresentation | undefined;
 
     specularIntensity?: number | undefined;
-    specularColor?: ColorRepresentation | undefined;
     specularIntensityMap?: Texture | null | undefined;
+    specularColor?: ColorRepresentation | undefined;
     specularColorMap?: Texture | null | undefined;
 
-    iridescenceMap?: Texture | null | undefined;
-    iridescenceIOR?: number | undefined;
-    iridescence?: number | undefined;
-    iridescenceThicknessRange?: [number, number] | undefined;
-    iridescenceThicknessMap?: Texture | null | undefined;
-
     anisotropy?: number | undefined;
-    anisotropyRotation?: number | undefined;
-    anisotropyMap?: Texture | null | undefined;
+    clearcoat?: number | undefined;
+    iridescence?: number | undefined;
+    dispersion?: number | undefined;
+    sheen?: number | undefined;
+    transmission?: number | undefined;
 }
 
 export class MeshPhysicalMaterial<TE extends MaterialEventMap = MaterialEventMap> extends MeshStandardMaterial<TE> {
@@ -57,19 +59,24 @@ export class MeshPhysicalMaterial<TE extends MaterialEventMap = MaterialEventMap
     readonly isMeshPhysicalMaterial: true;
 
     /**
-     * @default 'MeshPhysicalMaterial'
-     */
-    type: string;
-
-    /**
      * @default { 'STANDARD': '', 'PHYSICAL': '' }
      */
     defines: { [key: string]: any };
 
     /**
+     * @default 'MeshPhysicalMaterial'
+     */
+    type: string;
+
+    /**
      * @default 0
      */
-    clearcoat: number;
+    anisotropyRotation?: number;
+
+    /**
+     * @default null
+     */
+    anisotropyMap?: Texture | null;
 
     /**
      * @default null
@@ -97,19 +104,35 @@ export class MeshPhysicalMaterial<TE extends MaterialEventMap = MaterialEventMap
     clearcoatNormalMap: Texture | null;
 
     /**
-     * @default 0.5
-     */
-    reflectivity: number;
-
-    /**
      * @default 1.5
      */
     ior: number;
 
     /**
-     * @default 0.0
+     * @default 0.5
      */
-    sheen: number;
+    get reflectivity(): number;
+    set reflectivity(reflectivity: number);
+
+    /**
+     * @default null
+     */
+    iridescenceMap: Texture | null;
+
+    /**
+     * @default 1.3
+     */
+    iridescenceIOR: number;
+
+    /**
+     * @default [100, 400]
+     */
+    iridescenceThicknessRange: [number, number];
+
+    /**
+     * @default null
+     */
+    iridescenceThicknessMap: Texture | null;
 
     /**
      * @default Color( 0x000000 )
@@ -130,11 +153,6 @@ export class MeshPhysicalMaterial<TE extends MaterialEventMap = MaterialEventMap
      * @default null
      */
     sheenRoughnessMap: Texture | null;
-
-    /**
-     * @default 0
-     */
-    transmission: number;
 
     /**
      * @default null
@@ -167,6 +185,11 @@ export class MeshPhysicalMaterial<TE extends MaterialEventMap = MaterialEventMap
     specularIntensity: number;
 
     /**
+     * @default null
+     */
+    specularIntensityMap: Texture | null;
+
+    /**
      * @default Color(1, 1, 1)
      */
     specularColor: Color;
@@ -174,50 +197,41 @@ export class MeshPhysicalMaterial<TE extends MaterialEventMap = MaterialEventMap
     /**
      * @default null
      */
-    specularIntensityMap: Texture | null;
-
-    /**
-     * @default null
-     */
     specularColorMap: Texture | null;
 
     /**
-     * @default null
+     * @default 0
      */
-    iridescenceMap: Texture | null;
-
-    /**
-     * @default 1.3
-     */
-    iridescenceIOR: number;
+    get anisotropy(): number;
+    set anisotropy(value: number);
 
     /**
      * @default 0
      */
-    iridescence: number;
-
-    /**
-     * @default [100, 400]
-     */
-    iridescenceThicknessRange: [number, number];
-
-    /**
-     * @default null
-     */
-    iridescenceThicknessMap: Texture | null;
+    get clearcoat(): number;
+    set clearcoat(value: number);
 
     /**
      * @default 0
      */
-    anisotropy?: number;
+    get iridescence(): number;
+    set iridescence(value: number);
 
     /**
      * @default 0
      */
-    anisotropyRotation?: number;
+    get dispersion(): number;
+    set dispersion(value: number);
 
     /**
-     * @default null
+     * @default 0.0
      */
-    anisotropyMap?: Texture | null;
+    get sheen(): number;
+    set sheen(value: number);
+
+    /**
+     * @default 0
+     */
+    get transmission(): number;
+    set transmission(value: number);
 }

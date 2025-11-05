@@ -1,3 +1,4 @@
 packages:
   - 'examples-testing'
+  - 'src-testing'
   - 'types/three'

@@ -1,6 +1,35 @@
+import { JSONMeta, Object3DJSON, Object3DJSONObject } from "../core/Object3D.js";
 import { Vector2 } from "../math/Vector2.js";
 import { Camera } from "./Camera.js";
 import { Object3DEventMap } from "../core/Object3D";
+
+export interface PerspectiveCameraJSONObject extends Object3DJSONObject {
+    fov: number;
+    zoom: number;
+
+    near: number;
+    far: number;
+    focus: number;
+
+    aspect: number;
+
+    view?: {
+        enabled: boolean;
+        fullWidth: number;
+        fullHeight: number;
+        offsetX: number;
+        offsetY: number;
+        width: number;
+        height: number;
+    };
+
+    filmGauge: number;
+    filmOffset: number;
+}
+
+export interface PerspectiveCameraJSON extends Object3DJSON {
+    object: PerspectiveCameraJSONObject;
+}
 
 /**
  * Camera that uses {@link https://en.wikipedia.org/wiki/Perspective_(graphical) | perspective projection}.
@@ -221,4 +250,6 @@ export class PerspectiveCamera<TEventMap extends Object3DEventMap = Object3DEven
      * @deprecated Use {@link PerspectiveCamera.setFocalLength | .setFocalLength()} and {@link PerspectiveCamera.filmGauge | .filmGauge} instead.
      */
     setLens(focalLength: number, frameHeight?: number): void;
+
+    toJSON(meta?: JSONMeta): PerspectiveCameraJSON;
 }

@@ -1,5 +1,30 @@
+import { JSONMeta, Object3DJSON, Object3DJSONObject } from "../core/Object3D.js";
 import { Camera } from "./Camera.js";
 import { Object3DEventMap } from "../core/Object3D";
+
+export interface OrthographicCameraJSONObject extends Object3DJSONObject {
+    zoom: number;
+    left: number;
+    right: number;
+    top: number;
+    bottom: number;
+    near: number;
+    far: number;
+
+    view?: {
+        enabled: boolean;
+        fullWidth: number;
+        fullHeight: number;
+        offsetX: number;
+        offsetY: number;
+        width: number;
+        height: number;
+    };
+}
+
+export interface OrthographicCameraJSON extends Object3DJSON {
+    object: OrthographicCameraJSONObject;
+}
 
 /**
  * Camera that uses {@link https://en.wikipedia.org/wiki/Orthographic_projection | orthographic projection}.
@@ -145,4 +170,6 @@ export class OrthographicCamera<TEventMap extends Object3DEventMap = Object3DEve
      * Removes any offset set by the {@link setViewOffset | .setViewOffset} method.
      */
     clearViewOffset(): void;
+
+    toJSON(meta?: JSONMeta): OrthographicCameraJSON;
 }

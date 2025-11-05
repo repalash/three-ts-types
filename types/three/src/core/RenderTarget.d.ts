@@ -55,14 +55,27 @@ export class RenderTarget<TTexture extends Texture = Texture> extends EventDispa
     depthBuffer: boolean;
 
     /**
-     * @default true
+     * @default false
      */
     stencilBuffer: boolean;
 
     /**
+     * Defines whether the depth buffer should be resolved when rendering into a multisampled render target.
+     * @default true
+     */
+    resolveDepthBuffer: boolean;
+
+    /**
+     * Defines whether the stencil buffer should be resolved when rendering into a multisampled render target.
+     * This property has no effect when {@link .resolveDepthBuffer} is set to `false`.
+     * @default true
+     */
+    resolveStencilBuffer: boolean;
+
+    /**
      * @default null
      */
-    depthTexture: DepthTexture;
+    depthTexture: DepthTexture | null;
 
     /**
      * Defines the count of MSAA samples. Can only be used with WebGL 2. Default is **0**.

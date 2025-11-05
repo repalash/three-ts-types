@@ -63,7 +63,6 @@ export class EventDispatcher<TEventMap extends {} = {}> {
         type: T,
         listener: EventListener<TEventMap[T], T, this>,
     ): void;
-    addEventListener<T extends string>(type: T, listener: EventListener<{}, T, this>): void;
 
     /**
      * Checks if listener is added to an event type.
@@ -74,7 +73,6 @@ export class EventDispatcher<TEventMap extends {} = {}> {
         type: T,
         listener: EventListener<TEventMap[T], T, this>,
     ): boolean;
-    hasEventListener<T extends string>(type: T, listener: EventListener<{}, T, this>): boolean;
 
     /**
      * Removes a listener from an event type.
@@ -85,7 +83,6 @@ export class EventDispatcher<TEventMap extends {} = {}> {
         type: T,
         listener: EventListener<TEventMap[T], T, this>,
     ): void;
-    removeEventListener<T extends string>(type: T, listener: EventListener<{}, T, this>): void;
 
     /**
      * Fire an event type.
