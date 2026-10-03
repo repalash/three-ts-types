@@ -1,6 +1,6 @@
 import { CoordinateSystem } from "../constants.js";
 import { Layers } from "../core/Layers.js";
-import { Object3D } from "../core/Object3D.js";
+import { Object3D, Object3DEventMap } from "../core/Object3D.js";
 import { Matrix4 } from "../math/Matrix4.js";
 import { Vector3 } from "../math/Vector3.js";
 import { Vector4 } from "../math/Vector4.js";
@@ -12,7 +12,7 @@ import { Vector4 } from "../math/Vector4.js";
  * @see {@link https://threejs.org/docs/index.html#api/en/cameras/Camera | Official Documentation}
  * @see {@link https://github.com/mrdoob/three.js/blob/master/src/cameras/Camera.js | Source}
  */
-export class Camera extends Object3D {
+export class Camera<TEventMap extends Object3DEventMap = Object3DEventMap> extends Object3D<TEventMap> {
     /**
      * @remarks
      * Note that this class is not intended to be called directly; you probably want a

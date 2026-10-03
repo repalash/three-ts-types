@@ -1,11 +1,23 @@
-import { EdgesGeometry, InstancedBufferGeometry, LineSegments, Mesh, WireframeGeometry } from "three";
+import {
+    BufferGeometryEventMap,
+    EdgesGeometry,
+    InstancedBufferGeometry,
+    LineSegments,
+    Mesh,
+    NormalBufferAttributes,
+    NormalOrGLBufferAttributes,
+    WireframeGeometry,
+} from "three";
 
 /**
  * A series of vertex pairs, forming line segments.
  *
  * This is used in {@link LineSegments2} to describe the shape.
  */
-export class LineSegmentsGeometry extends InstancedBufferGeometry {
+export class LineSegmentsGeometry<
+    Attributes extends NormalOrGLBufferAttributes = NormalBufferAttributes,
+    TE extends BufferGeometryEventMap = BufferGeometryEventMap,
+> extends InstancedBufferGeometry<Attributes, TE> {
     /**
      * Read-only flag to check if a given object is of type LineSegmentsGeometry.
      */
