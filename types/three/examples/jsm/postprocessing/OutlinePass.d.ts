@@ -48,7 +48,7 @@ export class OutlinePass extends Pass {
     materialCopy: ShaderMaterial;
     oldClearColor: Color;
     oldClearAlpha: number;
-    fsQuad: FullScreenQuad;
+    _fsQuad: FullScreenQuad; // three-modded: the JS has used _fsQuad since r175 (upstream typings still say fsQuad)
     tempPulseColor1: Color;
     tempPulseColor2: Color;
     textureMatrix: Matrix4;

@@ -43,7 +43,7 @@ export class SSAOPass extends Pass {
     blurMaterial: ShaderMaterial;
     depthRenderMaterial: ShaderMaterial;
     copyMaterial: ShaderMaterial;
-    fsQuad: FullScreenQuad;
+    _fsQuad: FullScreenQuad; // three-modded: the JS has used _fsQuad since r175 (upstream typings still say fsQuad)
     originalClearColor: Color;
 
     static OUTPUT: typeof SSAOPassOUTPUT;

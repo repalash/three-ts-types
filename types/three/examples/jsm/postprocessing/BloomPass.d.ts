@@ -10,5 +10,5 @@ export class BloomPass extends Pass {
     materialCopy: ShaderMaterial;
     convolutionUniforms: object;
     materialConvolution: ShaderMaterial;
-    fsQuad: FullScreenQuad;
+    _fsQuad: FullScreenQuad; // three-modded: the JS has used _fsQuad since r175 (upstream typings still say fsQuad)
 }
