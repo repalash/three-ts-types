@@ -10,9 +10,18 @@
         "strictFunctionTypes": true,
         "strictNullChecks": true,
         "types": [],
+        "baseUrl": ".",
+        "paths": {
+            "three": ["index.d.ts"],
+            "three/*": ["./*"]
+        },
         "noEmit": true,
-        "forceConsistentCasingInFileNames": true
+        "forceConsistentCasingInFileNames": true,
     },
+    "include": [
+        "examples/**/*.d.ts",
+        "src/**/*.d.ts"
+    ],
     "files": [
         "index.d.ts",
         "three-tests.ts",
