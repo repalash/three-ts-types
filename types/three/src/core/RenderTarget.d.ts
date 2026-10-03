@@ -3,6 +3,7 @@ import { DepthTexture } from "../textures/DepthTexture.js";
 import { Texture, TextureParameters } from "../textures/Texture.js";
 import { EventDispatcher } from "./EventDispatcher.js";
 
+// these shouldn't be undefined. can be not defined
 export interface RenderTargetOptions extends TextureParameters {
     depthBuffer?: boolean | undefined; // true
     stencilBuffer?: boolean | undefined; // false

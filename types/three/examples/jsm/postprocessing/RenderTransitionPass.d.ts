@@ -3,7 +3,7 @@ import { FullScreenQuad, Pass } from "./Pass.js";
 
 export class RenderTransitionPass extends Pass {
     material: ShaderMaterial;
-    fsQuad: FullScreenQuad;
+    _fsQuad: FullScreenQuad; // three-modded: the JS has used _fsQuad since r175 (upstream typings still say fsQuad)
 
     sceneA: Object3D;
     cameraA: Camera;

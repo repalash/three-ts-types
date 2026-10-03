@@ -31,7 +31,8 @@ export interface TextureParameters {
     format?: PixelFormat | undefined;
     internalFormat?: PixelFormatGPU | null | undefined;
     type?: TextureDataType | undefined;
-    colorSpace?: ColorSpace | undefined;
+    // three-modded: custom colour spaces (RGBM16, Display P3) are registered at runtime; Texture.colorSpace is already string
+    colorSpace?: string | undefined;
 
     magFilter?: MagnificationTextureFilter | undefined;
     minFilter?: MinificationTextureFilter | undefined;
