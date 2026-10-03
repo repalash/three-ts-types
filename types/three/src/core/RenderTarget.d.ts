@@ -1,4 +1,5 @@
 import {
+    ColorSpace,
     MagnificationTextureFilter,
     MinificationTextureFilter,
     PixelFormatGPU,
@@ -10,6 +11,7 @@ import { DepthTexture } from "../textures/DepthTexture.js";
 import { Texture } from "../textures/Texture.js";
 import { EventDispatcher } from "./EventDispatcher.js";
 
+// these shouldn't be undefined. can be not defined
 export interface RenderTargetOptions {
     wrapS?: Wrapping | undefined;
     wrapT?: Wrapping | undefined;
@@ -19,7 +21,7 @@ export interface RenderTargetOptions {
     format?: number | undefined; // RGBAFormat
     type?: TextureDataType | undefined; // UnsignedByteType
     anisotropy?: number | undefined; // 1
-    colorSpace?: string | undefined;
+    colorSpace?: ColorSpace | undefined;
     internalFormat?: PixelFormatGPU | null | undefined; // null
     depthBuffer?: boolean | undefined; // true
     stencilBuffer?: boolean | undefined; // false
