@@ -1,7 +1,7 @@
 import { BufferAttributeJSON } from "./../core/BufferAttribute.js";
 import { BufferGeometry } from "../core/BufferGeometry.js";
 import { InstancedBufferAttribute } from "../core/InstancedBufferAttribute.js";
-import { JSONMeta, Object3DEventMap } from "../core/Object3D.js";
+import { JSONMeta, Object3D, Object3DEventMap } from "../core/Object3D.js";
 import { Material } from "../materials/Material.js";
 import { Box3 } from "../math/Box3.js";
 import { Color } from "../math/Color.js";
@@ -176,4 +176,6 @@ export class InstancedMesh<
     dispose(): this;
 
     toJSON(meta?: JSONMeta): InstancedMeshJSON;
+
+    copy(source: Object3D, recursive?: boolean): this;
 }

@@ -15,6 +15,10 @@ export const ZIP_COMPRESSION: 3;
 export interface EXRExporterParseOptions {
     compression?: number;
     type?: TextureDataType;
+    /**
+     * For WebGLMultipleRenderTargets only
+     */
+    textureIndex?: number;
 }
 
 export class EXRExporter {
