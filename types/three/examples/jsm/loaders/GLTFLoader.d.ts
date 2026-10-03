@@ -18,6 +18,15 @@ import {
     SkinnedMesh,
     Texture,
     TextureLoader,
+    DirectionalLight,
+    PointLight,
+    SpotLight,
+    MeshBasicMaterial,
+    MeshPhysicalMaterial,
+    LineBasicMaterial,
+    PointsMaterial,
+    PerspectiveCamera,
+    OrthographicCamera,
 } from "three";
 
 import { MeshoptDecoder } from "../libs/meshopt_decoder.module.js";
@@ -60,9 +69,23 @@ export class GLTFLoader extends Loader<GLTF> {
         path: string,
         onLoad: (gltf: GLTF) => void,
         onError?: (event: ErrorEvent) => void,
+        url?: string,
     ): void;
 
     parseAsync(data: ArrayBuffer | string, path: string): Promise<GLTF>;
+
+    static ObjectConstructors: {
+        DirectionalLight: typeof DirectionalLight;
+        PointLight: typeof PointLight;
+        SpotLight: typeof SpotLight;
+        MeshStandardMaterial: typeof MeshStandardMaterial;
+        MeshBasicMaterial: typeof MeshBasicMaterial;
+        MeshPhysicalMaterial: typeof MeshPhysicalMaterial;
+        LineBasicMaterial: typeof LineBasicMaterial;
+        PointsMaterial: typeof PointsMaterial;
+        PerspectiveCamera: typeof PerspectiveCamera;
+        OrthographicCamera: typeof OrthographicCamera;
+    };
 }
 
 export type GLTFReferenceType = "materials" | "nodes" | "textures" | "meshes";
@@ -150,4 +173,16 @@ export interface GLTFLoaderPlugin {
         | undefined;
     createNodeMesh?: ((nodeIndex: number) => Promise<Group | Mesh | SkinnedMesh> | null) | undefined;
     createNodeAttachment?: ((nodeIndex: number) => Promise<Object3D> | null) | undefined;
+}
+
+export class GLTFBinaryExtension {
+    constructor(data: ArrayBuffer);
+    name: string;
+    content: string; // content cannot be null, an error is thrown otherwise
+    body: ArrayBuffer | null;
+    header: {
+        magic: string;
+        version: number;
+        length: number;
+    };
 }

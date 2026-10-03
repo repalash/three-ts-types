@@ -163,6 +163,11 @@ declare class OrbitControls extends Controls<OrbitControlsEventMap> {
     autoRotateSpeed: number;
 
     /**
+     * Max number of updates in a second, set to 0 to disable throttling.
+     */
+    throttleUpdate: number;
+
+    /**
      * This object contains references to the keycodes for controlling camera panning. Default is the 4 arrow keys.
      */
     keys: { LEFT: string; UP: string; RIGHT: string; BOTTOM: string };
@@ -246,6 +251,10 @@ declare class OrbitControls extends Controls<OrbitControlsEventMap> {
      * if you want the auto-rotate speed to be independent of the frame rate (the refresh rate of the display).
      */
     update(deltaTime?: number | null): boolean;
+
+    zoomIn(delta: number): void;
+    zoomOut(delta: number): void;
+    stopDamping(): void;
 }
 
 export { OrbitControls };

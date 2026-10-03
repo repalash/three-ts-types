@@ -51,4 +51,13 @@ export class KTX2Loader extends Loader<CompressedTexture> {
      * Disposes the loader object, de-allocating any Web Workers created.
      */
     dispose(): this;
+
+    parse(
+        buffer: ArrayBuffer,
+        onLoad: (texture: CompressedTexture) => void,
+        onError?: (event: ErrorEvent) => void,
+    ): this;
+
+    createTexture(buffer: ArrayBuffer, config: any): Promise<CompressedTexture>;
+
 }

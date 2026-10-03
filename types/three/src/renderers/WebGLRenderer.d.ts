@@ -25,6 +25,9 @@ import { WebGLShadowMap } from "./webgl/WebGLShadowMap.js";
 import { WebGLState } from "./webgl/WebGLState.js";
 import { WebGLRenderTarget } from "./WebGLRenderTarget.js";
 import { WebXRManager } from "./webxr/WebXRManager.js";
+import { WebGLCubeMaps } from "./webgl/WebGLCubeMaps";
+import { WebGLCubeUVMaps } from "./webgl/WebGLCubeUVMaps";
+import { WebGLMaterials } from "./webgl/WebGLMaterials";
 
 export interface Renderer {
     domElement: HTMLCanvasElement;
@@ -218,6 +221,10 @@ export class WebGLRenderer implements Renderer {
     properties: WebGLProperties;
     renderLists: WebGLRenderLists;
     state: WebGLState;
+    background: /*WebGLBackground*/ any;
+    cubemaps: WebGLCubeMaps;
+    cubeuvmaps: WebGLCubeUVMaps;
+    materials: WebGLMaterials;
 
     xr: WebXRManager;
 
@@ -418,6 +425,7 @@ export class WebGLRenderer implements Renderer {
         height: number,
         buffer: TypedArray,
         activeCubeFaceIndex?: number,
+        textureIndex?: number,
     ): void;
 
     readRenderTargetPixelsAsync(
@@ -559,4 +567,8 @@ export class WebGLRenderer implements Renderer {
      * @deprecated Use {@link WebGLRenderer#setScissorTest .setScissorTest()} instead.
      */
     enableScissorTest(boolean: any): any;
+
+    onContextLost(event: WebGLContextEvent): void;
+
+    onContextRestore(event: WebGLContextEvent): void;
 }
