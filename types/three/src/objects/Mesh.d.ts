@@ -91,4 +91,6 @@ export class Mesh<
     getVertexPosition(index: number, target: Vector3): Vector3;
 
     toJSON(meta?: JSONMeta): MeshJSON;
+
+    copy(source: Object3D, recursive?: boolean): this;
 }

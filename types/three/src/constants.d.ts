@@ -675,6 +675,20 @@ export const TriangleFanDrawMode: 2;
 export type TrianglesDrawModes = typeof TrianglesDrawMode | typeof TriangleStripDrawMode | typeof TriangleFanDrawMode;
 
 ///////////////////////////////////////////////////////////////////////////////
+// Texture Encodings
+
+/** @deprecated Use {@link LinearSRGBColorSpace} or {@link NoColorSpace} in three.js r152+. */
+export const LinearEncoding: 3000;
+/** @deprecated Use {@link SRGBColorSpace} in three.js r152+. */
+export const sRGBEncoding: 3001;
+/**
+ * Texture Encodings.
+ * @see {@link https://threejs.org/docs/index.html#api/en/constants/Textures | Texture Constants}
+ * @deprecated Use {@link ColorSpace} in three.js r152+.
+ */
+export type TextureEncoding = typeof LinearEncoding | typeof sRGBEncoding;
+
+///////////////////////////////////////////////////////////////////////////////
 // Depth packing strategies
 
 export const BasicDepthPacking: 3200;
@@ -697,10 +711,12 @@ export type NormalMapTypes = typeof TangentSpaceNormalMap | typeof ObjectSpaceNo
 export const NoColorSpace: "";
 export const SRGBColorSpace: "srgb";
 export const LinearSRGBColorSpace: "srgb-linear";
+export const RGBM16ColorSpace: "rgbm-16";
 export type ColorSpace =
     | typeof NoColorSpace
     | typeof SRGBColorSpace
-    | typeof LinearSRGBColorSpace;
+    | typeof LinearSRGBColorSpace
+    | typeof RGBM16ColorSpace;
 
 export const LinearTransfer: "linear";
 export const SRGBTransfer: "srgb";
