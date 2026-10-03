@@ -21,6 +21,7 @@ export class UnrealBloomPass extends Pass {
     bloomTintColors: Vector3[];
     copyUniforms: object;
     blendMaterial: ShaderMaterial;
+    _fsQuad: FullScreenQuad; // three-modded: the JS has used _fsQuad since r175 (upstream typings leave it out as internal)
 
     constructor(resolution: Vector2, strength: number, radius: number, threshold: number);
 }

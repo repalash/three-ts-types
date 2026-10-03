@@ -18,6 +18,6 @@ export class BokehPass extends Pass {
     materialDepth: MeshDepthMaterial;
     materialBokeh: ShaderMaterial;
     uniforms: object;
-    fsQuad: FullScreenQuad;
+    _fsQuad: FullScreenQuad; // three-modded: the JS has used _fsQuad since r175 (upstream typings still say fsQuad)
     oldClearColor: Color;
 }

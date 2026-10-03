@@ -14,7 +14,7 @@ export class SMAAPass extends Pass {
     materialWeights: ShaderMaterial;
     uniformsBlend: object;
     materialBlend: ShaderMaterial;
-    fsQuad: FullScreenQuad;
+    _fsQuad: FullScreenQuad; // three-modded: the JS has used _fsQuad since r175 (upstream typings still say fsQuad)
 
     getAreaTexture(): string;
     getSearchTexture(): string;
