@@ -1,4 +1,4 @@
-import { AnimationClip, Material, Mesh, Object3D, Texture } from "three";
+import { AnimationClip, Material, Mesh, Object3D, Texture, BufferGeometry, PixelFormat } from "three";
 
 export interface GLTFExporterOptions {
     /**
@@ -45,6 +45,18 @@ export interface GLTFExporterOptions {
      * Export custom glTF extensions defined on an object's userData.gltfExtensions property. Default is false.
      */
     includeCustomExtensions?: boolean;
+
+    /**
+     * [Non-standard]
+     * If set to true, the exporter ignores clips with morph targets that it cannot export. Otherwise, an error is thrown.
+     */
+    ignoreInvalidMorphTargetTracks?: boolean;
+
+    /**
+     * [Non-standard]
+     * If set to true, the exporter ignores textures without `image`(`source.data`) property. Otherwise, an error is thrown.
+     */
+    ignoreEmptyTextures?: boolean;
 }
 
 type TextureUtils = {
@@ -84,12 +96,14 @@ declare class GLTFExporter {
      * @param onDone Will be called when the export completes. The argument will be the generated glTF JSON or binary ArrayBuffer.
      * @param onError Will be called if there are any errors during the gltf generation.
      * @param options Export options
+     * @param gltfWriter Optional custom GLTFWriter object
      */
     parse(
         input: Object3D | Object3D[],
         onDone: (gltf: ArrayBuffer | { [key: string]: unknown }) => void,
         onError: (error: ErrorEvent) => void,
         options?: GLTFExporterOptions,
+        gltfWriter?: GLTFWriter,
     ): void;
 
     /**
@@ -101,7 +115,11 @@ declare class GLTFExporter {
     parseAsync(
         input: Object3D | Object3D[],
         options?: GLTFExporterOptions,
-    ): Promise<ArrayBuffer | { [key: string]: unknown }>;
+    ): Promise<ArrayBuffer | { [key: string]: any }>; // three-modded: `any` as up to r168, so subclasses can resolve with other output (threepipe's GLTFExporter2 resolves with a Blob)
+
+    static Utils: {
+        GLTFWriter: typeof GLTFWriter;
+    };
 }
 
 declare class GLTFWriter {
@@ -141,15 +159,73 @@ declare class GLTFWriter {
         onDone: (gltf: ArrayBuffer | { [key: string]: unknown }) => void,
         options?: GLTFExporterOptions,
     ): Promise<void>;
+
+    serializeUserData(object: Object3D | Material | BufferGeometry, objectDef: { [key: string]: any }): void;
+
+    processObjectsAsync(objects: Object3D[]): Promise<void>;
+    processSceneAsync(scene: Object3D): Promise<void>;
+    processMaterialAsync(material: Material): Promise<number | null>;
+    processImage(
+        image: any,
+        format: PixelFormat,
+        flipY: boolean,
+        mimeType?: string,
+        width?: number,
+        height?: number,
+    ): number;
+    processBufferViewImage(blob: Blob): Promise<number>;
+    processSampler(map: Texture): number;
+    cache: {
+        textures: Map<Texture, number>;
+        materials: Map<Material, number>;
+        meshes: Map<Mesh, number>;
+        attributes: Map<BufferGeometry, { [key: string]: number }>;
+        attributesNormalized: Map<BufferGeometry, { [key: string]: boolean }>;
+        images: Map<any, any>;
+    };
+    json: {
+        asset: { [key: string]: any };
+        scenes: { [key: string]: any }[];
+        scene: number;
+        nodes: { [key: string]: any }[];
+        materials: { [key: string]: any }[];
+        meshes: { [key: string]: any }[];
+        cameras: { [key: string]: any }[];
+        skins: { [key: string]: any }[];
+        animations: { [key: string]: any }[];
+        images: { [key: string]: any }[];
+        textures: { [key: string]: any }[];
+        samplers: { [key: string]: any }[];
+        accessors: { [key: string]: any }[];
+        bufferViews: { [key: string]: any }[];
+        buffers: { [key: string]: any }[];
+        extensions: { [key: string]: any };
+        extensionsUsed: string[];
+        extensionsRequired: string[];
+    };
+    options: any;
+    pending: Promise<any>[];
+    plugins: GLTFExporterPlugin[];
+    processBufferViewImageBuffer(buffer: ArrayBuffer): number;
+
+    _invokeAllAsync(func: (plugin: GLTFExporterPlugin) => void | Promise<void>): Promise<void>;
+
+    /**
+     * [Non-standard]
+     * Checks whether a map is null or empty. (only if `ignoreEmptyTextures` is set)
+     * @param map
+     */
+    checkEmptyMap(map: Texture): boolean;
 }
 
 export interface GLTFExporterPlugin {
     writeTexture?: (map: Texture, textureDef: { [key: string]: unknown }) => void;
     writeMaterialAsync?: (material: Material, materialDef: { [key: string]: unknown }) => Promise<void>;
-    writeMesh?: (mesh: Mesh, meshDef: { [key: string]: unknown }) => void;
-    writeNode?: (object: Object3D, nodeDef: { [key: string]: unknown }) => void;
-    beforeParse?: (input: Object3D | Object3D[]) => void;
-    afterParse?: (input: Object3D | Object3D[]) => void;
+    // three-modded: every hook may return a promise, the writer awaits it
+    writeMesh?: (mesh: Mesh, meshDef: { [key: string]: unknown }) => void | Promise<void>;
+    writeNode?: (object: Object3D, nodeDef: { [key: string]: unknown }) => void | Promise<void>;
+    beforeParse?: (input: Object3D | Object3D[]) => void | Promise<void>;
+    afterParse?: (input: Object3D | Object3D[]) => void | Promise<void>;
 }
 
 export { GLTFExporter };
