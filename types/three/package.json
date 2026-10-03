@@ -1,11 +1,22 @@
 {
-    "private": true,
-    "name": "@types/three",
-    "version": "0.168.9999",
+    "name": "three-types-modded",
+    "version": "0.168.10003",
     "projects": [
         "https://threejs.org/"
     ],
+    "types": "./index.d.ts",
     "type": "module",
+    "files": [
+        "build",
+        "examples",
+        "src",
+        "index.d.ts"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/repalash/three-ts-types"
+    },
+    "license": "MIT",
     "exports": {
         ".": {
             "import": "./build/three.module.js",
@@ -19,16 +30,15 @@
         "./webgpu": "./build/three.webgpu.js",
         "./tsl": "./build/three.webgpu.js"
     },
+    "scripts": {
+        "release": "git diff --exit-code && git tag publish@$npm_package_version && git push origin publish@$npm_package_version"
+    },
     "dependencies": {
         "@tweenjs/tween.js": "~23.1.3",
         "@types/stats.js": "*",
         "@types/webxr": "*",
         "@webgpu/types": "*",
-        "fflate": "~0.8.2",
         "meshoptimizer": "~0.18.1"
-    },
-    "devDependencies": {
-        "@types/three": "workspace:."
     },
     "owners": [
         {
