@@ -1,6 +1,6 @@
 import { Color, ColorRepresentation } from "../math/Color.js";
 import { Texture } from "../textures/Texture.js";
-import { Material, MaterialParameters } from "./Material.js";
+import { Material, MaterialEventMap, MaterialParameters } from "./Material.js";
 
 export interface LineBasicMaterialParameters extends MaterialParameters {
     color?: ColorRepresentation | undefined;
@@ -10,7 +10,7 @@ export interface LineBasicMaterialParameters extends MaterialParameters {
     linejoin?: string | undefined;
 }
 
-export class LineBasicMaterial extends Material {
+export class LineBasicMaterial<TE extends MaterialEventMap = MaterialEventMap> extends Material<TE> {
     constructor(parameters?: LineBasicMaterialParameters);
 
     /**

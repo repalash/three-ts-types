@@ -1,6 +1,7 @@
 import { LineGeometry } from "./LineGeometry.js";
 import { LineMaterial } from "./LineMaterial.js";
 import { LineSegments2 } from "./LineSegments2.js";
+import { Object3DEventMap } from "three";
 
 /**
  * A polyline drawn between vertices.
@@ -8,9 +9,13 @@ import { LineSegments2 } from "./LineSegments2.js";
  * This adds functionality beyond {@link Line}, like arbitrary line width and changing width to be in world units. It
  * extends {@link LineSegments2}, simplifying constructing segments from a chain of points.
  */
-export class Line2 extends LineSegments2 {
-    geometry: LineGeometry;
-    material: LineMaterial;
+export class Line2<
+    TGeometry extends LineGeometry = LineGeometry,
+    TMaterial extends LineMaterial = LineMaterial,
+    TEventMap extends Object3DEventMap = Object3DEventMap,
+> extends LineSegments2<TGeometry, TMaterial, TEventMap> {
+    geometry: TGeometry;
+    material: TMaterial;
 
     /**
      * Read-only flag to check if a given object is of type Line2.
