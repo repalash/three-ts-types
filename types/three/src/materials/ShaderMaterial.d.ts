@@ -7,7 +7,7 @@ import { Vector2Tuple } from "../math/Vector2.js";
 import { Vector3Tuple } from "../math/Vector3.js";
 import { Vector4Tuple } from "../math/Vector4.js";
 import { IUniform } from "../renderers/shaders/UniformsLib.js";
-import { MapColorPropertiesToColorRepresentations, Material, MaterialJSON, MaterialProperties } from "./Material.js";
+import { MapColorPropertiesToColorRepresentations, Material, MaterialEventMap, MaterialJSON, MaterialProperties } from "./Material.js";
 
 export interface ShaderMaterialProperties extends MaterialProperties {
     /**
@@ -226,7 +226,7 @@ export interface ShaderMaterialJSON extends MaterialJSON {
  * } );
  * ```
  */
-export class ShaderMaterial extends Material {
+export class ShaderMaterial<TE extends MaterialEventMap = MaterialEventMap> extends Material<TE> {
     /**
      * Constructs a new shader material.
      *
@@ -248,4 +248,4 @@ export class ShaderMaterial extends Material {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface ShaderMaterial extends ShaderMaterialProperties {}
+export interface ShaderMaterial<TE extends MaterialEventMap = MaterialEventMap> extends ShaderMaterialProperties {}

@@ -81,9 +81,14 @@ export class Scene<TEventMap extends Object3DEventMap = Object3DEventMap> extend
      *  - A {@link THREE.Color | Color} for defining a uniform colored background.
      *  - A {@link THREE.Texture | Texture} for defining a (flat) textured background.
      *  - Texture cubes ({@link THREE.CubeTexture | CubeTexture}) or equirectangular textures for defining a skybox.</li>
+     *  - A value 'environment' will force the background to be same as environment.</li>
      * @defaultValue `null`
      */
-    background: Color | Texture | CubeTexture | null;
+    background: Color | Texture | CubeTexture | 'environment' | null;
+    /**
+     * Custom property for background tint, or just background color rendered in the shader
+     */
+    backgroundColor?: Color | null;
 
     /**
      * The rotation of the background in radians. Only influences environment maps assigned to {@link .background}.

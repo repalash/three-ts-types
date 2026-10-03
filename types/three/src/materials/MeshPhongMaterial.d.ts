@@ -3,7 +3,7 @@ import { Color } from "../math/Color.js";
 import { Euler } from "../math/Euler.js";
 import { Vector2 } from "../math/Vector2.js";
 import { Texture } from "../textures/Texture.js";
-import { MapColorPropertiesToColorRepresentations, Material, MaterialProperties } from "./Material.js";
+import { MapColorPropertiesToColorRepresentations, Material, MaterialEventMap, MaterialProperties } from "./Material.js";
 
 export interface MeshPhongMaterialProperties extends MaterialProperties {
     /**
@@ -264,7 +264,7 @@ export interface MeshPhongMaterialParameters
  * {@link MeshStandardMaterial} or {@link MeshPhysicalMaterial}, at the cost of
  * some graphical accuracy.
  */
-export class MeshPhongMaterial extends Material {
+export class MeshPhongMaterial<TE extends MaterialEventMap = MaterialEventMap> extends Material<TE> {
     /**
      * Constructs a new mesh phong material.
      *
@@ -285,4 +285,4 @@ export class MeshPhongMaterial extends Material {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface MeshPhongMaterial extends MeshPhongMaterialProperties {}
+export interface MeshPhongMaterial<TE extends MaterialEventMap = MaterialEventMap> extends MeshPhongMaterialProperties {}

@@ -1,7 +1,7 @@
 import { Color } from "../math/Color.js";
 import { Vector2 } from "../math/Vector2.js";
 import { Texture } from "../textures/Texture.js";
-import { MapColorPropertiesToColorRepresentations } from "./Material.js";
+import { MapColorPropertiesToColorRepresentations, MaterialEventMap } from "./Material.js";
 import { MeshStandardMaterial, MeshStandardMaterialProperties } from "./MeshStandardMaterial.js";
 
 export interface MeshPhysicalMaterialProperties extends MeshStandardMaterialProperties {
@@ -276,7 +276,7 @@ export interface MeshPhysicalMaterialParameters
  * effects are disabled by default, and add cost as they are enabled. For
  * best results, always specify an environment map when using this material.
  */
-export class MeshPhysicalMaterial extends MeshStandardMaterial {
+export class MeshPhysicalMaterial<TE extends MaterialEventMap = MaterialEventMap> extends MeshStandardMaterial<TE> {
     constructor(parameters?: MeshPhysicalMaterialParameters);
     /**
      * This flag can be used for type testing.
@@ -288,4 +288,4 @@ export class MeshPhysicalMaterial extends MeshStandardMaterial {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface MeshPhysicalMaterial extends MeshPhysicalMaterialProperties {}
+export interface MeshPhysicalMaterial<TE extends MaterialEventMap = MaterialEventMap> extends MeshPhysicalMaterialProperties {}
