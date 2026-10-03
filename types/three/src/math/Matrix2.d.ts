@@ -1,8 +1,13 @@
 export type Matrix2Tuple = [
     n11: number,
     n12: number,
+    n13: number,
     n21: number,
     n22: number,
+    n23: number,
+    n31: number,
+    n32: number,
+    n33: number,
 ];
 
 /**
