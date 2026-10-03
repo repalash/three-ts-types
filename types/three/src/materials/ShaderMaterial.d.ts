@@ -7,7 +7,7 @@ import { Vector2Tuple } from "../math/Vector2.js";
 import { Vector3Tuple } from "../math/Vector3.js";
 import { Vector4Tuple } from "../math/Vector4.js";
 import { IUniform } from "../renderers/shaders/UniformsLib.js";
-import { Material, MaterialJSON, MaterialParameters } from "./Material.js";
+import { Material, MaterialJSON, MaterialParameters, MaterialEventMap } from "./Material.js";
 
 export interface ShaderMaterialParameters extends MaterialParameters {
     uniforms?: { [uniform: string]: IUniform } | undefined;
@@ -69,7 +69,7 @@ export interface ShaderMaterialJSON extends MaterialJSON {
     extensions?: Record<string, boolean>;
 }
 
-export class ShaderMaterial extends Material {
+export class ShaderMaterial<TE extends MaterialEventMap = MaterialEventMap> extends Material<TE> {
     constructor(parameters?: ShaderMaterialParameters);
 
     /**

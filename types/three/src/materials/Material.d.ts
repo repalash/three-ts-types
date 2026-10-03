@@ -30,14 +30,14 @@ export interface MaterialParameters {
     blendAlpha?: number | undefined;
     blendColor?: ColorRepresentation | undefined;
     blendDst?: BlendingDstFactor | undefined;
-    blendDstAlpha?: number | undefined;
+    blendDstAlpha?: number | undefined | null;
     blendEquation?: BlendingEquation | undefined;
-    blendEquationAlpha?: number | undefined;
+    blendEquationAlpha?: number | undefined | null;
     blending?: Blending | undefined;
     blendSrc?: BlendingSrcFactor | BlendingDstFactor | undefined;
-    blendSrcAlpha?: number | undefined;
+    blendSrcAlpha?: number | undefined | null;
     clipIntersection?: boolean | undefined;
-    clippingPlanes?: Plane[] | undefined;
+    clippingPlanes?: Plane[] | undefined | null;
     clipShadows?: boolean | undefined;
     colorWrite?: boolean | undefined;
     defines?: any;
@@ -55,7 +55,7 @@ export interface MaterialParameters {
     allowOverride?: boolean | undefined;
     dithering?: boolean | undefined;
     side?: Side | undefined;
-    shadowSide?: Side | undefined;
+    shadowSide?: Side | undefined | null;
     toneMapped?: boolean | undefined;
     transparent?: boolean | undefined;
     vertexColors?: boolean | undefined;
@@ -231,10 +231,14 @@ export interface MaterialJSON {
     images?: SourceJSON[];
 }
 
+export interface MaterialEventMap {
+    dispose: {};
+}
+
 /**
  * Materials describe the appearance of objects. They are defined in a (mostly) renderer-independent way, so you don't have to rewrite materials if you decide to use a different renderer.
  */
-export class Material extends EventDispatcher<{ dispose: {} }> {
+export class Material<TE extends MaterialEventMap = MaterialEventMap> extends EventDispatcher<TE> {
     constructor();
 
     /**
@@ -565,6 +569,15 @@ export class Material extends EventDispatcher<{ dispose: {} }> {
      * This callback is only supported in `WebGLRenderer` (not `WebGPURenderer`).
      */
     onBeforeRender(
+        renderer: WebGLRenderer,
+        scene: Scene,
+        camera: Camera,
+        geometry: BufferGeometry,
+        object: Object3D,
+        group: Group,
+    ): void;
+
+    onAfterRender(
         renderer: WebGLRenderer,
         scene: Scene,
         camera: Camera,
