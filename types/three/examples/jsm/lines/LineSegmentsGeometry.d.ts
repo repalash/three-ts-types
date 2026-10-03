@@ -1,16 +1,29 @@
-import { EdgesGeometry, InstancedBufferGeometry, LineSegments, Matrix4, Mesh, WireframeGeometry } from "three";
+import {
+    BufferGeometryEventMap,
+    EdgesGeometry,
+    InstancedBufferGeometry,
+    LineSegments,
+    Matrix4,
+    Mesh,
+    NormalBufferAttributes,
+    NormalOrGLBufferAttributes,
+    WireframeGeometry
+} from "three";
 
-export class LineSegmentsGeometry extends InstancedBufferGeometry {
+export class LineSegmentsGeometry<
+    Attributes extends NormalOrGLBufferAttributes = NormalBufferAttributes,
+    TE extends BufferGeometryEventMap = BufferGeometryEventMap,
+> extends InstancedBufferGeometry<Attributes, TE> {
     constructor();
     readonly isLineSegmentsGeometry: true;
 
-    applyMatrix4(matrix: Matrix4): this;
+    applyMatrix4(matrix: Matrix4): LineSegmentsGeometry;
     computeBoundingBox(): void;
     computeBoundingSphere(): void;
-    fromEdgesGeometry(geometry: EdgesGeometry): this;
-    fromLineSegments(lineSegments: LineSegments): this;
-    fromMesh(mesh: Mesh): this;
-    fromWireframeGeometry(geometry: WireframeGeometry): this;
-    setColors(array: number[] | Float32Array): this;
-    setPositions(array: number[] | Float32Array): this;
+    fromEdgesGeometry(geometry: EdgesGeometry): LineSegmentsGeometry;
+    fromLineSegments(lineSegments: LineSegments): LineSegmentsGeometry;
+    fromMesh(mesh: Mesh): LineSegmentsGeometry;
+    fromWireframeGeometry(geometry: WireframeGeometry): LineSegmentsGeometry;
+    setColors(array: number[] | Float32Array): LineSegmentsGeometry;
+    setPositions(array: number[] | Float32Array): LineSegmentsGeometry;
 }

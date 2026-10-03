@@ -1,8 +1,16 @@
-import { Line } from "three";
+import {
+    BufferGeometryEventMap,
+    Line,
+    NormalBufferAttributes,
+    NormalOrGLBufferAttributes,
+} from "three";
 
 import { LineSegmentsGeometry } from "./LineSegmentsGeometry.js";
 
-export class LineGeometry extends LineSegmentsGeometry {
+export class LineGeometry<
+    Attributes extends NormalOrGLBufferAttributes = NormalBufferAttributes,
+    TE extends BufferGeometryEventMap = BufferGeometryEventMap,
+> extends LineSegmentsGeometry<Attributes, TE> {
     constructor();
     readonly isLineGeometry: true;
 

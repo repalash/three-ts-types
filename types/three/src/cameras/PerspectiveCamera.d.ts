@@ -1,6 +1,7 @@
 import { JSONMeta, Object3DJSON, Object3DJSONObject } from "../core/Object3D.js";
 import { Vector2 } from "../math/Vector2.js";
 import { Camera } from "./Camera.js";
+import { Object3DEventMap } from "../core/Object3D";
 
 export interface PerspectiveCameraJSONObject extends Object3DJSONObject {
     fov: number;
@@ -48,7 +49,7 @@ export interface PerspectiveCameraJSON extends Object3DJSON {
  * @see {@link https://threejs.org/docs/index.html#api/en/cameras/PerspectiveCamera | Official Documentation}
  * @see {@link https://github.com/mrdoob/three.js/blob/master/src/cameras/PerspectiveCamera.js | Source}
  */
-export class PerspectiveCamera extends Camera {
+export class PerspectiveCamera<TEventMap extends Object3DEventMap = Object3DEventMap> extends Camera<TEventMap> {
     /**
      * Creates a new {@link PerspectiveCamera}.
      * @remarks Together these define the camera's {@link https://en.wikipedia.org/wiki/Viewing_frustum | viewing frustum}.
