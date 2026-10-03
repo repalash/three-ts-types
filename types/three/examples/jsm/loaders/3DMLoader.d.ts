@@ -1,4 +1,4 @@
-import { Loader, LoadingManager, Object3D } from "three";
+import { Loader, LoadingManager, Material, Object3D } from "three";
 
 export class Rhino3dmLoader extends Loader<Object3D> {
     constructor(manager?: LoadingManager);
@@ -7,4 +7,6 @@ export class Rhino3dmLoader extends Loader<Object3D> {
     setLibraryPath(path: string): Rhino3dmLoader;
     setWorkerLimit(workerLimit: number): Rhino3dmLoader;
     dispose(): Rhino3dmLoader;
+
+    protected _createMaterial(material: any): Material;
 }
