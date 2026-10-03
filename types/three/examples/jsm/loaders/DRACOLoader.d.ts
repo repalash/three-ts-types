@@ -22,4 +22,5 @@ export class DRACOLoader extends Loader<BufferGeometry> {
 
     preload(): DRACOLoader;
     dispose(): DRACOLoader;
+    _loadLibrary(url: string, responseType: string): Promise<any>;
 }

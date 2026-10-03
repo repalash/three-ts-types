@@ -79,6 +79,23 @@ export interface Object3DEventMap {
      * Fires when a new child object has been removed.
      */
     childremoved: { child: Object3D };
+
+    beforeRender: {
+        renderer: WebGLRenderer;
+        scene: Scene;
+        camera: Camera;
+        geometry: BufferGeometry;
+        material: Material;
+        group: Group;
+    };
+    afterRender: {
+        renderer: WebGLRenderer;
+        scene: Scene;
+        camera: Camera;
+        geometry: BufferGeometry;
+        material: Material;
+        group: Group;
+    };
 }
 
 /**
@@ -112,7 +129,7 @@ export class Object3D<TEventMap extends Object3DEventMap = Object3DEventMap> ext
      * {@link http://en.wikipedia.org/wiki/Universally_unique_identifier | UUID} of this object instance.
      * @remarks This gets automatically assigned and shouldn't be edited.
      */
-    uuid: string;
+    readonly uuid: string;
 
     /**
      * Optional name of the object
