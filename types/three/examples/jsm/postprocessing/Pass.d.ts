@@ -12,10 +12,10 @@ export class Pass {
     setSize(width: number, height: number): void;
     render(
         renderer: WebGLRenderer,
-        writeBuffer: WebGLRenderTarget,
-        readBuffer: WebGLRenderTarget,
-        deltaTime: number,
-        maskActive: boolean,
+        writeBuffer: WebGLRenderTarget | null,
+        readBuffer?: WebGLRenderTarget,
+        deltaTime?: number,
+        maskActive?: boolean,
     ): void;
 
     dispose(): void;
