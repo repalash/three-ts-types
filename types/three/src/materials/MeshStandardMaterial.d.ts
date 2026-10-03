@@ -3,7 +3,7 @@ import { Color, ColorRepresentation } from "../math/Color.js";
 import { Euler } from "../math/Euler.js";
 import { Vector2 } from "../math/Vector2.js";
 import { Texture } from "../textures/Texture.js";
-import { Material, MaterialParameters } from "./Material.js";
+import { Material, MaterialEventMap, MaterialParameters } from "./Material.js";
 
 export interface MeshStandardMaterialParameters extends MaterialParameters {
     color?: ColorRepresentation | undefined;
@@ -37,7 +37,7 @@ export interface MeshStandardMaterialParameters extends MaterialParameters {
     flatShading?: boolean | undefined;
 }
 
-export class MeshStandardMaterial extends Material {
+export class MeshStandardMaterial<TE extends MaterialEventMap = MaterialEventMap> extends Material<TE> {
     constructor(parameters?: MeshStandardMaterialParameters);
 
     /**

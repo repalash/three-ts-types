@@ -1,4 +1,9 @@
-import { Line } from "three";
+import {
+    BufferGeometryEventMap,
+    Line,
+    NormalBufferAttributes,
+    NormalOrGLBufferAttributes,
+} from "three";
 
 import { LineSegmentsGeometry } from "./LineSegmentsGeometry.js";
 
@@ -7,7 +12,10 @@ import { LineSegmentsGeometry } from "./LineSegmentsGeometry.js";
  *
  * This is used in {@link Line2} to describe the shape.
  */
-export class LineGeometry extends LineSegmentsGeometry {
+export class LineGeometry<
+    Attributes extends NormalOrGLBufferAttributes = NormalBufferAttributes,
+    TE extends BufferGeometryEventMap = BufferGeometryEventMap,
+> extends LineSegmentsGeometry<Attributes, TE> {
     /**
      * Read-only flag to check if a given object is of type LineGeometry.
      */
