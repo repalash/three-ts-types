@@ -3,7 +3,7 @@ import { Color } from "../math/Color.js";
 import { Euler } from "../math/Euler.js";
 import { Vector2 } from "../math/Vector2.js";
 import { Texture } from "../textures/Texture.js";
-import { MapColorPropertiesToColorRepresentations, Material, MaterialProperties } from "./Material.js";
+import { MapColorPropertiesToColorRepresentations, Material, MaterialEventMap, MaterialProperties } from "./Material.js";
 
 export interface MeshStandardMaterialProperties extends MaterialProperties {
     /**
@@ -276,7 +276,7 @@ export interface MeshStandardMaterialParameters
  * [paper from Disney]{@link https://media.disneyanimation.com/uploads/production/publication_asset/48/asset/s2012_pbs_disney_brdf_notes_v3.pdf}
  * (pdf), by Brent Burley.
  */
-export class MeshStandardMaterial extends Material {
+export class MeshStandardMaterial<TE extends MaterialEventMap = MaterialEventMap> extends Material<TE> {
     /**
      * Constructs a new mesh standard material.
      *
@@ -297,4 +297,4 @@ export class MeshStandardMaterial extends Material {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface MeshStandardMaterial extends MeshStandardMaterialProperties {}
+export interface MeshStandardMaterial<TE extends MaterialEventMap = MaterialEventMap> extends MeshStandardMaterialProperties {}

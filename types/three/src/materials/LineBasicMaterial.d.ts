@@ -1,6 +1,6 @@
 import { Color } from "../math/Color.js";
 import { Texture } from "../textures/Texture.js";
-import { MapColorPropertiesToColorRepresentations, Material, MaterialProperties } from "./Material.js";
+import { MapColorPropertiesToColorRepresentations, Material, MaterialEventMap, MaterialProperties } from "./Material.js";
 
 export interface LineBasicMaterialProperties extends MaterialProperties {
     /**
@@ -64,7 +64,7 @@ export interface LineBasicMaterialParameters
  * const material = new THREE.LineBasicMaterial( { color: 0xffffff } );
  * ```
  */
-export class LineBasicMaterial extends Material {
+export class LineBasicMaterial<TE extends MaterialEventMap = MaterialEventMap> extends Material<TE> {
     /**
      * Constructs a new line basic material.
      *
@@ -85,4 +85,4 @@ export class LineBasicMaterial extends Material {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface LineBasicMaterial extends LineBasicMaterialProperties {}
+export interface LineBasicMaterial<TE extends MaterialEventMap = MaterialEventMap> extends LineBasicMaterialProperties {}

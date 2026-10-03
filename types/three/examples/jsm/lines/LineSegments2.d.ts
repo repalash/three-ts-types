@@ -1,4 +1,4 @@
-import { Mesh, Vector2, WebGLRenderer } from "three";
+import { Mesh, Object3DEventMap, Vector2, WebGLRenderer } from "three";
 
 import { LineMaterial } from "./LineMaterial.js";
 import { LineSegmentsGeometry } from "./LineSegmentsGeometry.js";
@@ -9,9 +9,13 @@ import { LineSegmentsGeometry } from "./LineSegmentsGeometry.js";
  * This adds functionality beyond {@link LineSegments}, like arbitrary line width and changing width to be in world
  * units. The {@link Line2} extends this object, forming a polyline instead of individual segments.
  */
-export class LineSegments2 extends Mesh {
-    geometry: LineSegmentsGeometry;
-    material: LineMaterial;
+export class LineSegments2<
+    TGeometry extends LineSegmentsGeometry = LineSegmentsGeometry,
+    TMaterial extends LineMaterial = LineMaterial,
+    TEventMap extends Object3DEventMap = Object3DEventMap,
+> extends Mesh<TGeometry, TMaterial, TEventMap> {
+    geometry: TGeometry;
+    material: TMaterial;
 
     /**
      * Read-only flag to check if a given object is of type LineSegments2.

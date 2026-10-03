@@ -1,4 +1,4 @@
-import { JSONMeta, Object3D, Object3DJSON, Object3DJSONObject } from "../core/Object3D.js";
+import { JSONMeta, Object3D, Object3DJSON, Object3DJSONObject, Object3DEventMap } from "../core/Object3D.js";
 import { Material } from "../materials/Material.js";
 import { Color } from "../math/Color.js";
 import { Euler, EulerTuple } from "../math/Euler.js";
@@ -31,7 +31,7 @@ export interface SceneJSON extends Object3DJSON {
  * @see {@link https://threejs.org/docs/index.html#api/en/scenes/Scene | Official Documentation}
  * @see {@link https://github.com/mrdoob/three.js/blob/master/src/scenes/Scene.js | Source}
  */
-export class Scene extends Object3D {
+export class Scene<TEventMap extends Object3DEventMap = Object3DEventMap> extends Object3D<TEventMap> {
     /**
      * Create a new {@link Scene} object.
      */
@@ -81,9 +81,14 @@ export class Scene extends Object3D {
      *  - A {@link THREE.Color | Color} for defining a uniform colored background.
      *  - A {@link THREE.Texture | Texture} for defining a (flat) textured background.
      *  - Texture cubes ({@link THREE.CubeTexture | CubeTexture}) or equirectangular textures for defining a skybox.</li>
+     *  - A value 'environment' will force the background to be same as environment.</li>
      * @defaultValue `null`
      */
-    background: Color | Texture | CubeTexture | null;
+    background: Color | Texture | CubeTexture | 'environment' | null;
+    /**
+     * Custom property for background tint, or just background color rendered in the shader
+     */
+    backgroundColor?: Color | null;
 
     /**
      * The rotation of the background in radians. Only influences environment maps assigned to {@link .background}.
