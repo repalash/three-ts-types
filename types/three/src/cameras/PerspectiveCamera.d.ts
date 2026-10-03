@@ -1,6 +1,7 @@
 import { JSONMeta, Object3DJSON, Object3DJSONObject } from "../core/Object3D.js";
 import { Vector2 } from "../math/Vector2.js";
 import { Camera } from "./Camera.js";
+import { Object3DEventMap } from "../core/Object3D.js";
 
 export interface PerspectiveCameraJSONObject extends Object3DJSONObject {
     fov: number;
@@ -41,7 +42,7 @@ export interface PerspectiveCameraJSON extends Object3DJSON {
  * scene.add( camera );
  * ```
  */
-export class PerspectiveCamera extends Camera {
+export class PerspectiveCamera<TEventMap extends Object3DEventMap = Object3DEventMap> extends Camera<TEventMap> {
     /**
      * Constructs a new perspective camera.
      *

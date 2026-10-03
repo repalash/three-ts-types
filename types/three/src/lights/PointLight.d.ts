@@ -24,7 +24,7 @@ export interface PointLightJSON extends LightJSON {
  * scene.add( light );
  * ```
  */
-export class PointLight extends Light {
+export class PointLight extends Light<PointLightShadow> {
     /**
      * Constructs a new point light.
      *

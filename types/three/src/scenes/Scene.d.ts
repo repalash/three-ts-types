@@ -1,4 +1,4 @@
-import { JSONMeta, Object3D, Object3DJSON, Object3DJSONObject } from "../core/Object3D.js";
+import { JSONMeta, Object3D, Object3DEventMap, Object3DJSON, Object3DJSONObject } from "../core/Object3D.js";
 import { Material } from "../materials/Material.js";
 import { Color } from "../math/Color.js";
 import { Euler, EulerTuple } from "../math/Euler.js";
@@ -25,7 +25,7 @@ export interface SceneJSON extends Object3DJSON {
  * Scenes allow you to set up what is to be rendered and where by three.js.
  * This is where you place 3D objects like meshes, lines or lights.
  */
-export class Scene extends Object3D {
+export class Scene<TEventMap extends Object3DEventMap = Object3DEventMap> extends Object3D<TEventMap> {
     /**
      * This flag can be used for type testing.
      *
@@ -41,7 +41,11 @@ export class Scene extends Object3D {
      *
      * @default null
      */
-    background: (Color | Texture) | null;
+    background: (Color | Texture) | "environment" | null;
+    /**
+     * Custom property for background tint, or just background color rendered in the shader (three-modded).
+     */
+    backgroundColor?: Color | null;
     /**
      * Sets the environment map for all physical materials in the scene. However,
      * it's not possible to overwrite an existing texture assigned to the `envMap`

@@ -2,7 +2,7 @@ import { Combine } from "../constants.js";
 import { Color } from "../math/Color.js";
 import { Euler } from "../math/Euler.js";
 import { Texture } from "../textures/Texture.js";
-import { MapColorPropertiesToColorRepresentations, Material, MaterialProperties } from "./Material.js";
+import { MapColorPropertiesToColorRepresentations, Material, MaterialEventMap, MaterialProperties } from "./Material.js";
 
 export interface MeshBasicMaterialProperties extends MaterialProperties {
     /**
@@ -150,7 +150,7 @@ export interface MeshBasicMaterialParameters
  *
  * This material is not affected by lights.
  */
-export class MeshBasicMaterial extends Material {
+export class MeshBasicMaterial<TE extends MaterialEventMap = MaterialEventMap> extends Material<TE> {
     /**
      * Constructs a new mesh basic material.
      *
@@ -171,4 +171,4 @@ export class MeshBasicMaterial extends Material {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface MeshBasicMaterial extends MeshBasicMaterialProperties {}
+export interface MeshBasicMaterial<TE extends MaterialEventMap = MaterialEventMap> extends MeshBasicMaterialProperties {}

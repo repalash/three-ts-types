@@ -1,4 +1,4 @@
-import { Color, ColorRepresentation, ShaderMaterial, ShaderMaterialParameters, Vector2 } from "three";
+import { Color, ColorRepresentation, ShaderMaterial, ShaderMaterialParameters, Vector2, MaterialEventMap } from "three";
 
 export interface LineMaterialParameters extends ShaderMaterialParameters {
     alphaToCoverage?: boolean | undefined;
@@ -19,7 +19,7 @@ export interface LineMaterialParameters extends ShaderMaterialParameters {
  *
  * Lines are always rendered with round caps and round joints.
  */
-export class LineMaterial extends ShaderMaterial {
+export class LineMaterial<TE extends MaterialEventMap = MaterialEventMap> extends ShaderMaterial<TE> {
     readonly isLineMaterial: true;
 
     /**

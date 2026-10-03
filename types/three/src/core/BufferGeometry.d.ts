@@ -243,9 +243,9 @@ export class BufferGeometry<
      * Set the {@link THREE.BufferGeometry.index | .index} buffer.
      * @param index
      */
-    setIndex(index: BufferAttribute | number[] | null): this;
+    setIndex(index: BufferAttribute | number[] | null): BufferGeometry;
 
-    setIndirect(indirect: IndirectStorageBufferAttribute | null, indirectOffset?: number | number[]): this;
+    setIndirect(indirect: IndirectStorageBufferAttribute | null, indirectOffset?: number | number[]): BufferGeometry;
 
     getIndirect(): IndirectStorageBufferAttribute | null;
 
@@ -256,7 +256,7 @@ export class BufferGeometry<
      * @param name
      * @param attribute
      */
-    setAttribute<K extends keyof Attributes>(name: K, attribute: Attributes[K]): this;
+    setAttribute<K extends keyof Attributes>(name: K, attribute: Attributes[K]): BufferGeometry;
 
     /**
      * Returns the {@link attributes | attribute} with the specified name.
@@ -268,7 +268,7 @@ export class BufferGeometry<
      * Deletes the  {@link attributes | attribute} with the specified name.
      * @param name
      */
-    deleteAttribute(name: keyof Attributes): this;
+    deleteAttribute(name: keyof Attributes): BufferGeometry;
 
     /**
      * Returns true if the {@link attributes | attribute} with the specified name exists.
@@ -303,20 +303,20 @@ export class BufferGeometry<
      * Applies the matrix transform to the geometry.
      * @param matrix
      */
-    applyMatrix4(matrix: Matrix4): this;
+    applyMatrix4(matrix: Matrix4): BufferGeometry;
 
     /**
      * Applies the rotation represented by the quaternion to the geometry.
      * @param quaternion
      */
-    applyQuaternion(quaternion: Quaternion): this;
+    applyQuaternion(quaternion: Quaternion): BufferGeometry;
 
     /**
      * Rotate the geometry about the X axis. This is typically done as a one time operation, and not during a loop.
      * @remarks Use {@link THREE.Object3D.rotation | Object3D.rotation} for typical real-time mesh rotation.
      * @param angle radians. Expects a `Float`
      */
-    rotateX(angle: number): this;
+    rotateX(angle: number): BufferGeometry;
 
     /**
      * Rotate the geometry about the Y axis.
@@ -324,7 +324,7 @@ export class BufferGeometry<
      * @remarks Use {@link THREE.Object3D.rotation | Object3D.rotation} for typical real-time mesh rotation.
      * @param angle radians. Expects a `Float`
      */
-    rotateY(angle: number): this;
+    rotateY(angle: number): BufferGeometry;
 
     /**
      * Rotate the geometry about the Z axis.
@@ -332,7 +332,7 @@ export class BufferGeometry<
      * @remarks Use {@link THREE.Object3D.rotation | Object3D.rotation} for typical real-time mesh rotation.
      * @param angle radians. Expects a `Float`
      */
-    rotateZ(angle: number): this;
+    rotateZ(angle: number): BufferGeometry;
 
     /**
      * Translate the geometry.
@@ -342,7 +342,7 @@ export class BufferGeometry<
      * @param y Expects a `Float`
      * @param z Expects a `Float`
      */
-    translate(x: number, y: number, z: number): this;
+    translate(x: number, y: number, z: number): BufferGeometry;
 
     /**
      * Scale the geometry data.
@@ -352,7 +352,7 @@ export class BufferGeometry<
      * @param y Expects a `Float`
      * @param z Expects a `Float`
      */
-    scale(x: number, y: number, z: number): this;
+    scale(x: number, y: number, z: number): BufferGeometry;
 
     /**
      * Rotates the geometry to face a point in space.
@@ -360,12 +360,12 @@ export class BufferGeometry<
      * @remarks Use {@link THREE.Object3D.lookAt | Object3D.lookAt} for typical real-time mesh usage.
      * @param vector A world vector to look at.
      */
-    lookAt(vector: Vector3): this;
+    lookAt(vector: Vector3): BufferGeometry;
 
     /**
      * Center the geometry based on the bounding box.
      */
-    center(): this;
+    center(target?: Vector3): BufferGeometry;
 
     /**
      * Defines a geometry by creating a `position` attribute based on the given array of points. The array can hold
@@ -375,7 +375,7 @@ export class BufferGeometry<
      * If the method is used with an existing `position` attribute, the vertex data are overwritten with the data from
      * the array. The length of the array must match the vertex count.
      */
-    setFromPoints(points: Vector3[] | Vector2[]): this;
+    setFromPoints(points: Vector3[] | Vector2[]): BufferGeometry;
 
     /**
      * Computes the bounding box of the geometry, and updates the {@link .boundingBox} attribute. The bounding box is
@@ -426,13 +426,13 @@ export class BufferGeometry<
     /**
      * Creates a clone of this BufferGeometry
      */
-    clone(): this;
+    clone(): BufferGeometry;
 
     /**
      * Copies another BufferGeometry to this BufferGeometry.
      * @param source
      */
-    copy(source: BufferGeometry): this;
+    copy(source: BufferGeometry): BufferGeometry;
 
     /**
      * Frees the GPU-related resources allocated by this instance.

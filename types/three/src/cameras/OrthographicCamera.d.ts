@@ -1,5 +1,6 @@
 import { JSONMeta, Object3DJSON, Object3DJSONObject } from "../core/Object3D.js";
 import { Camera } from "./Camera.js";
+import { Object3DEventMap } from "../core/Object3D.js";
 
 export interface OrthographicCameraJSONObject extends Object3DJSONObject {
     zoom: number;
@@ -37,7 +38,7 @@ export interface OrthographicCameraJSON extends Object3DJSON {
  * scene.add( camera );
  * ```
  */
-export class OrthographicCamera extends Camera {
+export class OrthographicCamera<TEventMap extends Object3DEventMap = Object3DEventMap> extends Camera<TEventMap> {
     /**
      * Constructs a new orthographic camera.
      *

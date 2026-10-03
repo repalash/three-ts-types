@@ -17,7 +17,7 @@ export interface HemisphereLightJSON extends LightJSON {
  * scene.add( light );
  * ```
  */
-export class HemisphereLight extends Light {
+export class HemisphereLight extends Light<undefined> {
     /**
      * Constructs a new hemisphere light.
      *

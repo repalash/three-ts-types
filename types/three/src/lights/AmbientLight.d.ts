@@ -11,7 +11,7 @@ import { Light } from "./Light.js";
  * scene.add( light );
  * ```
  */
-export class AmbientLight extends Light {
+export class AmbientLight extends Light<undefined> {
     /**
      * Constructs a new ambient light.
      *

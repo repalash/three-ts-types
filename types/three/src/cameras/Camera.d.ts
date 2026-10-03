@@ -1,5 +1,5 @@
 import { CoordinateSystem } from "../constants.js";
-import { Object3D } from "../core/Object3D.js";
+import { Object3D, Object3DEventMap } from "../core/Object3D.js";
 import { Matrix4 } from "../math/Matrix4.js";
 import { Vector4 } from "../math/Vector4.js";
 
@@ -7,7 +7,7 @@ import { Vector4 } from "../math/Vector4.js";
  * Abstract base class for cameras. This class should always be inherited
  * when you build a new camera.
  */
-export class Camera extends Object3D {
+export class Camera<TEventMap extends Object3DEventMap = Object3DEventMap> extends Object3D<TEventMap> {
     /**
      * This flag can be used for type testing.
      *

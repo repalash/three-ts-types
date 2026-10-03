@@ -519,6 +519,10 @@ export interface MaterialJSON {
     images?: SourceJSON[];
 }
 
+export interface MaterialEventMap {
+    dispose: {};
+}
+
 /**
  * Abstract base class for materials.
  *
@@ -526,7 +530,7 @@ export interface MaterialJSON {
  *
  * @abstract
  */
-export class Material extends EventDispatcher<{ dispose: {} }> {
+export class Material<TE extends MaterialEventMap = MaterialEventMap> extends EventDispatcher<TE> {
     /**
      * This flag can be used for type testing.
      *
@@ -569,6 +573,16 @@ export class Material extends EventDispatcher<{ dispose: {} }> {
         object: Object3D,
         group: Group,
     ): void;
+
+    onAfterRender(
+        renderer: WebGLRenderer,
+        scene: Scene,
+        camera: Camera,
+        geometry: BufferGeometry,
+        object: Object3D,
+        group: Group,
+    ): void;
+
     /**
      * An optional callback that is executed immediately before the shader
      * program is compiled. This function is called with the shader source code
@@ -639,4 +653,4 @@ export class Material extends EventDispatcher<{ dispose: {} }> {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface Material extends MaterialProperties {}
+export interface Material<TE extends MaterialEventMap = MaterialEventMap> extends MaterialProperties {}

@@ -24,7 +24,7 @@ import { Light } from "./Light.js";
  * scene.add( rectLight )
  * ```
  */
-export class RectAreaLight extends Light {
+export class RectAreaLight extends Light<undefined> {
     /**
      * Constructs a new area light.
      *

@@ -34,7 +34,7 @@ export interface DirectionalLightJSON extends LightJSON {
  * scene.add( directionalLight );
  * ```
  */
-export class DirectionalLight extends Light {
+export class DirectionalLight extends Light<DirectionalLightShadow> {
     /**
      * Constructs a new directional light.
      *

@@ -37,7 +37,7 @@ export interface SpotLightJSON extends LightJSON {
  * spotLight.shadow.camera.fov = 30;s
  * ```
  */
-export class SpotLight extends Light {
+export class SpotLight extends Light<SpotLightShadow> {
     /**
      * Constructs a new spot light.
      *
