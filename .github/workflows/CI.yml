@@ -1,6 +1,8 @@
 name: CI
+# Off for this fork: it copies types/three into an upstream DefinitelyTyped checkout, whose install
+# fails for three-types-modded (its own package name and dependencies). Start by hand if needed.
 on:
-  pull_request: {}
+  workflow_dispatch: {}
 
 jobs:
   test:
