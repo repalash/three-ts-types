@@ -211,6 +211,6 @@ export * from "./textures/FramebufferTexture.js";
 export * from "./textures/Source.js";
 export * from "./textures/Texture.js";
 export * from "./textures/VideoTexture.js";
-export * from "./textures/types";
+export * from "./textures/types.js";
 export * from "./Three.Legacy.js";
 export { createCanvasElement } from "./utils.js";

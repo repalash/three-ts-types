@@ -1,7 +1,7 @@
 import { JSONMeta, Object3DJSON, Object3DJSONObject } from "../core/Object3D.js";
 import { Vector2 } from "../math/Vector2.js";
 import { Camera } from "./Camera.js";
-import { Object3DEventMap } from "../core/Object3D";
+import { Object3DEventMap } from "../core/Object3D.js";
 
 export interface PerspectiveCameraJSONObject extends Object3DJSONObject {
     fov: number;

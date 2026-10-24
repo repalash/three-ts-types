@@ -76,8 +76,6 @@ export class Matrix4 {
         n44: number,
     );
 
-    readonly isMatrix4: true;
-
     /**
      * Sets all fields of this matrix.
      */

@@ -1,8 +1,8 @@
-import { Fog } from "../../scenes/Fog";
-import { Material } from "../../materials/Material";
-import { WebGLRenderTarget } from "../WebGLRenderTarget";
-import { Texture } from "../../textures/Texture";
-import { IUniform } from "../shaders/UniformsLib";
+import { Fog } from "../../scenes/Fog.js";
+import { Material } from "../../materials/Material.js";
+import { WebGLRenderTarget } from "../WebGLRenderTarget.js";
+import { Texture } from "../../textures/Texture.js";
+import { IUniform } from "../shaders/UniformsLib.js";
 
 export class WebGLMaterials {
     refreshTransformUniform(map: Texture, uniform: IUniform): void;

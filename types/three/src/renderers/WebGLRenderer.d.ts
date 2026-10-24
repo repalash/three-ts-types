@@ -25,9 +25,9 @@ import { WebGLShadowMap } from "./webgl/WebGLShadowMap.js";
 import { WebGLState } from "./webgl/WebGLState.js";
 import { WebGLRenderTarget } from "./WebGLRenderTarget.js";
 import { WebXRManager } from "./webxr/WebXRManager.js";
-import { WebGLCubeMaps } from "./webgl/WebGLCubeMaps";
-import { WebGLCubeUVMaps } from "./webgl/WebGLCubeUVMaps";
-import { WebGLMaterials } from "./webgl/WebGLMaterials";
+import { WebGLCubeMaps } from "./webgl/WebGLCubeMaps.js";
+import { WebGLCubeUVMaps } from "./webgl/WebGLCubeUVMaps.js";
+import { WebGLMaterials } from "./webgl/WebGLMaterials.js";
 
 export interface Renderer {
     domElement: HTMLCanvasElement;
@@ -412,13 +412,13 @@ export class WebGLRenderer implements Renderer {
      * @param activeMipmapLevel Specifies the active mipmap level.
      */
     setRenderTarget(
-        renderTarget: WebGLRenderTarget | WebGLRenderTarget<Texture[]> | null,
+        renderTarget: WebGLRenderTarget | null,
         activeCubeFace?: number,
         activeMipmapLevel?: number,
     ): void;
 
     readRenderTargetPixels(
-        renderTarget: WebGLRenderTarget | WebGLRenderTarget<Texture[]>,
+        renderTarget: WebGLRenderTarget,
         x: number,
         y: number,
         width: number,
@@ -429,7 +429,7 @@ export class WebGLRenderer implements Renderer {
     ): void;
 
     readRenderTargetPixelsAsync(
-        renderTarget: WebGLRenderTarget | WebGLRenderTarget<Texture[]>,
+        renderTarget: WebGLRenderTarget,
         x: number,
         y: number,
         width: number,
