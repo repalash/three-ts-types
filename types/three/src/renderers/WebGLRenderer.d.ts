@@ -412,13 +412,13 @@ export class WebGLRenderer implements Renderer {
      * @param activeMipmapLevel Specifies the active mipmap level.
      */
     setRenderTarget(
-        renderTarget: WebGLRenderTarget | WebGLRenderTarget<Texture[]> | null,
+        renderTarget: WebGLRenderTarget | null,
         activeCubeFace?: number,
         activeMipmapLevel?: number,
     ): void;
 
     readRenderTargetPixels(
-        renderTarget: WebGLRenderTarget | WebGLRenderTarget<Texture[]>,
+        renderTarget: WebGLRenderTarget,
         x: number,
         y: number,
         width: number,
@@ -429,7 +429,7 @@ export class WebGLRenderer implements Renderer {
     ): void;
 
     readRenderTargetPixelsAsync(
-        renderTarget: WebGLRenderTarget | WebGLRenderTarget<Texture[]>,
+        renderTarget: WebGLRenderTarget,
         x: number,
         y: number,
         width: number,
