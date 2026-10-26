@@ -4,6 +4,7 @@ import * as path from 'node:path';
 import prettier from 'prettier';
 
 const files = [
+    'materials/nodes/manager/NodeMaterialObserver',
     'materials/nodes/NodeMaterial',
     'nodes/accessors/BufferAttributeNode',
     'nodes/accessors/TextureNode',
@@ -28,7 +29,6 @@ const files = [
     'nodes/core/StructTypeNode',
     'nodes/core/UniformGroupNode',
     'nodes/core/UniformNode',
-    'nodes/fog/FogNode',
     'nodes/gpgpu/ComputeNode',
     'nodes/lighting/EnvironmentNode',
     'nodes/lighting/LightingContextNode',
@@ -41,7 +41,6 @@ const files = [
     'renderers/common/nodes/NodeUniform',
     'renderers/common/nodes/NodeUniformsGroup',
     'renderers/common/nodes/Nodes',
-    'renderers/common/nodes/StandardNodeLibrary',
     'renderers/common/Animation',
     'renderers/common/Attributes',
     'renderers/common/Backend',
@@ -51,6 +50,7 @@ const files = [
     'renderers/common/Bindings',
     'renderers/common/Buffer',
     'renderers/common/BufferUtils',
+    'renderers/common/BundleGroup',
     'renderers/common/ChainMap',
     'renderers/common/ClippingContext',
     'renderers/common/Color4',
@@ -82,6 +82,8 @@ const files = [
     'renderers/common/UniformsGroup',
     'renderers/webgl-fallback/nodes/GLSLNodeBuilder',
     'renderers/webgl-fallback/WebGLBackend',
+    'renderers/webgpu/nodes/BasicNodeLibrary',
+    'renderers/webgpu/nodes/StandardNodeLibrary',
     'renderers/webgpu/nodes/WGSLNodeBuilder',
     'renderers/webgpu/nodes/WGSLNodeFunction',
     'renderers/webgpu/nodes/WGSLNodeParser',

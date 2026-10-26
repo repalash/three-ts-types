@@ -1,6 +1,6 @@
 {
     "name": "three-types-modded",
-    "version": "0.168.10004",
+    "version": "0.172.10001",
     "projects": [
         "https://threejs.org/"
     ],
@@ -28,7 +28,7 @@
         "./addons/*": "./examples/jsm/*",
         "./src/*": "./src/*",
         "./webgpu": "./build/three.webgpu.js",
-        "./tsl": "./build/three.webgpu.js"
+        "./tsl": "./build/three.tsl.js"
     },
     "scripts": {
         "release": "git diff --exit-code && git tag publish@$npm_package_version && git push origin publish@$npm_package_version"

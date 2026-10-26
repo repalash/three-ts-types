@@ -1,10 +1,12 @@
 import { LightProbe, Mesh } from "three";
 
-export class LightProbeHelper extends Mesh {
-    constructor(lightProbe: LightProbe, size: number);
-
+declare class LightProbeHelper extends Mesh {
     lightProbe: LightProbe;
     size: number;
 
+    constructor(lightProbe: LightProbe, size?: number);
+
     dispose(): void;
 }
+
+export { LightProbeHelper };

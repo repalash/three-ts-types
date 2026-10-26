@@ -1,5 +1,4 @@
 import {
-    ColorSpace,
     MagnificationTextureFilter,
     MinificationTextureFilter,
     PixelFormatGPU,
@@ -13,19 +12,21 @@ import { EventDispatcher } from "./EventDispatcher.js";
 
 // these shouldn't be undefined. can be not defined
 export interface RenderTargetOptions {
-    wrapS?: Wrapping;
-    wrapT?: Wrapping;
-    magFilter?: MagnificationTextureFilter;
-    minFilter?: MinificationTextureFilter;
-    generateMipmaps?: boolean; // true;
-    format?: number; // RGBAFormat;
-    type?: TextureDataType; // UnsignedByteType;
-    anisotropy?: number; // 1;
-    colorSpace?: ColorSpace;
-    internalFormat?: PixelFormatGPU | null;
-    depthBuffer?: boolean; // true;
-    stencilBuffer?: boolean; // false;
-    depthTexture?: DepthTexture | null;
+    wrapS?: Wrapping | undefined;
+    wrapT?: Wrapping | undefined;
+    magFilter?: MagnificationTextureFilter | undefined;
+    minFilter?: MinificationTextureFilter | undefined;
+    generateMipmaps?: boolean | undefined; // true
+    format?: number | undefined; // RGBAFormat
+    type?: TextureDataType | undefined; // UnsignedByteType
+    anisotropy?: number | undefined; // 1
+    colorSpace?: string | undefined;
+    internalFormat?: PixelFormatGPU | null | undefined; // null
+    depthBuffer?: boolean | undefined; // true
+    stencilBuffer?: boolean | undefined; // false
+    resolveDepthBuffer?: boolean | undefined; // true
+    resolveStencilBuffer?: boolean | undefined; // true
+    depthTexture?: DepthTexture | null | undefined; // null
     /**
      * Defines the count of MSAA samples. Can only be used with WebGL 2. Default is **0**.
      * @default 0
@@ -34,7 +35,7 @@ export interface RenderTargetOptions {
     count?: number | undefined;
 }
 
-export class RenderTarget<TTexture extends Texture = Texture> extends EventDispatcher<{ dispose: {} }> {
+export class RenderTarget<TTexture extends Texture | Texture[] = Texture> extends EventDispatcher<{ dispose: {} }> {
     readonly isRenderTarget: true;
 
     width: number;
@@ -73,11 +74,6 @@ export class RenderTarget<TTexture extends Texture = Texture> extends EventDispa
     resolveStencilBuffer: boolean;
 
     /**
-     * @default null
-     */
-    depthTexture: DepthTexture | null;
-
-    /**
      * Defines the count of MSAA samples. Can only be used with WebGL 2. Default is **0**.
      * @default 0
      */
@@ -87,6 +83,9 @@ export class RenderTarget<TTexture extends Texture = Texture> extends EventDispa
 
     get texture(): TTexture;
     set texture(value: TTexture);
+
+    set depthTexture(current: DepthTexture | null);
+    get depthTexture(): DepthTexture | null;
 
     setSize(width: number, height: number, depth?: number): void;
     clone(): this;
