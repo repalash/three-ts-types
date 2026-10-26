@@ -1,7 +1,6 @@
 import {
     AnyMapping,
     AnyPixelFormat,
-    ColorSpace,
     MagnificationTextureFilter,
     Mapping,
     MinificationTextureFilter,
@@ -11,6 +10,7 @@ import {
     Wrapping,
 } from "../constants.js";
 import { EventDispatcher } from "../core/EventDispatcher.js";
+import { RenderTarget } from "../core/RenderTarget.js";
 import { Matrix3 } from "../math/Matrix3.js";
 import { Vector2 } from "../math/Vector2.js";
 import { CompressedTextureMipmap } from "./CompressedTexture.js";
@@ -38,7 +38,7 @@ export interface TextureJSON {
     format: AnyPixelFormat;
     internalFormat: PixelFormatGPU | null;
     type: TextureDataType;
-    colorSpace: ColorSpace;
+    colorSpace: string;
 
     minFilter: MinificationTextureFilter;
     magFilter: MagnificationTextureFilter;
@@ -104,7 +104,7 @@ export class Texture<TE extends TextureEventMap = TextureEventMap> extends Event
         format?: PixelFormat,
         type?: TextureDataType,
         anisotropy?: number,
-        colorSpace?: ColorSpace,
+        colorSpace?: string,
     );
 
     /**
@@ -374,7 +374,7 @@ export class Texture<TE extends TextureEventMap = TextureEventMap> extends Event
      * @see {@link THREE.TextureDataType}
      * @defaultValue {@link THREE.NoColorSpace}
      */
-    colorSpace: ColorSpace;
+    colorSpace: string;
 
     /**
      * Indicates whether a texture belongs to a render target or not
@@ -431,6 +431,8 @@ export class Texture<TE extends TextureEventMap = TextureEventMap> extends Event
      * @defaultValue {@link THREE.UVMapping}
      */
     static DEFAULT_MAPPING: Mapping;
+
+    renderTarget: RenderTarget | null;
 
     /**
      * A callback function, called when the texture is updated _(e.g., when needsUpdate has been set to true and then the texture is used)_.

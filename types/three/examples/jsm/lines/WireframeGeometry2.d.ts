@@ -12,5 +12,5 @@ export class WireframeGeometry2<
     TE extends BufferGeometryEventMap = BufferGeometryEventMap,
 > extends LineSegmentsGeometry<Attributes, TE> {
     constructor(geometry: BufferGeometry);
-    readonly sWireframeGeometry2: boolean;
+    readonly isWireframeGeometry2: boolean;
 }
