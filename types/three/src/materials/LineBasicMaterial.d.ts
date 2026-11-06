@@ -21,11 +21,6 @@ export class LineBasicMaterial<TE extends MaterialEventMap = MaterialEventMap> e
     readonly isLineBasicMaterial: true;
 
     /**
-     * @default 'LineBasicMaterial'
-     */
-    type: string;
-
-    /**
      * @default 0xffffff
      */
     color: Color;

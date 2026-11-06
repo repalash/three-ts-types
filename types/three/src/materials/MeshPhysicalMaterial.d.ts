@@ -64,11 +64,6 @@ export class MeshPhysicalMaterial<TE extends MaterialEventMap = MaterialEventMap
     defines: { [key: string]: any };
 
     /**
-     * @default 'MeshPhysicalMaterial'
-     */
-    type: string;
-
-    /**
      * @default 0
      */
     anisotropyRotation?: number;

@@ -53,11 +53,6 @@ export class MeshPhongMaterial<TE extends MaterialEventMap = MaterialEventMap> e
     readonly isMeshPhongMaterial: true;
 
     /**
-     * @default 'MeshNormalMaterial'
-     */
-    type: string;
-
-    /**
      * @default new THREE.Color( 0xffffff )
      */
     color: Color;

@@ -59,11 +59,21 @@ export interface GLTFExporterOptions {
     ignoreEmptyTextures?: boolean;
 }
 
-export class GLTFExporter {
+type TextureUtils = {
+    decompress:
+        | ((texture: Texture, maxTextureSize?: number) => Promise<void>)
+        | ((texture: Texture, maxTextureSize?: number) => void);
+};
+
+declare class GLTFExporter {
+    textureUtils: TextureUtils | null;
+
     constructor();
 
     register(callback: (writer: GLTFWriter) => GLTFExporterPlugin): this;
     unregister(callback: (writer: GLTFWriter) => GLTFExporterPlugin): this;
+
+    setTextureUtils(utils: TextureUtils | null): this;
 
     /**
      * Generates a .gltf (JSON) or .glb (binary) output from the input (Scenes or Objects)
@@ -90,7 +100,7 @@ export class GLTFExporter {
      */
     parse(
         input: Object3D | Object3D[],
-        onDone: (gltf: ArrayBuffer | { [key: string]: any }) => void,
+        onDone: (gltf: ArrayBuffer | { [key: string]: unknown }) => void,
         onError: (error: ErrorEvent) => void,
         options?: GLTFExporterOptions,
         gltfWriter?: GLTFWriter,
@@ -105,7 +115,7 @@ export class GLTFExporter {
     parseAsync(
         input: Object3D | Object3D[],
         options?: GLTFExporterOptions,
-    ): Promise<ArrayBuffer | { [key: string]: any }>;
+    ): Promise<ArrayBuffer | { [key: string]: any }>; // three-modded: `any` as up to r168, so subclasses can resolve with other output (threepipe's GLTFExporter2 resolves with a Blob)
 
     static Utils: {
         GLTFWriter: typeof GLTFWriter;
@@ -113,9 +123,29 @@ export class GLTFExporter {
 }
 
 declare class GLTFWriter {
+    textureUtils: TextureUtils | null;
+
+    extensionsUsed: { [name: string]: boolean };
+    extensionsRequired: { [name: string]: boolean };
+
     constructor();
 
     setPlugins(plugins: GLTFExporterPlugin[]): void;
+
+    setTextureUtils(utils: TextureUtils | null): this;
+
+    /**
+     * Process texture
+     * @param map Map to process
+     * @return Index of the processed texture in the "textures" array
+     */
+    processTextureAsync(map: Texture): Promise<number>;
+
+    /**
+     * Applies a texture transform, if present, to the map definition. Requires
+     * the KHR_texture_transform extension.
+     */
+    applyTextureTransform(mapDef: { [key: string]: unknown }, texture: Texture): void;
 
     /**
      * Parse scenes and generate GLTF output
@@ -124,17 +154,17 @@ declare class GLTFWriter {
      * @param onDone Callback on completed
      * @param options options
      */
-    write(
+    writeAsync(
         input: Object3D | Object3D[],
-        onDone: (gltf: ArrayBuffer | { [key: string]: any }) => void,
+        onDone: (gltf: ArrayBuffer | { [key: string]: unknown }) => void,
         options?: GLTFExporterOptions,
     ): Promise<void>;
 
     serializeUserData(object: Object3D | Material | BufferGeometry, objectDef: { [key: string]: any }): void;
 
-    processObjects(objects: Object3D[]): void;
-    processScene(scene: Object3D): void;
-    processMaterial(material: Material): number | null;
+    processObjectsAsync(objects: Object3D[]): Promise<void>;
+    processSceneAsync(scene: Object3D): Promise<void>;
+    processMaterialAsync(material: Material): Promise<number | null>;
     processImage(
         image: any,
         format: PixelFormat,
@@ -145,8 +175,6 @@ declare class GLTFWriter {
     ): number;
     processBufferViewImage(blob: Blob): Promise<number>;
     processSampler(map: Texture): number;
-    processTexture(map: Texture): number;
-    applyTextureTransform(mapDef: { [key: string]: any }, texture: Texture): void;
     cache: {
         textures: Map<Texture, number>;
         materials: Map<Material, number>;
@@ -178,10 +206,9 @@ declare class GLTFWriter {
     options: any;
     pending: Promise<any>[];
     plugins: GLTFExporterPlugin[];
-    extensionsUsed: { [key: string]: boolean };
     processBufferViewImageBuffer(buffer: ArrayBuffer): number;
 
-    _invokeAll(func: (plugin: GLTFExporterPlugin) => void): void;
+    _invokeAllAsync(func: (plugin: GLTFExporterPlugin) => void | Promise<void>): Promise<void>;
 
     /**
      * [Non-standard]
@@ -192,10 +219,14 @@ declare class GLTFWriter {
 }
 
 export interface GLTFExporterPlugin {
-    writeTexture?: (map: Texture, textureDef: { [key: string]: any }) => void;
-    writeMaterial?: (material: Material, materialDef: { [key: string]: any }) => void;
-    writeMesh?: (mesh: Mesh, meshDef: { [key: string]: any }) => void;
-    writeNode?: (object: Object3D, nodeDef: { [key: string]: any }) => void;
-    beforeParse?: (input: Object3D | Object3D[]) => void;
-    afterParse?: (input: Object3D | Object3D[]) => void;
+    writeTexture?: (map: Texture, textureDef: { [key: string]: unknown }) => void;
+    writeMaterialAsync?: (material: Material, materialDef: { [key: string]: unknown }) => Promise<void>;
+    // three-modded: every hook may return a promise, the writer awaits it
+    writeMesh?: (mesh: Mesh, meshDef: { [key: string]: unknown }) => void | Promise<void>;
+    writeNode?: (object: Object3D, nodeDef: { [key: string]: unknown }) => void | Promise<void>;
+    beforeParse?: (input: Object3D | Object3D[]) => void | Promise<void>;
+    afterParse?: (input: Object3D | Object3D[]) => void | Promise<void>;
 }
+
+export { GLTFExporter };
+export type { GLTFWriter };

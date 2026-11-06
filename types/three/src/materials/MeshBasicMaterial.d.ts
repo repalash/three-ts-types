@@ -40,11 +40,6 @@ export class MeshBasicMaterial<TE extends MaterialEventMap = MaterialEventMap> e
     readonly isMeshBasicMaterial: true;
 
     /**
-     * @default 'MeshBasicMaterial'
-     */
-    type: string;
-
-    /**
      * @default new THREE.Color( 0xffffff )
      */
     color: Color;
