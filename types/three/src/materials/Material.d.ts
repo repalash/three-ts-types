@@ -291,7 +291,7 @@ export class Material<TE extends MaterialEventMap = MaterialEventMap> extends Ev
     blendDst: BlendingDstFactor;
 
     /**
-     * The tranparency of the .blendDst. Default is null.
+     * The transparency of the .blendDst. Default is null.
      * @default null
      */
     blendDstAlpha: number | null;
@@ -303,7 +303,7 @@ export class Material<TE extends MaterialEventMap = MaterialEventMap> extends Ev
     blendEquation: BlendingEquation;
 
     /**
-     * The tranparency of the .blendEquation. Default is null.
+     * The transparency of the .blendEquation. Default is null.
      * @default null
      */
     blendEquationAlpha: number | null;
@@ -321,7 +321,7 @@ export class Material<TE extends MaterialEventMap = MaterialEventMap> extends Ev
     blendSrc: BlendingSrcFactor | BlendingDstFactor;
 
     /**
-     * The tranparency of the .blendSrc. Default is null.
+     * The transparency of the .blendSrc. Default is null.
      * @default null
      */
     blendSrcAlpha: number | null;
@@ -641,9 +641,4 @@ export class Material<TE extends MaterialEventMap = MaterialEventMap> extends Ev
      * @default false
      */
     set needsUpdate(value: boolean);
-
-    /**
-     * @deprecated onBuild() has been removed.
-     */
-    onBuild(object: Object3D, parameters: WebGLProgramParametersWithUniforms, renderer: WebGLRenderer): void;
 }
