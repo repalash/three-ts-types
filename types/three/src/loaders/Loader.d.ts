@@ -32,6 +32,16 @@ export class Loader<TData = unknown, TUrl = string> {
      */
     requestHeader: { [header: string]: string };
 
+    /**
+     * @default 'auto'
+     */
+    priority: "high" | "low" | "auto";
+
+    /**
+     * @default 'default'
+     */
+    cache: "default" | "no-store" | "reload" | "no-cache" | "force-cache";
+
     load(
         url: TUrl,
         onLoad: (data: TData) => void,
@@ -45,6 +55,8 @@ export class Loader<TData = unknown, TUrl = string> {
     setPath(path: string): this;
     setResourcePath(resourcePath: string): this;
     setRequestHeader(requestHeader: { [header: string]: string }): this;
+    setPriority(value: "high" | "low" | "auto"): this;
+    setCache(value: "default" | "no-store" | "reload" | "no-cache" | "force-cache"): this;
 
     static DEFAULT_MATERIAL_NAME: string;
 }
