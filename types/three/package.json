@@ -1,6 +1,9 @@
 {
     "name": "three-types-modded",
-    "version": "0.177.10001",
+    "version": "0.177.10001-rc.1",
+    "publishConfig": {
+        "tag": "three-r177"
+    },
     "projects": [
         "https://threejs.org/"
     ],
