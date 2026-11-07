@@ -3,6 +3,7 @@ import * as path from 'node:path';
 import { argv } from 'node:process';
 
 const files = [
+    'materials/nodes/manager/NodeMaterialObserver',
     'nodes/accessors/BufferAttributeNode',
     'nodes/core/constants',
     'nodes/core/Node',
@@ -12,6 +13,7 @@ const files = [
     'nodes/core/NodeUniform',
     'nodes/core/NodeVar',
     'nodes/core/NodeVarying',
+    'nodes/core/StructType',
     'nodes/core/StructTypeNode',
     'nodes/core/UniformNode',
     'renderers/common/nodes/NodeBuilderState',
@@ -19,7 +21,6 @@ const files = [
     'renderers/common/nodes/NodeLibrary',
     'renderers/common/nodes/NodeUniform',
     'renderers/common/nodes/NodeUniformsGroup',
-    'renderers/common/nodes/StandardNodeLibrary',
     'renderers/common/Animation',
     'renderers/common/Attributes',
     'renderers/common/Background',
@@ -28,6 +29,7 @@ const files = [
     'renderers/common/Bindings',
     'renderers/common/Buffer',
     'renderers/common/BufferUtils',
+    'renderers/common/BundleGroup',
     'renderers/common/ChainMap',
     'renderers/common/ClippingContext',
     'renderers/common/Color4',
@@ -51,9 +53,14 @@ const files = [
     'renderers/common/RenderObjects',
     'renderers/common/RenderPipeline',
     'renderers/common/Textures',
+    'renderers/common/TimestampQueryPool',
     'renderers/common/Uniform',
     'renderers/common/UniformBuffer',
     'renderers/common/UniformsGroup',
+    'renderers/common/XRManager',
+    'renderers/common/XRRenderTarget',
+    'renderers/webgpu/nodes/BasicNodeLibrary',
+    'renderers/webgpu/nodes/StandardNodeLibrary',
 ];
 
 const inDir = './src';

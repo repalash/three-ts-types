@@ -16,8 +16,8 @@ export class Camera<TEventMap extends Object3DEventMap = Object3DEventMap> exten
     /**
      * @remarks
      * Note that this class is not intended to be called directly; you probably want a
-     * {@link THREE.PerspectiveCamera | PerspectiveCamera} or
-     * {@link THREE.OrthographicCamera | OrthographicCamera} instead.
+     * {@link PerspectiveCamera | PerspectiveCamera} or
+     * {@link OrthographicCamera | OrthographicCamera} instead.
      */
     constructor();
 
@@ -36,7 +36,7 @@ export class Camera<TEventMap extends Object3DEventMap = Object3DEventMap> exten
 
     /**
      * @override
-     * The {@link THREE.Layers | layers} that the {@link Camera} is a member of.
+     * The {@link Layers | layers} that the {@link Camera} is a member of.
      * @remarks Objects must share at least one layer with the {@link Camera} to be n when the camera's viewpoint is rendered.
      * @defaultValue `new THREE.Layers()`
      */
@@ -45,19 +45,19 @@ export class Camera<TEventMap extends Object3DEventMap = Object3DEventMap> exten
     /**
      * This is the inverse of matrixWorld.
      * @remarks MatrixWorld contains the Matrix which has the world transform of the {@link Camera} .
-     * @defaultValue {@link THREE.Matrix4 | `new THREE.Matrix4()`}
+     * @defaultValue {@link Matrix4 | `new THREE.Matrix4()`}
      */
     matrixWorldInverse: Matrix4;
 
     /**
      * This is the matrix which contains the projection.
-     * @defaultValue {@link THREE.Matrix4 | `new THREE.Matrix4()`}
+     * @defaultValue {@link Matrix4 | `new THREE.Matrix4()`}
      */
     projectionMatrix: Matrix4;
 
     /**
      * This is the inverse of projectionMatrix.
-     * @defaultValue {@link THREE.Matrix4 | `new THREE.Matrix4()`}
+     * @defaultValue {@link Matrix4 | `new THREE.Matrix4()`}
      */
     projectionMatrixInverse: Matrix4;
 
@@ -66,7 +66,7 @@ export class Camera<TEventMap extends Object3DEventMap = Object3DEventMap> exten
     viewport?: Vector4;
 
     /**
-     * Returns a {@link THREE.Vector3 | Vector3} representing the world space direction in which the {@link Camera} is looking.
+     * Returns a {@link Vector3 | Vector3} representing the world space direction in which the {@link Camera} is looking.
      * @remarks Note: A {@link Camera} looks down its local, negative z-axis.
      * @param target The result will be copied into this Vector3.
      */

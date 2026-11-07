@@ -48,11 +48,6 @@ export class MeshStandardMaterial<TE extends MaterialEventMap = MaterialEventMap
     readonly isMeshStandardMaterial: true;
 
     /**
-     * @default 'MeshStandardMaterial'
-     */
-    type: string;
-
-    /**
      * @default { 'STANDARD': '' }
      */
     defines: { [key: string]: any };

@@ -249,6 +249,12 @@ export class Material<TE extends MaterialEventMap = MaterialEventMap> extends Ev
     readonly isMaterial: true;
 
     /**
+     * Value is the string 'Material'. This shouldn't be changed, and can be used to find all objects of this type in a
+     * scene.
+     */
+    type: string;
+
+    /**
      * Enables alpha hashed transparency, an alternative to {@link .transparent} or {@link .alphaTest}. The material
      * will not be rendered if opacity is lower than a random threshold. Randomization introduces some grain or noise,
      * but approximates alpha blending without the associated problems of sorting. Using TAARenderPass can reduce the
@@ -285,7 +291,7 @@ export class Material<TE extends MaterialEventMap = MaterialEventMap> extends Ev
     blendDst: BlendingDstFactor;
 
     /**
-     * The tranparency of the .blendDst. Default is null.
+     * The transparency of the .blendDst. Default is null.
      * @default null
      */
     blendDstAlpha: number | null;
@@ -297,7 +303,7 @@ export class Material<TE extends MaterialEventMap = MaterialEventMap> extends Ev
     blendEquation: BlendingEquation;
 
     /**
-     * The tranparency of the .blendEquation. Default is null.
+     * The transparency of the .blendEquation. Default is null.
      * @default null
      */
     blendEquationAlpha: number | null;
@@ -315,7 +321,7 @@ export class Material<TE extends MaterialEventMap = MaterialEventMap> extends Ev
     blendSrc: BlendingSrcFactor | BlendingDstFactor;
 
     /**
-     * The tranparency of the .blendSrc. Default is null.
+     * The transparency of the .blendSrc. Default is null.
      * @default null
      */
     blendSrcAlpha: number | null;
@@ -517,12 +523,6 @@ export class Material<TE extends MaterialEventMap = MaterialEventMap> extends Ev
     transparent: boolean;
 
     /**
-     * Value is the string 'Material'. This shouldn't be changed, and can be used to find all objects of this type in a scene.
-     * @default 'Material'
-     */
-    type: string;
-
-    /**
      * UUID of this material instance. This gets automatically assigned, so this shouldn't be edited.
      */
     uuid: string;
@@ -589,7 +589,9 @@ export class Material<TE extends MaterialEventMap = MaterialEventMap> extends Ev
     /**
      * An optional callback that is executed immediately before the shader program is compiled.
      * This function is called with the shader source code as a parameter.
-     * Useful for the modification of built-in materials.
+     * Useful for the modification of built-in materials, but the recommended approach moving forward is to use
+     * `WebGPURenderer` with the new Node Material system and
+     * [TSL]{@link https://github.com/mrdoob/three.js/wiki/Three.js-Shading-Language}.
      * Unlike properties, the callback is not supported by {@link .clone()}, {@link .copy()} and {@link .toJSON()}.
      * This callback is only supported in `WebGLRenderer` (not `WebGPURenderer`).
      * @param parameters WebGL program parameters
@@ -639,9 +641,4 @@ export class Material<TE extends MaterialEventMap = MaterialEventMap> extends Ev
      * @default false
      */
     set needsUpdate(value: boolean);
-
-    /**
-     * @deprecated onBuild() has been removed.
-     */
-    onBuild(object: Object3D, parameters: WebGLProgramParametersWithUniforms, renderer: WebGLRenderer): void;
 }
