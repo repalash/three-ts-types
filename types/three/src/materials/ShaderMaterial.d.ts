@@ -80,11 +80,6 @@ export class ShaderMaterial<TE extends MaterialEventMap = MaterialEventMap> exte
     readonly isShaderMaterial: true;
 
     /**
-     * @default 'ShaderMaterial'
-     */
-    type: string;
-
-    /**
      * @default {}
      */
     defines: { [key: string]: any };
