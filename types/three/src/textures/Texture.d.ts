@@ -1,7 +1,6 @@
 import {
     AnyMapping,
     AnyPixelFormat,
-    ColorSpace,
     MagnificationTextureFilter,
     Mapping,
     MinificationTextureFilter,
@@ -31,7 +30,7 @@ export interface TextureParameters {
     format?: PixelFormat | undefined;
     internalFormat?: PixelFormatGPU | null | undefined;
     type?: TextureDataType | undefined;
-    colorSpace?: ColorSpace | undefined;
+    colorSpace?: string | undefined;
 
     magFilter?: MagnificationTextureFilter | undefined;
     minFilter?: MinificationTextureFilter | undefined;
@@ -131,7 +130,7 @@ export class Texture<TE extends TextureEventMap = TextureEventMap> extends Event
         format?: PixelFormat,
         type?: TextureDataType,
         anisotropy?: number,
-        colorSpace?: ColorSpace,
+        colorSpace?: string,
     );
 
     /**
