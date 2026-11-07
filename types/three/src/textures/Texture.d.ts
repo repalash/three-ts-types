@@ -1,7 +1,6 @@
 import {
     AnyMapping,
     AnyPixelFormat,
-    ColorSpace,
     MagnificationTextureFilter,
     Mapping,
     MinificationTextureFilter,
@@ -132,7 +131,7 @@ export class Texture<TE extends TextureEventMap = TextureEventMap> extends Event
         format?: PixelFormat,
         type?: TextureDataType,
         anisotropy?: number,
-        colorSpace?: ColorSpace,
+        colorSpace?: string,
     );
 
     /**
