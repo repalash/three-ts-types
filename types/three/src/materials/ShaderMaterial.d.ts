@@ -247,5 +247,7 @@ export class ShaderMaterial<TE extends MaterialEventMap = MaterialEventMap> exte
     toJSON(meta?: JSONMeta): ShaderMaterialJSON;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface ShaderMaterial<TE extends MaterialEventMap = MaterialEventMap> extends ShaderMaterialProperties {}
+export interface ShaderMaterial<TE extends MaterialEventMap = MaterialEventMap> extends ShaderMaterialProperties {
+    // declared again: ShaderMaterial always has defines, Material's are optional (as three.js r182 types it)
+    defines: { [key: string]: any };
+}

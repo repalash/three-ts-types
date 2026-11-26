@@ -532,6 +532,14 @@ export interface MaterialEventMap {
  */
 export class Material<TE extends MaterialEventMap = MaterialEventMap> extends EventDispatcher<TE> {
     /**
+     * Custom defines to be injected into the shader. These are passed in form of an object literal, with key/value
+     * pairs. { MY_CUSTOM_DEFINE: '' , PI2: Math.PI * 2 }. The pairs are defined in both vertex and fragment shaders.
+     *
+     * @default undefined
+     */
+    defines: undefined | { [key: string]: any };
+
+    /**
      * This flag can be used for type testing.
      *
      * @default true
