@@ -546,9 +546,13 @@ export class Material<TE extends MaterialEventMap = MaterialEventMap> extends Ev
      */
     readonly isMaterial: boolean;
     /**
+     * The ID of the material.
+     */
+    readonly id: number;
+    /**
      * The UUID of the material.
      */
-    readonly uuid: string;
+    uuid: string;
     /**
      * The type property is used for detecting the object type
      * in context of serialization/deserialization.
