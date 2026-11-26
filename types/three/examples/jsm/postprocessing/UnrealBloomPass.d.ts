@@ -23,9 +23,9 @@ export class UnrealBloomPass extends Pass {
     oldClearColor: Color;
     oldClearAlpha: number;
     basic: MeshBasicMaterial;
-    fsQuad: FullScreenQuad;
+    _fsQuad: FullScreenQuad; // three-modded: the JS has used _fsQuad since r175 (upstream typings still say fsQuad)
 
     dispose(): void;
-    getSeperableBlurMaterial(): ShaderMaterial;
+    getSeparableBlurMaterial(): ShaderMaterial;
     getCompositeMaterial(): ShaderMaterial;
 }
