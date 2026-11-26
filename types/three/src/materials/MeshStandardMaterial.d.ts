@@ -296,5 +296,7 @@ export class MeshStandardMaterial<TE extends MaterialEventMap = MaterialEventMap
     setValues(values?: MeshStandardMaterialParameters): void;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface MeshStandardMaterial<TE extends MaterialEventMap = MaterialEventMap> extends MeshStandardMaterialProperties {}
+export interface MeshStandardMaterial<TE extends MaterialEventMap = MaterialEventMap> extends MeshStandardMaterialProperties {
+    // set by the constructor ({ STANDARD: '' }, MeshPhysicalMaterial adds PHYSICAL)
+    defines: { [key: string]: any };
+}
