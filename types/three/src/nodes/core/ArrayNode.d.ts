@@ -1,26 +1,32 @@
 import Node from "./Node.js";
-import TempNode from "./TempNode.js";
 
-declare class ArrayNode extends TempNode {
+export interface ArrayNodeInterface<TNodeType> {
     count: number;
-    values: Node[];
+    values: Node<TNodeType>[] | null;
     readonly isArrayNode: true;
-
-    constructor(nodeType: string, count: number, values: Node[]);
 }
+
+declare const ArrayNode: {
+    new<TNodeType>(
+        nodeType: TNodeType | null,
+        count: number,
+        values?: Node<TNodeType>[] | null,
+    ): ArrayNode<TNodeType>;
+};
+
+type ArrayNode<TNodeType> = Node<TNodeType> & ArrayNodeInterface<TNodeType>;
 
 export default ArrayNode;
 
 interface ArrayFunction {
-    (values: Node[]): ArrayNode;
-    (nodeType: string, count: number): ArrayNode;
+    <TNodeType>(values: Node<TNodeType>[]): ArrayNode<TNodeType>;
+    <TNodeType extends string>(nodeType: TNodeType, count: number): ArrayNode<TNodeType>;
 }
 
 export const array: ArrayFunction;
 
-declare module "../Nodes.js" {
-    interface Node {
-        toArray: (count: number) => ArrayNode;
-        toArrayAssign: (count: number) => this;
+declare module "./Node.js" {
+    interface NodeExtensions<TNodeType> {
+        toArray: (count: number) => ArrayNode<TNodeType>;
     }
 }

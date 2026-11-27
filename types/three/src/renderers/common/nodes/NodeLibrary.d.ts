@@ -4,6 +4,7 @@ import { Material } from "../../../materials/Material.js";
 import NodeMaterial from "../../../materials/nodes/NodeMaterial.js";
 import Node from "../../../nodes/core/Node.js";
 import AnalyticLightNode from "../../../nodes/lighting/AnalyticLightNode.js";
+
 /**
  * The purpose of a node library is to assign node implementations
  * to existing library features. In `WebGPURenderer` lights, materials
@@ -13,19 +14,21 @@ import AnalyticLightNode from "../../../nodes/lighting/AnalyticLightNode.js";
  * @private
  */
 declare class NodeLibrary {
-    lightNodes: WeakMap<{
-        new(): Light;
-    }, {
-        new(light: Light): AnalyticLightNode<Light>;
-    }>;
+    /**
+     * A map that maps materials to node materials.
+     *
+     * @type {Map<string,NodeMaterial.constructor>}
+     */
     materialNodes: Map<string, {
         new(): NodeMaterial;
     }>;
-    toneMappingNodes: Map<ToneMapping, (color: Node, exposure: Node) => Node>;
     /**
-     * Constructs a new node library.
+     * A map that maps tone mapping techniques (constants)
+     * to tone mapping node functions.
+     *
+     * @type {Map<number,Function>}
      */
-    constructor();
+    toneMappingNodes: Map<ToneMapping, (color: Node, exposure: Node) => Node>;
     /**
      * Returns a matching node material instance for the given material object.
      *
@@ -36,7 +39,7 @@ declare class NodeLibrary {
      * @param {Material} material - A material.
      * @return {NodeMaterial} The corresponding node material.
      */
-    fromMaterial(material: Material): Material | NodeMaterial | null;
+    fromMaterial(material: Material): NodeMaterial;
     /**
      * Adds a tone mapping node function for a tone mapping technique (constant).
      *
@@ -70,13 +73,21 @@ declare class NodeLibrary {
     /**
      * Returns a light node class definition for a light class definition.
      *
-     * @param {Light.constructor} light - The light class definition.
+     * @deprecated since r187. Use `Light.registerNode()` to assign light node classes instead.
+     * @param {Light.constructor} lightClass - The light class definition.
      * @return {?AnalyticLightNode.constructor} The light node class definition. Returns `null` if no light node is found.
      */
-    getLightNodeClass(light: Light): (new(light: Light) => AnalyticLightNode<Light>) | null;
+    getLightNodeClass(lightClass: {
+        new(): Light;
+    }):
+        | ({
+            new(light: Light): AnalyticLightNode<Light>;
+        })
+        | null;
     /**
      * Adds a light node class definition for a given light class definition.
      *
+     * @deprecated since r187. Use `Light.registerNode()` instead.
      * @param {AnalyticLightNode.constructor} lightNodeClass - The light node class definition.
      * @param {Light.constructor} lightClass - The light class definition.
      */
@@ -93,17 +104,6 @@ declare class NodeLibrary {
      * @param {Map<number|string,Node.constructor>} library - The type library.
      */
     addType<TNodeClass, TType>(nodeClass: TNodeClass, type: TType, library: Map<TType, TNodeClass>): void;
-    /**
-     * Adds a node class definition for the given class definition to the provided type library.
-     *
-     * @param {Node.constructor} nodeClass - The node class definition.
-     * @param {Node.constructor} baseClass - The class definition.
-     * @param {WeakMap<Node.constructor, Node.constructor>} library - The type library.
-     */
-    addClass<TNodeClass, TBaseClass extends object>(
-        nodeClass: TNodeClass,
-        baseClass: TBaseClass,
-        library: WeakMap<TBaseClass, TNodeClass>,
-    ): void;
 }
+
 export default NodeLibrary;

@@ -1,10 +1,10 @@
 import { ToneMapping } from "../../constants.js";
 import Node from "../core/Node.js";
-import TempNode from "../core/TempNode.js";
 
-declare class RenderOutputNode extends TempNode {
+declare class RenderOutputNode extends Node<"vec4"> {
     colorNode: Node;
     outputColorSpace: string | null;
+    premultipliedAlpha: boolean;
 
     readonly isRenderOutput: true;
 
@@ -19,15 +19,11 @@ export const renderOutput: (
     outputColorSpace?: string | null,
 ) => RenderOutputNode;
 
-declare module "../Nodes.js" {
-    interface Node {
+declare module "../core/Node.js" {
+    interface NodeElements {
         renderOutput: (
             toneMapping?: ToneMapping | null,
             outputColorSpace?: string | null,
         ) => RenderOutputNode;
-        renderOutputAssign: (
-            toneMapping?: ToneMapping | null,
-            outputColorSpace?: string | null,
-        ) => this;
     }
 }

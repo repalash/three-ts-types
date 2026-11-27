@@ -4,6 +4,7 @@ import LightingModel from "../../nodes/core/LightingModel.js";
 import MRTNode from "../../nodes/core/MRTNode.js";
 import Node from "../../nodes/core/Node.js";
 import NodeBuilder from "../../nodes/core/NodeBuilder.js";
+import LightingNode from "../../nodes/lighting/LightingNode.js";
 import LightsNode from "../../nodes/lighting/LightsNode.js";
 import { MapColorPropertiesToColorRepresentations, Material, MaterialParameters } from "../Material.js";
 import NodeMaterialObserver from "./manager/NodeMaterialObserver.js";
@@ -21,14 +22,6 @@ export interface NodeMaterialNodeProperties {
      * @default false
      */
     lights: boolean;
-    /**
-     * Whether this material uses hardware clipping or not.
-     * This property is managed by the engine and should not be
-     * modified by apps.
-     *
-     * @default false
-     */
-    hardwareClipping: boolean;
     /**
      * Node materials which set their `lights` property to `true`
      * are affected by all lights of the scene. Sometimes selective
@@ -88,7 +81,7 @@ export interface NodeMaterialNodeProperties {
      *
      * @default null
      */
-    colorNode: Node | null;
+    colorNode: Node<"float"> | Node<"vec2"> | Node<"vec3"> | Node<"vec4"> | Node<"color"> | null;
     /**
      * The normals of node materials are by default inferred from the `normalMap`/`normalScale`
      * or `bumpMap`/`bumpScale` properties. This node property allows to overwrite the default
@@ -154,9 +147,15 @@ export interface NodeMaterialNodeProperties {
      */
     maskNode: Node | null;
     /**
+     * This node can be used to implement a shadow mask for the material.
+     *
+     * @default null
+     */
+    maskShadowNode: Node | null;
+    /**
      * The local vertex positions are computed based on multiple factors like the
-     * attribute data, morphing or skinning. This node property allows to overwrite
-     * the default and define local vertex positions with nodes instead.
+     * attribute data, morphing, skinning, instancing or batching. This node property
+     * allows to overwrite the default and define local vertex positions with nodes instead.
      *
      * If you don't want to overwrite the vertex positions but modify the existing
      * values instead, use {@link positionLocal}.
@@ -181,7 +180,7 @@ export interface NodeMaterialNodeProperties {
      *
      * @default null
      */
-    geometryNode: (() => Node) | null;
+    geometryNode: Node | null;
     /**
      * Allows to overwrite depth values in the fragment shader.
      *
@@ -241,9 +240,11 @@ export interface NodeMaterialNodeProperties {
      */
     castShadowNode: Node | null;
     /**
-     * This node can be used to define the final output of the material.
+     * This node can be used to overwrite the final output of the material.
      *
-     * TODO: Explain the differences to `fragmentNode`.
+     * Unlike {@link NodeMaterial#fragmentNode}, the built-in material logic
+     * (diffuse color, lighting, etc.) is still evaluated; assigning a node
+     * only replaces the resulting output color.
      *
      * @default null
      */
@@ -278,7 +279,7 @@ export interface NodeMaterialNodeProperties {
      *
      * @default null
      */
-    contextNode: ContextNode | null;
+    contextNode: ContextNode<unknown> | null;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -369,7 +370,6 @@ declare class NodeMaterial extends Material {
      * Setups the computation of the material's diffuse color.
      *
      * @param {NodeBuilder} builder - The current node builder.
-     * @param {BufferGeometry} geometry - The geometry.
      */
     setupDiffuseColor(builder: NodeBuilder): void;
     /**
@@ -410,9 +410,16 @@ declare class NodeMaterial extends Material {
      * Setups the lights node based on the scene, environment and material.
      *
      * @param {NodeBuilder} builder - The current node builder.
-     * @return {LightsNode} The lights node.
+     * @return {LightingNode<Array>} The lights node.
      */
-    setupLights(builder: NodeBuilder): LightsNode;
+    setupMaterialLightings(builder: NodeBuilder): LightingNode[];
+    /**
+     * Setups the ambient occlusion node from the material.
+     *
+     * @param {NodeBuilder} builder - The current node builder.
+     * @return {Node} The ambient occlusion node.
+     */
+    setupAmbientOcclusion(builder: NodeBuilder): Node;
     /**
      * This method should be implemented by most derived materials
      * since it defines the material's lighting model.
@@ -448,6 +455,26 @@ declare class NodeMaterial extends Material {
     /**
      * Setups the output node.
      *
+     * This method can be implemented by derived materials to extend the functionality
+     * of the material's output or replace it altogether.
+     *
+     * ```js
+     * class ColoredShadowMaterial extends MeshPhongNodeMaterial {
+     *   constructor( parameters ) {
+     *     super( parameters );
+     *     this._shadeColor = uniform( new Color( parameters.shadeColor ?? 0xff0000 ) );
+     *   }
+     *
+     *   setupOutput( builder, outputNode ) {
+     * 	   // Modify the native output of the MeshPhongNodeMaterial fragment shader
+     *     const brightness = min( outputNode.r, 1.0 );
+     *     const mixedColor = mix( this._shadeColor, diffuseColor.rgb, brightness );
+     * 	   // Return new output back into NodeMaterial flow
+     *     return super.setupOutput( builder, vec4( mixedColor, outputNode.a ) );
+     *   }
+     * }
+     * ```
+     *
      * @param {NodeBuilder} builder - The current node builder.
      * @param {Node<vec4>} outputNode - The existing output node.
      * @return {Node<vec4>} The output node.
@@ -462,12 +489,12 @@ declare class NodeMaterial extends Material {
      */
     setDefaultValues(material: Material): void;
     /**
-     * Copies the properties of the given node material to this instance.
+     * Copies the common properties of the given material to this instance.
      *
-     * @param {NodeMaterial} source - The material to copy.
+     * @param {Material} source - The material to copy.
      * @return {NodeMaterial} A reference to this node material.
      */
-    copy(source: NodeMaterial): this;
+    copy(source: Material): this;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface

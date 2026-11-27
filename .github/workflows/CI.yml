@@ -8,10 +8,10 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
         with:
           path: 'three-ts-types'
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
         with:
           repository: 'DefinitelyTyped/DefinitelyTyped'
           path: 'DefinitelyTyped'
@@ -28,16 +28,26 @@ jobs:
         working-directory: 'DefinitelyTyped'
       - run: git config --global user.email "nbierema@gmail.com"
       - run: git config --global user.name "Nathan Bierema"
-      - run: git commit -m "Changes"
+      # PRs that don't touch types/three (e.g. only patch updates) have nothing to test against DefinitelyTyped.
+      - id: commit
+        run: |
+          if git diff --cached --quiet; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            git commit -m "Changes"
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
         working-directory: 'DefinitelyTyped'
-      - run: pnpm install --filter . --filter ...[HEAD^1]...
+      - if: steps.commit.outputs.changed == 'true'
+        run: pnpm install --filter . --filter ...[HEAD^1]...
         working-directory: 'DefinitelyTyped'
-      - run: pnpm run test-all --diffBase HEAD^1
+      - if: steps.commit.outputs.changed == 'true'
+        run: pnpm run test-all --diffBase HEAD^1
         working-directory: 'DefinitelyTyped'
   check-fomatting:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
       - uses: pnpm/action-setup@v2
         with:
           version: 9
@@ -50,7 +60,7 @@ jobs:
   type-check:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
       - uses: pnpm/action-setup@v2
         with:
           version: 9
@@ -63,7 +73,7 @@ jobs:
   test-examples:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
         with:
           submodules: true
       - uses: pnpm/action-setup@v2
@@ -82,10 +92,10 @@ jobs:
         working-directory: examples-testing
       - run: pnpm run format-check
         working-directory: examples-testing
-  test-src:
+  test-jsodc:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
         with:
           submodules: true
       - uses: pnpm/action-setup@v2
@@ -96,16 +106,38 @@ jobs:
           node-version: 'lts/*'
           cache: 'pnpm'
       - run: pnpm install
-      - run: pnpm run create-src
-        working-directory: src-testing
-      - run: git apply changes.patch
-        working-directory: src-testing
-      - run: pnpm run format-check
-        working-directory: src-testing
       - run: pnpm run build-declarations
-        working-directory: src-testing
+        working-directory: jsdoc-testing
         continue-on-error: true
+      - run: git apply changes.patch
+        working-directory: jsdoc-testing
       - run: pnpm run format-dprint
-        working-directory: src-testing
+        working-directory: jsdoc-testing
       - run: pnpm run check-declarations
-        working-directory: src-testing
+        working-directory: jsdoc-testing
+  test-tsl:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          submodules: true
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 9
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 'lts/*'
+          cache: 'pnpm'
+      - run: pnpm install
+      - run: pnpm exec playwright install chromium
+        working-directory: tsl-testing
+      - run: pnpm run type-check
+        working-directory: tsl-testing
+      - run: pnpm generate-tsl-test
+        working-directory: tsl-testing
+      - run: git apply changes.patch --allow-empty
+        working-directory: tsl-testing
+      - run: pnpm run format-check
+        working-directory: tsl-testing
+      - run: pnpm run test
+        working-directory: tsl-testing

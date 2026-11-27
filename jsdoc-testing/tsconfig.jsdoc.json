@@ -1,5 +1,5 @@
 {
-    "include": ["../three.js/src/animation/**/*", "../three.js/src/materials/**/*"],
+    "include": ["../three.js/examples/jsm/**/*", "../three.js/src/**/*"],
     "compilerOptions": {
         "target": "es2017",
         "module": "NodeNext",
@@ -7,6 +7,7 @@
         "allowJs": true,
         "declaration": true,
         "emitDeclarationOnly": true,
+        "rootDir": "../three.js",
         "outDir": "jsdoc",
         "forceConsistentCasingInFileNames": true,
         "strict": true

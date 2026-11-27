@@ -1,19 +1,17 @@
-import { Node, TempNode, UniformNode, Vector2 } from "three/webgpu";
+import { Node } from "three/webgpu";
 
-declare class DotScreenNode extends TempNode {
+declare class DotScreenNode extends Node {
     inputNode: Node;
-    center: UniformNode<Vector2>;
-    angle: UniformNode<number>;
-    scale: UniformNode<number>;
+    angle: Node<"float">;
+    scale: Node<"float">;
 
-    constructor(inputNode: Node, center?: Vector2, angle?: number, scale?: number);
+    constructor(inputNode: Node, angle?: Node<"float"> | number, scale?: Node<"float"> | number);
 }
 
 export default DotScreenNode;
 
 export const dotScreen: (
     node: Node,
-    center?: Vector2,
-    angle?: number,
-    scale?: number,
+    angle?: Node<"float"> | number,
+    scale?: Node<"float"> | number,
 ) => DotScreenNode;

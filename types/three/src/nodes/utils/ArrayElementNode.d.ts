@@ -1,9 +1,15 @@
+import ArrayNode from "../core/ArrayNode.js";
 import Node from "../core/Node.js";
-import { TempNode } from "../Nodes.js";
 
-export default class ArrayElementNode extends TempNode {
-    node: Node;
+interface ArrayElementNodeInterface<TNodeType> {
+    node: ArrayNode<TNodeType>;
     indexNode: Node;
-
-    constructor(node: Node, indexNode: Node);
 }
+
+declare const ArrayElementNode: {
+    new<TNodeType>(node: ArrayNode<TNodeType>, indexNode: Node): ArrayElementNode<TNodeType>;
+};
+
+type ArrayElementNode<TNodeType> = Node<TNodeType> & ArrayElementNodeInterface<TNodeType>;
+
+export default ArrayElementNode;

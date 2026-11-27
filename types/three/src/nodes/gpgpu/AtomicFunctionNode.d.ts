@@ -11,71 +11,81 @@ export type AtomicMethod =
     | typeof AtomicFunctionNode.ATOMIC_OR
     | typeof AtomicFunctionNode.ATOMIC_XOR;
 
-declare class AtomicFunctionNode extends Node {
+interface AtomicFunctionNodeInterface {
     method: AtomicMethod;
     pointerNode: Node;
-    valueNode: Node;
+    valueNode: Node | null;
     parents: boolean;
-
-    constructor(method: AtomicMethod, pointerNode: Node, valueNode: Node);
-
-    static ATOMIC_LOAD: "atomicLoad";
-    static ATOMIC_STORE: "atomicStore";
-    static ATOMIC_ADD: "atomicAdd";
-    static ATOMIC_SUB: "atomicSub";
-    static ATOMIC_MAX: "atomicMax";
-    static ATOMIC_MIN: "atomicMin";
-    static ATOMIC_AND: "atomicAnd";
-    static ATOMIC_OR: "atomicOr";
-    static ATOMIC_XOR: "atomicXor";
 }
 
-export const atomicFunc: (
+declare const AtomicFunctionNode: {
+    new<TNodeType>(
+        method: AtomicMethod,
+        pointerNode: Node,
+        valueNode: Node | null,
+    ): AtomicFunctionNode<TNodeType>;
+
+    readonly ATOMIC_LOAD: "atomicLoad";
+    readonly ATOMIC_STORE: "atomicStore";
+    readonly ATOMIC_ADD: "atomicAdd";
+    readonly ATOMIC_SUB: "atomicSub";
+    readonly ATOMIC_MAX: "atomicMax";
+    readonly ATOMIC_MIN: "atomicMin";
+    readonly ATOMIC_AND: "atomicAnd";
+    readonly ATOMIC_OR: "atomicOr";
+    readonly ATOMIC_XOR: "atomicXor";
+};
+
+export type AtomicFunctionNode<TNodeType> = Node<TNodeType> & AtomicFunctionNodeInterface;
+
+export default AtomicFunctionNode;
+
+export const atomicFunc: <TNodeType>(
     method: AtomicMethod,
-    pointerNode: Node,
-    valueNode: Node,
-) => AtomicFunctionNode;
+    pointerNode: Node<TNodeType>,
+    valueNode: Node | null,
+) => AtomicFunctionNode<TNodeType>;
 
-export const atomicLoad: (
-    pointerNode: Node,
-) => AtomicFunctionNode;
+export const atomicLoad: <TNodeType>(
+    pointerNode: Node<TNodeType>,
+) => AtomicFunctionNode<TNodeType>;
 
-export const atomicStore: (
-    pointerNode: Node,
+export const atomicStore: <TNodeType>(
+    pointerNode: Node<TNodeType>,
     valueNode: Node | number,
-) => AtomicFunctionNode;
+) => AtomicFunctionNode<TNodeType>;
 
-export const atomicAdd: (
-    pointerNode: Node,
+export const atomicAdd: <TNodeType>(
+    pointerNode: Node<TNodeType>,
     valueNode: Node | number,
-) => AtomicFunctionNode;
+) => AtomicFunctionNode<TNodeType>;
 
-export const atomicSub: (
-    pointerNode: Node,
+export const atomicSub: <TNodeType>(
+    pointerNode: Node<TNodeType>,
     valueNode: Node | number,
-) => AtomicFunctionNode;
+) => AtomicFunctionNode<TNodeType>;
 
-export const atomicMax: (
-    pointerNode: Node,
+export const atomicMax: <TNodeType>(
+    pointerNode: Node<TNodeType>,
     valueNode: Node,
-) => AtomicFunctionNode;
+) => AtomicFunctionNode<TNodeType>;
 
-export const atomicMin: (
-    pointerNode: Node,
+export const atomicMin: <TNodeType>(
+    pointerNode: Node<TNodeType>,
     valueNode: Node,
-) => AtomicFunctionNode;
+) => AtomicFunctionNode<TNodeType>;
 
-export const atomicAnd: (
-    pointerNode: Node,
+export const atomicAnd: <TNodeType>(
+    pointerNode: Node<TNodeType>,
     valueNode: Node,
-) => AtomicFunctionNode;
+) => AtomicFunctionNode<TNodeType>;
 
-export const atomicOr: (
-    pointerNode: Node,
+export const atomicOr: <TNodeType>(
+    pointerNode: Node<TNodeType>,
     valueNode: Node,
-) => AtomicFunctionNode;
+) => AtomicFunctionNode<TNodeType>;
 
-export const atomicXor: (
-    pointerNode: Node,
+export const atomicXor: <TNodeType>(
+    pointerNode: Node<TNodeType>,
     valueNode: Node,
-) => AtomicFunctionNode;
+) => AtomicFunctionNode<TNodeType>;

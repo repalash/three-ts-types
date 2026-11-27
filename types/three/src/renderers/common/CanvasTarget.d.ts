@@ -3,31 +3,46 @@ import { Vector2 } from "../../math/Vector2.js";
 import { Vector4 } from "../../math/Vector4.js";
 import { DepthTexture } from "../../textures/DepthTexture.js";
 import { FramebufferTexture } from "../../textures/FramebufferTexture.js";
+
 export interface CanvasTargetEventMap {
     resize: {};
     dispose: {};
 }
+
 /**
  * CanvasTarget is a class that represents the final output destination of the renderer.
  *
  * @augments EventDispatcher
  */
-declare class CanvasTarget extends EventDispatcher<CanvasTargetEventMap> {
-    domElement: HTMLCanvasElement;
-    _pixelRatio: number;
-    _width: number;
-    _height: number;
-    _viewport: Vector4;
-    _scissor: Vector4;
-    _scissorTest: boolean;
-    colorTexture: FramebufferTexture;
-    depthTexture: DepthTexture;
+declare class CanvasTarget<TEventMap extends CanvasTargetEventMap = CanvasTargetEventMap>
+    extends EventDispatcher<TEventMap>
+{
     /**
      * Constructs a new CanvasTarget.
      *
      * @param {HTMLCanvasElement|OffscreenCanvas} domElement - The canvas element to render to.
      */
-    constructor(domElement: HTMLCanvasElement);
+    constructor(domElement: HTMLCanvasElement | OffscreenCanvas);
+    /**
+     * A reference to the canvas element the renderer is drawing to.
+     * This value of this property will automatically be created by
+     * the renderer.
+     *
+     * @type {HTMLCanvasElement|OffscreenCanvas}
+     */
+    domElement: HTMLCanvasElement | OffscreenCanvas;
+    /**
+     * The color texture of the default framebuffer.
+     *
+     * @type {FramebufferTexture}
+     */
+    colorTexture: FramebufferTexture;
+    /**
+     * The depth texture of the default framebuffer.
+     *
+     * @type {DepthTexture}
+     */
+    depthTexture: DepthTexture;
     /**
      * Returns the pixel ratio.
      *
@@ -85,6 +100,10 @@ declare class CanvasTarget extends EventDispatcher<CanvasTargetEventMap> {
     getScissor(target: Vector4): Vector4;
     /**
      * Defines the scissor rectangle.
+     */
+    setScissor(x: Vector4): void;
+    /**
+     * Defines the scissor rectangle.
      *
      * @param {number | Vector4} x - The horizontal coordinate for the lower left corner of the box in logical pixel unit.
      * Instead of passing four arguments, the method also works with a single four-dimensional vector.
@@ -92,7 +111,6 @@ declare class CanvasTarget extends EventDispatcher<CanvasTargetEventMap> {
      * @param {number} width - The width of the scissor box in logical pixel unit.
      * @param {number} height - The height of the scissor box in logical pixel unit.
      */
-    setScissor(x: Vector4): void;
     setScissor(x: number, y: number, width: number, height: number): void;
     /**
      * Returns the scissor test value.
@@ -115,6 +133,10 @@ declare class CanvasTarget extends EventDispatcher<CanvasTargetEventMap> {
     getViewport(target: Vector4): Vector4;
     /**
      * Defines the viewport.
+     */
+    setViewport(x: Vector4): void;
+    /**
+     * Defines the viewport.
      *
      * @param {number | Vector4} x - The horizontal coordinate for the lower left corner of the viewport origin in logical pixel unit.
      * @param {number} y - The vertical coordinate for the lower left corner of the viewport origin  in logical pixel unit.
@@ -123,14 +145,7 @@ declare class CanvasTarget extends EventDispatcher<CanvasTargetEventMap> {
      * @param {number} minDepth - The minimum depth value of the viewport. WebGPU only.
      * @param {number} maxDepth - The maximum depth value of the viewport. WebGPU only.
      */
-    setViewport(x: Vector4): void;
     setViewport(x: number, y: number, width: number, height: number, minDepth?: number, maxDepth?: number): void;
-    /**
-     * Dispatches the resize event.
-     *
-     * @private
-     */
-    _dispatchResize(): void;
     /**
      * Frees the GPU-related resources allocated by this instance. Call this
      * method whenever this instance is no longer used in your app.
@@ -139,4 +154,5 @@ declare class CanvasTarget extends EventDispatcher<CanvasTargetEventMap> {
      */
     dispose(): void;
 }
+
 export default CanvasTarget;

@@ -1,6 +1,6 @@
-import { Node, TempNode, TextureNode, UniformNode } from "three/webgpu";
+import { Node, TextureNode, UniformNode } from "three/webgpu";
 
-declare class TransitionNode extends TempNode {
+declare class TransitionNode extends Node {
     textureNodeA: TextureNode;
     textureNodeB: TextureNode;
     mixTextureNode: TextureNode;
@@ -25,7 +25,7 @@ export const transition: (
     node: Node,
     nodeB: Node,
     mixTexture: Node,
-    mixRatio: UniformNode<number>,
-    threshold: UniformNode<number>,
-    useTexture: UniformNode<number>,
+    mixRatio: Node | number,
+    threshold: Node | number,
+    useTexture: Node | number,
 ) => TransitionNode;

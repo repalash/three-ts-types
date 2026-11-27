@@ -10,7 +10,7 @@ export interface MeshPhysicalMaterialProperties extends MeshStandardMaterialProp
      * counter-clockwise from the tangent. When `anisotropyMap` is present, this
      * property provides additional rotation to the vectors in the texture.
      *
-     * @default 1
+     * @default 0
      */
     anisotropyRotation: number;
     /**
@@ -18,6 +18,10 @@ export interface MeshPhysicalMaterialProperties extends MeshStandardMaterialProp
      * bitangent space, to be rotated by `anisotropyRotation`. The blue channel
      * contains strength as `[0, 1]` to be multiplied by `anisotropy`.
      *
+     * `anisotropyMap` represents non-color data. Any texture assigned must have
+     * `texture.colorSpace = NoColorSpace` (default).
+     *
+     * @type {?Texture}
      * @default null
      */
     anisotropyMap: Texture | null;
@@ -25,6 +29,10 @@ export interface MeshPhysicalMaterialProperties extends MeshStandardMaterialProp
      * The red channel of this texture is multiplied against `clearcoat`,
      * for per-pixel control over a coating's intensity.
      *
+     * `clearcoatMap` represents non-color data. Any texture assigned must have
+     * `texture.colorSpace = NoColorSpace` (default).
+     *
+     * @type {?Texture}
      * @default null
      */
     clearcoatMap: Texture | null;
@@ -38,6 +46,10 @@ export interface MeshPhysicalMaterialProperties extends MeshStandardMaterialProp
      * The green channel of this texture is multiplied against
      * `clearcoatRoughness`, for per-pixel control over a coating's roughness.
      *
+     * `clearcoatRoughnessMap` represents non-color data. Any texture assigned must have
+     * `texture.colorSpace = NoColorSpace` (default).
+     *
+     * @type {?Texture}
      * @default null
      */
     clearcoatRoughnessMap: Texture | null;
@@ -51,9 +63,24 @@ export interface MeshPhysicalMaterialProperties extends MeshStandardMaterialProp
     /**
      * Can be used to enable independent normals for the clear coat layer.
      *
+     * `clearcoatNormalMap` represents non-color data. Any texture assigned must have
+     * `texture.colorSpace = NoColorSpace` (default).
+     *
+     * @type {?Texture}
      * @default null
      */
     clearcoatNormalMap: Texture | null;
+    /**
+     * The red channel of this texture is multiplied against `diffuseRoughness`,
+     * for per-pixel control over the diffuse roughness.
+     *
+     * `diffuseRoughnessMap` represents non-color data. Any texture assigned must have
+     * `texture.colorSpace = NoColorSpace` (default).
+     *
+     * @type {?Texture}
+     * @default null
+     */
+    diffuseRoughnessMap: Texture | null;
     /**
      * Index-of-refraction for non-metallic materials, from `1.0` to `2.333`.
      *
@@ -76,6 +103,10 @@ export interface MeshPhysicalMaterialProperties extends MeshStandardMaterialProp
      * The red channel of this texture is multiplied against `iridescence`, for per-pixel
      * control over iridescence.
      *
+     * `iridescenceMap` represents non-color data. Any texture assigned must have
+     * `texture.colorSpace = NoColorSpace` (default).
+     *
+     * @type {?Texture}
      * @default null
      */
     iridescenceMap: Texture | null;
@@ -87,19 +118,30 @@ export interface MeshPhysicalMaterialProperties extends MeshStandardMaterialProp
      */
     iridescenceIOR: number;
     /**
-     *Array of exactly 2 elements, specifying minimum and maximum thickness of the iridescence layer.
-     Thickness of iridescence layer has an equivalent effect of the one `thickness` has on `ior`.
+     * The minimum thickness of the iridescence layer in nanometers.
      *
-     * @default [100,400]
+     * @default 100
      */
-    iridescenceThicknessRange: [number, number];
+    iridescenceThicknessMinimum: number;
+    /**
+     * The maximum thickness of the iridescence layer in nanometers. If no
+     * `iridescenceThicknessMap` is defined, this value is used as the thickness.
+     *
+     * @default 400
+     */
+    iridescenceThicknessMaximum: number;
     /**
      * A texture that defines the thickness of the iridescence layer, stored in the green channel.
-     * Minimum and maximum values of thickness are defined by `iridescenceThicknessRange` array:
-     * - `0.0` in the green channel will result in thickness equal to first element of the array.
-     * - `1.0` in the green channel will result in thickness equal to second element of the array.
-     * - Values in-between will linearly interpolate between the elements of the array.
+     * Minimum and maximum values of thickness are defined by `iridescenceThicknessMinimum` and
+     * `iridescenceThicknessMaximum`:
+     * - `0.0` in the green channel will result in thickness equal to `iridescenceThicknessMinimum`.
+     * - `1.0` in the green channel will result in thickness equal to `iridescenceThicknessMaximum`.
+     * - Values in-between will linearly interpolate between both values.
      *
+     * `iridescenceThicknessMap` represents non-color data. Any texture assigned must have
+     * `texture.colorSpace = NoColorSpace` (default).
+     *
+     * @type {?Texture}
      * @default null
      */
     iridescenceThicknessMap: Texture | null;
@@ -113,6 +155,11 @@ export interface MeshPhysicalMaterialProperties extends MeshStandardMaterialProp
      * The RGB channels of this texture are multiplied against  `sheenColor`, for per-pixel control
      * over sheen tint.
      *
+     * `sheenColorMap` represents color data, and the texture must be assigned a
+     * {@link Texture#colorSpace}. Most `sheenColorMap` textures set
+     * `texture.colorSpace = SRGBColorSpace`.
+     *
+     * @type {?Texture}
      * @default null
      */
     sheenColorMap: Texture | null;
@@ -126,6 +173,10 @@ export interface MeshPhysicalMaterialProperties extends MeshStandardMaterialProp
      * The alpha channel of this texture is multiplied against `sheenRoughness`, for per-pixel control
      * over sheen roughness.
      *
+     * `sheenRoughnessMap` represents non-color data. Any texture assigned must have
+     * `texture.colorSpace = NoColorSpace` (default).
+     *
+     * @type {?Texture}
      * @default null
      */
     sheenRoughnessMap: Texture | null;
@@ -133,6 +184,10 @@ export interface MeshPhysicalMaterialProperties extends MeshStandardMaterialProp
      * The red channel of this texture is multiplied against `transmission`, for per-pixel control over
      * optical transparency.
      *
+     * `transmissionMap` represents non-color data. Any texture assigned must have
+     * `texture.colorSpace = NoColorSpace` (default).
+     *
+     * @type {?Texture}
      * @default null
      */
     transmissionMap: Texture | null;
@@ -148,6 +203,10 @@ export interface MeshPhysicalMaterialProperties extends MeshStandardMaterialProp
      * A texture that defines the thickness, stored in the green channel. This will
      * be multiplied by `thickness`.
      *
+     * `thicknessMap` represents non-color data. Any texture assigned must have
+     * `texture.colorSpace = NoColorSpace` (default).
+     *
+     * @type {?Texture}
      * @default null
      */
     thicknessMap: Texture | null;
@@ -177,6 +236,10 @@ export interface MeshPhysicalMaterialProperties extends MeshStandardMaterialProp
      * The alpha channel of this texture is multiplied against `specularIntensity`,
      * for per-pixel control over specular intensity.
      *
+     * `specularIntensityMap` represents non-color data. Any texture assigned must have
+     * `texture.colorSpace = NoColorSpace` (default).
+     *
+     * @type {?Texture}
      * @default null
      */
     specularIntensityMap: Texture | null;
@@ -190,6 +253,11 @@ export interface MeshPhysicalMaterialProperties extends MeshStandardMaterialProp
      * The RGB channels of this texture are multiplied against `specularColor`,
      * for per-pixel control over specular color.
      *
+     * `specularColorMap` represents color data, and the texture must be assigned a
+     * {@link Texture#colorSpace}. Most `specularColorMap` textures set
+     * `texture.colorSpace = SRGBColorSpace`.
+     *
+     * @type {?Texture}
      * @default null
      */
     specularColorMap: Texture | null;
@@ -209,6 +277,15 @@ export interface MeshPhysicalMaterialProperties extends MeshStandardMaterialProp
      * @default 0
      */
     get clearcoat(): number;
+    set diffuseRoughness(value: number);
+    /**
+     * Roughness of the diffuse layer, from `0.0` to `1.0`. A value of `0.0`
+     * uses Lambertian diffuse reflection. Values above `0.0` use the EON
+     * energy-preserving rough diffuse model.
+     *
+     * @default 0
+     */
+    get diffuseRoughness(): number;
     set iridescence(value: number);
     /**
      * The intensity of the iridescence layer, simulating RGB color shift based on the angle between
@@ -226,6 +303,16 @@ export interface MeshPhysicalMaterialProperties extends MeshStandardMaterialProp
      * @default 0
      */
     get dispersion(): number;
+    set retroreflectivity(value: number);
+    /**
+     * The strength of retroreflection, from `0.0` to `1.0`. A value of `1.0`
+     * evaluates the material's microfacet reflection with the view direction
+     * reflected about the surface normal, redirecting the specular lobe back
+     * toward the light source.
+     *
+     * @default 0
+     */
+    get retroreflectivity(): number;
     set sheen(value: number);
     /**
      * The intensity of the sheen layer, from `0.0` to `1.0`.
@@ -246,6 +333,14 @@ export interface MeshPhysicalMaterialProperties extends MeshStandardMaterialProp
      * @default 0
      */
     get transmission(): number;
+    set iridescenceThicknessRange(value: [number, number]);
+    /**
+     * Array of exactly 2 elements, specifying minimum and maximum thickness of the iridescence layer.
+     *
+     * @deprecated since r187. Use {@link MeshPhysicalMaterial#iridescenceThicknessMinimum} and {@link MeshPhysicalMaterial#iridescenceThicknessMaximum} instead.
+     * @default [100,400]
+     */
+    get iridescenceThicknessRange(): [number, number];
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -262,6 +357,8 @@ export interface MeshPhysicalMaterialParameters
  * - Clearcoat: Some materials — like car paints, carbon fiber, and wet surfaces — require
  * a clear, reflective layer on top of another layer that may be irregular or rough.
  * Clearcoat approximates this effect, without the need for a separate transparent surface.
+ * - Diffuse roughness: Produces the flatter appearance and enhanced backscattering of
+ * rough diffuse surfaces such as clay, concrete, and unpolished materials.
  * - Iridescence: Allows to render the effect where hue varies  depending on the viewing
  * angle and illumination angle. This can be seen on soap bubbles, oil films, or on the
  * wings of many insects.
@@ -269,6 +366,8 @@ export interface MeshPhysicalMaterialParameters
  * transparent materials are less reflective. Physically-based transmission provides a more
  * realistic option for thin, transparent surfaces like glass.
  * - Advanced reflectivity: More flexible reflectivity for non-metallic materials.
+ * - Retroreflection: Redirects specular light back toward the light source for
+ * safety materials like road markings and reflective tape.
  * - Sheen: Can be used for representing cloth and fabric materials.
  *
  * As a result of these complex shading features, `MeshPhysicalMaterial` has a

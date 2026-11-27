@@ -27,6 +27,9 @@ export type CullFace = typeof CullFaceNone | typeof CullFaceBack | typeof CullFa
 // Shadowing Type
 export const BasicShadowMap: 0;
 export const PCFShadowMap: 1;
+/**
+ * @deprecated since r186. Use {@link PCFShadowMap} instead.
+ */
 export const PCFSoftShadowMap: 2;
 export const VSMShadowMap: 3;
 export type ShadowMapType = typeof BasicShadowMap | typeof PCFShadowMap | typeof PCFSoftShadowMap | typeof VSMShadowMap;
@@ -50,13 +53,15 @@ export const AdditiveBlending: 2;
 export const SubtractiveBlending: 3;
 export const MultiplyBlending: 4;
 export const CustomBlending: 5;
+export const MaterialBlending: 6;
 export type Blending =
     | typeof NoBlending
     | typeof NormalBlending
     | typeof AdditiveBlending
     | typeof SubtractiveBlending
     | typeof MultiplyBlending
-    | typeof CustomBlending;
+    | typeof CustomBlending
+    | typeof MaterialBlending;
 
 // custom blending equations
 // (numbers start from 100 not to clash with other
@@ -172,7 +177,6 @@ export const UVMapping: 300;
  */
 export const CubeReflectionMapping: 301;
 export const CubeRefractionMapping: 302;
-export const CubeUVReflectionMapping: 306;
 
 export const EquirectangularReflectionMapping: 303;
 export const EquirectangularRefractionMapping: 304;
@@ -194,8 +198,7 @@ export type Mapping =
  */
 export type CubeTextureMapping =
     | typeof CubeReflectionMapping
-    | typeof CubeRefractionMapping
-    | typeof CubeUVReflectionMapping;
+    | typeof CubeRefractionMapping;
 
 /**
  * Texture Mapping Modes for any type of Textures
@@ -651,7 +654,12 @@ export type AnimationActionLoopStyles = typeof LoopOnce | typeof LoopRepeat | ty
 export const InterpolateDiscrete: 2300;
 export const InterpolateLinear: 2301;
 export const InterpolateSmooth: 2302;
-export type InterpolationModes = typeof InterpolateDiscrete | typeof InterpolateLinear | typeof InterpolateSmooth;
+export const InterpolateBezier: 2303;
+export type InterpolationModes =
+    | typeof InterpolateDiscrete
+    | typeof InterpolateLinear
+    | typeof InterpolateSmooth
+    | typeof InterpolateBezier;
 
 // Interpolant ending modes
 export const ZeroCurvatureEnding: 2400;
@@ -839,6 +847,21 @@ export type InterpolationSamplingMode =
     | typeof InterpolationSamplingMode.SAMPLE
     | typeof InterpolationSamplingMode.FIRST
     | typeof InterpolationSamplingMode.EITHER;
+
+export const Compatibility: {
+    TEXTURE_COMPARE: "depthTextureCompare";
+};
+export type Compatibility = typeof Compatibility.TEXTURE_COMPARE;
+
+export const RenderObjectRefreshType: {
+    NONE: 0;
+    SHARED: 1;
+    FULL: 2;
+};
+export type RenderObjectRefreshType =
+    | typeof RenderObjectRefreshType.NONE
+    | typeof RenderObjectRefreshType.SHARED
+    | typeof RenderObjectRefreshType.FULL;
 
 ///////////////////////////////////////////////////////////////////////////////
 // Texture - Internal Pixel Formats

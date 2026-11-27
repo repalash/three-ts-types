@@ -1,10 +1,21 @@
+import Node from "../../nodes/core/Node.js";
 import ToonLightingModel from "../../nodes/functions/ToonLightingModel.js";
 import { MapColorPropertiesToColorRepresentations } from "../Material.js";
 import { MeshToonMaterialParameters, MeshToonMaterialProperties } from "../MeshToonMaterial.js";
 import NodeMaterial, { NodeMaterialNodeProperties } from "./NodeMaterial.js";
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface MeshToonNodeMaterialNodeProperties extends NodeMaterialNodeProperties {
+    /**
+     * The emissive color of toon materials is by default inferred from the `emissive`,
+     * `emissiveIntensity` and `emissiveMap` properties. This node property allows to
+     * overwrite the default and define the emissive color with a node instead.
+     *
+     * If you don't want to overwrite the emissive color but modify the existing
+     * value instead, use {@link materialEmissive}.
+     *
+     * @default null
+     */
+    emissiveNode: Node | null;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -16,8 +27,6 @@ export interface MeshToonNodeMaterialParameters
 
 /**
  * Node material version of {@link MeshToonMaterial}.
- *
- * @augments NodeMaterial
  */
 declare class MeshToonNodeMaterial extends NodeMaterial {
     /**
@@ -29,8 +38,6 @@ declare class MeshToonNodeMaterial extends NodeMaterial {
     /**
      * This flag can be used for type testing.
      *
-     * @type {boolean}
-     * @readonly
      * @default true
      */
     readonly isMeshToonNodeMaterial: boolean;

@@ -8,7 +8,7 @@ import StructTypeNode from "../core/StructTypeNode.js";
 import StorageArrayElementNode from "../utils/StorageArrayElementNode.js";
 import BufferNode from "./BufferNode.js";
 
-export default class StorageBufferNode extends BufferNode<StorageBufferAttribute | StorageInstancedBufferAttribute> {
+interface StorageBufferNodeInterface<TNodeType> {
     readonly isStorageBufferNode: true;
 
     structTypeNode: StructTypeNode | null;
@@ -19,13 +19,7 @@ export default class StorageBufferNode extends BufferNode<StorageBufferAttribute
 
     bufferObject: boolean;
 
-    constructor(
-        value: StorageBufferAttribute | StorageInstancedBufferAttribute,
-        bufferType?: string | Struct | null,
-        bufferCount?: number,
-    );
-
-    element: (indexNode: Node | number) => StorageArrayElementNode;
+    element: (indexNode: Node | number) => StorageArrayElementNode<TNodeType>;
 
     setPBO(value: boolean): this;
 
@@ -39,18 +33,50 @@ export default class StorageBufferNode extends BufferNode<StorageBufferAttribute
 
     toAtomic(): this;
 }
+declare const StorageBufferNode: {
+    new<TNodeType>(
+        value: StorageBufferAttribute | StorageInstancedBufferAttribute,
+        bufferType?: string | Struct | null,
+        bufferCount?: number,
+    ): StorageBufferNode<TNodeType>;
+};
 
-export const storage: (
-    value: StorageBufferAttribute | StorageInstancedBufferAttribute | BufferAttribute,
-    type?: string | Struct | null,
-    count?: number,
-) => StorageBufferNode;
+type StorageBufferNode<TNodeType> =
+    & StorageBufferNodeInterface<TNodeType>
+    & BufferNode<TNodeType, StorageBufferAttribute | StorageInstancedBufferAttribute>;
 
-/**
- * @deprecated
- */
-export const storageObject: (
-    value: StorageBufferAttribute | StorageInstancedBufferAttribute,
-    type?: string | Struct | null,
-    count?: number,
-) => StorageBufferNode;
+export default StorageBufferNode;
+
+type StorageNodeType =
+    | "float"
+    | "uint"
+    | "int"
+    | "vec2"
+    | "uvec2"
+    | "ivec2"
+    | "vec3"
+    | "uvec3"
+    | "ivec3"
+    | "vec4"
+    | "uvec4"
+    | "ivec4"
+    | "mat2"
+    | "mat3"
+    | "mat4";
+
+interface Storage {
+    <const TNodeType extends StorageNodeType>(
+        value: StorageBufferAttribute | StorageInstancedBufferAttribute | BufferAttribute,
+        type: TNodeType,
+        count: number,
+    ): StorageBufferNode<TNodeType>;
+    (
+        value: StorageBufferAttribute | StorageInstancedBufferAttribute | BufferAttribute,
+        type: Struct,
+        count: number,
+    ): StorageBufferNode<"struct">;
+}
+
+export const storage: Storage;
+
+export {};

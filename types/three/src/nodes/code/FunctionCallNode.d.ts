@@ -1,11 +1,8 @@
 import Node from "../core/Node.js";
-import TempNode from "../core/TempNode.js";
 import { ProxiedObject } from "../tsl/TSLCore.js";
 import FunctionNode, { FunctionNodeArguments } from "./FunctionNode.js";
 
-export default class FunctionCallNode<P extends Array<Node | number> | { [name: string]: Node | number }>
-    extends TempNode
-{
+export default class FunctionCallNode<P extends Array<Node | number> | { [name: string]: Node | number }> extends Node {
     functionNode: FunctionNode<P>;
     parameters: { [name: string]: Node };
 
@@ -23,6 +20,5 @@ export const call: <P extends FunctionNodeArguments>(
 declare module "../Nodes.js" {
     interface FunctionNode<P extends FunctionNodeArguments> {
         call: (parameters?: ProxiedObject<P>) => FunctionCallNode<P>;
-        callAssign: (parameters?: ProxiedObject<P>) => this;
     }
 }

@@ -1,15 +1,23 @@
 import Node from "./Node.js";
 import NodeBuilder from "./NodeBuilder.js";
 
-export default class AttributeNode extends Node {
-    constructor(attributeName: string, nodeType?: string | null);
-
+interface AttributeNodeInterface {
     setAttributeName(attributeName: string): this;
 
     getAttributeName(builder: NodeBuilder): string;
+
+    getContextAttribute(builder: NodeBuilder): Node | null;
 }
 
-export const attribute: (
+declare const AttributeNode: {
+    new<const TNodeType>(attributeName: string, nodeType?: TNodeType | null): AttributeNode<TNodeType>;
+};
+
+type AttributeNode<TNodeType = unknown> = Node<TNodeType> & AttributeNodeInterface;
+
+export default AttributeNode;
+
+export const attribute: <const TNodeType>(
     name: string,
-    nodeType?: string | null,
-) => AttributeNode;
+    nodeType?: TNodeType | null,
+) => AttributeNode<TNodeType>;

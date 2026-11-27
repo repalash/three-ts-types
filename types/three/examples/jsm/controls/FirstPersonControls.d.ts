@@ -15,6 +15,15 @@ declare class FirstPersonControls extends Controls<{}> {
     lookSpeed: number;
 
     /**
+     * How quickly the movement and look velocity catches up to the input. Lower
+     * values feel heavier (more inertia), `1` disables damping.
+     *
+     * @type {number}
+     * @default 0.1
+     */
+    dampingFactor: number;
+
+    /**
      * Whether or not it's possible to vertically look around. Default is `true`.
      */
     lookVertical: boolean;
@@ -23,11 +32,6 @@ declare class FirstPersonControls extends Controls<{}> {
      * Whether or not the camera is automatically moved forward. Default is `false`.
      */
     autoForward: boolean;
-
-    /**
-     * Whether or not it's possible to look around. Default is `true`.
-     */
-    activeLook: boolean;
 
     /**
      * Whether or not the camera's height influences the forward movement speed. Default is `false`.
@@ -79,11 +83,6 @@ declare class FirstPersonControls extends Controls<{}> {
     constructor(object: Camera, domElement?: HTMLElement | SVGElement);
 
     /**
-     * Should be called if the application window is resized.
-     */
-    handleResize(): void;
-
-    /**
      * Ensures the controls orient the camera towards the defined target position.
      * @param vector A vector representing the target position.
      */
@@ -96,6 +95,11 @@ declare class FirstPersonControls extends Controls<{}> {
      * @param z The z component of the world space position.
      */
     lookAt(x: number, y: number, z: number): this;
+
+    /**
+     * @deprecated The controls now handle resize internally.
+     */
+    handleResize(): void;
 }
 
 export { FirstPersonControls };

@@ -1,16 +1,19 @@
 import Node from "./Node.js";
 import NodeBuilder from "./NodeBuilder.js";
+
 export interface MembersLayout {
     [name: string]: string | {
         type: string;
         atomic?: boolean;
     };
 }
+
 export interface MemberLayout {
     name: string;
     type: string;
     atomic: boolean;
 }
+
 /**
  * Represents a struct type node in the node-based system.
  * This class is used to define and manage the layout and types of struct members.
@@ -20,10 +23,6 @@ export interface MemberLayout {
  * @augments Node
  */
 declare class StructTypeNode extends Node {
-    static get type(): string;
-    membersLayout: MemberLayout[];
-    name: string | null;
-    readonly isStructLayoutNode: true;
     /**
      * Creates an instance of StructTypeNode.
      *
@@ -32,15 +31,27 @@ declare class StructTypeNode extends Node {
      */
     constructor(membersLayout: MembersLayout, name?: string | null);
     /**
-     * Returns the length of the struct.
-     * The length is calculated by summing the lengths of the struct's members.
+     * The layout of the members for the struct
      *
-     * @returns {number} The length of the struct.
+     * @type {Array.<{name: string, type: string, atomic: boolean}>}
+     */
+    membersLayout: Array<MemberLayout>;
+    /**
+     * This flag can be used for type testing.
+     *
+     * @type {boolean}
+     * @readonly
+     * @default true
+     */
+    readonly isStructTypeNode: boolean;
+    /**
+     * Returns the length of the struct in 4-byte elements (e.g. float or int components).
+     * The length is calculated by summing the lengths of the struct's members, accounting for memory alignment.
+     * To get the size in bytes, multiply the returned value by 4.
+     *
+     * @returns {number} The length of the struct in 4-byte elements.
      */
     getLength(): number;
-    getMemberType(builder: NodeBuilder, name: string): string;
-    getNodeType(builder: NodeBuilder): string;
-    setup(builder: NodeBuilder): void;
-    generate(builder: NodeBuilder): string;
 }
+
 export default StructTypeNode;

@@ -3,8 +3,8 @@ import {
     Color,
     ColorRepresentation,
     Mesh,
+    Node,
     NodeMaterial,
-    TempNode,
     Texture,
     TextureNode,
     UniformNode,
@@ -30,19 +30,19 @@ declare class WaterMesh extends Mesh<BufferGeometry, NodeMaterial> {
     constructor(geometry: BufferGeometry, options: WaterMeshOptions);
 }
 
-declare class WaterNode extends TempNode {
+declare class WaterNode extends Node<"vec4"> {
     waterBody: WaterMesh;
 
     normalMap0: TextureNode;
     normalMap1: TextureNode;
     flowMap: TextureNode;
 
-    color: UniformNode<Color>;
-    flowDirection: UniformNode<Vector2>;
-    flowSpeed: UniformNode<number>;
-    reflectivity: UniformNode<number>;
-    scale: UniformNode<number>;
-    flowConfig: UniformNode<Vector3>;
+    color: UniformNode<"color">;
+    flowDirection: UniformNode<"vec2">;
+    flowSpeed: UniformNode<"float">;
+    reflectivity: UniformNode<"float">;
+    scale: UniformNode<"float">;
+    flowConfig: UniformNode<"vec3">;
 
     constructor(options: WaterMeshOptions, waterBody: WaterMesh);
 

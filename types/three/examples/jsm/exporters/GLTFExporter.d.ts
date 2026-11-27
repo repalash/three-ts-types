@@ -34,7 +34,7 @@ export interface GLTFExporterOptions {
     /**
      * List of animations to be included in the export.
      */
-    animations?: AnimationClip[];
+    animations?: AnimationClip[] | AnimationClip[][];
 
     /**
      * Generate indices for non-index geometry and export with them. Default is false.
@@ -57,6 +57,11 @@ export interface GLTFExporterOptions {
      * If set to true, the exporter ignores textures without `image`(`source.data`) property. Otherwise, an error is thrown.
      */
     ignoreEmptyTextures?: boolean;
+
+    /**
+     * Export with a copyright notice embedded in the glTF. Default is null.
+     */
+    copyright?: string;
 }
 
 type TextureUtils = {
@@ -101,7 +106,7 @@ declare class GLTFExporter {
     parse(
         input: Object3D | Object3D[],
         onDone: (gltf: ArrayBuffer | { [key: string]: unknown }) => void,
-        onError: (error: ErrorEvent) => void,
+        onError: ((error: ErrorEvent) => void) | null,
         options?: GLTFExporterOptions,
         gltfWriter?: GLTFWriter,
     ): void;

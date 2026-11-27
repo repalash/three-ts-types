@@ -1,12 +1,17 @@
-import { BoxGeometry, Mesh, NodeMaterial, UniformNode, Vector3 } from "three/webgpu";
+import { BoxGeometry, Mesh, NodeMaterial, UniformNode } from "three/webgpu";
 
 declare class SkyMesh extends Mesh<BoxGeometry, NodeMaterial> {
-    turbidity: UniformNode<number>;
-    rayleigh: UniformNode<number>;
-    mieCoefficient: UniformNode<number>;
-    mieDirectionalG: UniformNode<number>;
-    sunPosition: UniformNode<Vector3>;
-    upUniform: UniformNode<Vector3>;
+    turbidity: UniformNode<"float">;
+    rayleigh: UniformNode<"float">;
+    mieCoefficient: UniformNode<"float">;
+    mieDirectionalG: UniformNode<"float">;
+    sunPosition: UniformNode<"vec3">;
+    cloudScale: UniformNode<"float">;
+    cloudSpeed: UniformNode<"float">;
+    cloudCoverage: UniformNode<"float">;
+    cloudDensity: UniformNode<"float">;
+    cloudElevation: UniformNode<"float">;
+    showSunDisc: UniformNode<"float", number | boolean>;
 
     /**
      * @deprecated

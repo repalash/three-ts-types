@@ -1,29 +1,29 @@
 import Node from "../core/Node.js";
-import MathNode from "../math/MathNode.js";
 
-export const grayscale: (color: Node) => Node;
+export const workingLuminanceCoefficients: Node<"vec3">;
+
+export const grayscale: (color: Node, luminanceCoefficients?: Node) => Node<"float">;
 
 export const saturation: (
     color: Node,
     adjustment?: Node | number,
-) => Node;
+    luminanceCoefficients?: Node,
+) => Node<"vec3">;
 
 export const vibrance: (
     color: Node,
     adjustment?: Node | number,
-) => Node;
+) => Node<"vec3">;
 
 export const hue: (
     color: Node,
     adjustment?: Node | number,
-) => Node;
+) => Node<"vec3">;
 
 export const luminance: (
     color: Node,
     luminanceCoefficients?: Node,
-) => MathNode;
-
-export const threshold: (color: Node, thershold: Node) => MathNode;
+) => Node<"float">;
 
 /**
  * Color Decision List (CDL) v1.2
@@ -52,4 +52,6 @@ export const cdl: (
     power?: Node,
     saturation?: Node,
     luminanceCoefficients?: Node,
-) => Node;
+) => Node<"vec4">;
+
+export const posterize: <TNodeType>(sourceNode: Node<TNodeType>, stepsNode: Node | number) => Node<TNodeType>;

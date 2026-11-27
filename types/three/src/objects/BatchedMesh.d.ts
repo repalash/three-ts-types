@@ -5,6 +5,7 @@ import { Box3 } from "../math/Box3.js";
 import { Color } from "../math/Color.js";
 import { Matrix4 } from "../math/Matrix4.js";
 import { Sphere } from "../math/Sphere.js";
+import { Vector4 } from "../math/Vector4.js";
 import { Mesh } from "./Mesh.js";
 
 export interface BatchedMeshGeometryRange {
@@ -52,6 +53,10 @@ export interface BatchedMeshGeometryRange {
  * batchedMesh.setMatrixAt( sphereInstancedId2, sphereMatrix2 );
  *
  * scene.add( batchedMesh );
+ *
+ * The first geometry added defines the layout of the batch. All subsequent geometries must
+ * match its index usage and provide its attributes with the same itemSize and normalized
+ * values. Additional attributes are ignored.
  *
  * @also Example: {@link https://threejs.org/examples/#webgl_mesh_batch WebGL / mesh / batch}
  */
@@ -113,12 +118,13 @@ declare class BatchedMesh extends Mesh<BufferGeometry, Material> {
     /**
      * Computes the bounding box, updating {@link .boundingBox} attribute.
      * Bounding boxes aren't computed by default. They need to be explicitly computed, otherwise they are `null`.
+     * Must be recomputed when instances change.
      */
     computeBoundingBox(): void;
 
     /**
      * Computes the bounding sphere, updating {@link .boundingSphere} attribute.
-     * Bounding spheres aren't computed by default. They need to be explicitly computed, otherwise they are `null`.
+     * The engine computes the bounding sphere once when it is needed. Must be recomputed when instances change.
      */
     computeBoundingSphere(): void;
 
@@ -126,7 +132,7 @@ declare class BatchedMesh extends Mesh<BufferGeometry, Material> {
      * Frees the GPU-related resources allocated by this instance. Call this method whenever this instance is no longer
      * used in your app.
      */
-    dispose(): this;
+    dispose(): void;
 
     /**
      * Takes a sort a function that is run before render. The function takes a list of instances to sort and a camera.
@@ -141,9 +147,12 @@ declare class BatchedMesh extends Mesh<BufferGeometry, Material> {
     /**
      * Get the color of the defined geometry.
      * @param instanceId The id of an instance to get the color of.
-     * @param target The target object to copy the color in to.
+     * @param color - The target object that is used to store the method's result.
+     * @return The instance's color. Use a `Vector4` to also retrieve alpha.
      */
-    getColorAt(instanceId: number, target: Color): void;
+    getColorAt(instanceId: number, color: Color): Color;
+    getColorAt(instanceId: number, color: Vector4): Vector4;
+    getColorAt(instanceId: number, color: Color | Vector4): Color | Vector4;
 
     /**
      * Get the local transformation matrix of the defined instance.
@@ -160,7 +169,7 @@ declare class BatchedMesh extends Mesh<BufferGeometry, Material> {
 
     /**
      * Get the range representing the subset of triangles related to the attached geometry, indicating the starting
-     * offset and count, or `null` if invalid.
+     * offset and count, or throws an error if invalid.
      *
      * Return an object of the form: { start: Integer, count: Integer }
      * @param geometryId The id of the geometry to get the range of.
@@ -169,7 +178,7 @@ declare class BatchedMesh extends Mesh<BufferGeometry, Material> {
     getGeometryRangeAt(
         geometryId: number,
         target?: BatchedMeshGeometryRange,
-    ): BatchedMeshGeometryRange | null;
+    ): BatchedMeshGeometryRange;
 
     /**
      * Get the geometryIndex of the defined instance.
@@ -180,9 +189,9 @@ declare class BatchedMesh extends Mesh<BufferGeometry, Material> {
     /**
      * Sets the given color to the defined geometry instance.
      * @param instanceId The id of the instance to set the color of.
-     * @param color The color to set the instance to.
+     * @param color The color to set the instance to. Use a `Vector4` to also define alpha.
      */
-    setColorAt(instanceId: number, color: Color): void;
+    setColorAt(instanceId: number, color: Color | Vector4): void;
 
     /**
      * Sets the given local transformation matrix to the defined instance.

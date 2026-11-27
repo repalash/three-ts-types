@@ -13,6 +13,8 @@ export interface KTX2LoaderWorkerConfig {
 }
 
 export class KTX2Loader extends Loader<CompressedTexture> {
+    readonly isKTX2Loader: true;
+
     transcoderPath: string;
     transcoderBinary: ArrayBuffer | null;
     transcoderPending: Promise<void> | null;
@@ -54,7 +56,7 @@ export class KTX2Loader extends Loader<CompressedTexture> {
     /**
      * Disposes the loader object, de-allocating any Web Workers created.
      */
-    dispose(): this;
+    dispose(): void;
 
     parse(
         buffer: ArrayBuffer,
@@ -63,5 +65,4 @@ export class KTX2Loader extends Loader<CompressedTexture> {
     ): this;
 
     createTexture(buffer: ArrayBuffer, config: any): Promise<CompressedTexture>;
-
 }

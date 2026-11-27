@@ -7,7 +7,14 @@ import { Vector2Tuple } from "../math/Vector2.js";
 import { Vector3Tuple } from "../math/Vector3.js";
 import { Vector4Tuple } from "../math/Vector4.js";
 import { IUniform } from "../renderers/shaders/UniformsLib.js";
-import { MapColorPropertiesToColorRepresentations, Material, MaterialEventMap, MaterialJSON, MaterialProperties } from "./Material.js";
+import { Texture } from "../textures/Texture.js";
+import {
+    MapColorPropertiesToColorRepresentations,
+    Material,
+    MaterialEventMap,
+    MaterialJSON,
+    MaterialProperties,
+} from "./Material.js";
 
 export interface ShaderMaterialProperties extends MaterialProperties {
     /**
@@ -258,6 +265,7 @@ export class ShaderMaterial<TE extends MaterialEventMap = MaterialEventMap> exte
     readonly isShaderMaterial: boolean;
     setValues(values?: ShaderMaterialParameters): void;
     toJSON(meta?: JSONMeta): ShaderMaterialJSON;
+    fromJSON(json: MaterialJSON, textures: Record<string, Texture>): this;
 }
 
 export interface ShaderMaterial<TE extends MaterialEventMap = MaterialEventMap> extends ShaderMaterialProperties {

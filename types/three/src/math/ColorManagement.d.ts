@@ -37,19 +37,9 @@ export interface ColorManagement {
 
     getTransfer: (colorSpace: string) => ColorSpaceTransfer;
 
-    getLuminanceCoefficients: (target: Vector3, colorSpace?: string) => [number, number, number];
+    getLuminanceCoefficients: (target: Vector3, colorSpace?: string) => Vector3;
 
     define: (colorSpaces: Record<string, ColorSpaceDefinition>) => void;
-
-    /**
-     * @deprecated .fromWorkingColorSpace() has been renamed to .workingToColorSpace().
-     */
-    fromWorkingColorSpace: (color: Color, targetColorSpace: string) => Color;
-
-    /**
-     * @deprecated .toWorkingColorSpace() has been renamed to .colorSpaceToWorking().
-     */
-    toWorkingColorSpace: (color: Color, sourceColorSpace: string) => Color;
 }
 
 export const ColorManagement: ColorManagement;

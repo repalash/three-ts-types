@@ -1,14 +1,15 @@
-import { Color, MeshBasicMaterial, ShaderMaterial, Vector2, Vector3, WebGLRenderTarget } from "three";
+import { Color, ShaderMaterial, Vector2, Vector3, WebGLRenderTarget } from "three";
 
 import { FullScreenQuad, Pass } from "./Pass.js";
 
 export class UnrealBloomPass extends Pass {
-    constructor(resolution: Vector2, strength: number, radius: number, threshold: number);
-    resolution: Vector2;
     strength: number;
     radius: number;
     threshold: number;
+    resolution: Vector2;
     clearColor: Color;
+    needsUpdate: boolean;
+
     renderTargetsHorizontal: WebGLRenderTarget[];
     renderTargetsVertical: WebGLRenderTarget[];
     nMips: number;
@@ -20,12 +21,7 @@ export class UnrealBloomPass extends Pass {
     bloomTintColors: Vector3[];
     copyUniforms: object;
     blendMaterial: ShaderMaterial;
-    oldClearColor: Color;
-    oldClearAlpha: number;
-    basic: MeshBasicMaterial;
-    _fsQuad: FullScreenQuad; // three-modded: the JS has used _fsQuad since r175 (upstream typings still say fsQuad)
+    _fsQuad: FullScreenQuad; // three-modded: the JS has used _fsQuad since r175 (upstream typings leave it out as internal)
 
-    dispose(): void;
-    getSeparableBlurMaterial(): ShaderMaterial;
-    getCompositeMaterial(): ShaderMaterial;
+    constructor(resolution: Vector2, strength: number, radius: number, threshold: number);
 }

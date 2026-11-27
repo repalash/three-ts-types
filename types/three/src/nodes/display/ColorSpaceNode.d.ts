@@ -1,7 +1,6 @@
 import { LinearSRGBColorSpace, SRGBColorSpace } from "../../constants.js";
 import Node from "../core/Node.js";
 import NodeBuilder from "../core/NodeBuilder.js";
-import TempNode from "../core/TempNode.js";
 
 export type WorkingOrOutputColorSpace = "WorkingColorSpace" | "OutputColorSpace";
 
@@ -12,7 +11,7 @@ export function getColorSpaceMethod(
     target: typeof LinearSRGBColorSpace | typeof SRGBColorSpace,
 ): ColorSpaceMethod;
 
-export default class ColorSpaceNode extends TempNode {
+export default class ColorSpaceNode extends Node<"vec4"> {
     colorNode: Node;
     source: string;
     target: string;
@@ -41,20 +40,14 @@ export const convertColorSpace: (
     targetColorSpace: string,
 ) => ColorSpaceNode;
 
-declare module "../Nodes.js" {
-    interface Node {
+declare module "../core/Node.js" {
+    interface NodeElements {
         workingToColorSpace: (
             targetColorSpace: string,
         ) => ColorSpaceNode;
-        workingToColorSpaceAssign: (
-            targetColorSpace: string,
-        ) => this;
 
         colorSpaceToWorking: (
             sourceColorSpace: string,
         ) => ColorSpaceNode;
-        colorSpaceToWorkingAssign: (
-            sourceColorSpace: string,
-        ) => this;
     }
 }

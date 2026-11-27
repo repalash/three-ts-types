@@ -5,11 +5,6 @@
  * this purpose.
  */
 declare class NodeVar {
-    readonly isNodeVar: true;
-    name: string;
-    type: string;
-    readOnly: boolean;
-    count: number | null;
     /**
      * Constructs a new node variable.
      *
@@ -17,7 +12,48 @@ declare class NodeVar {
      * @param {string} type - The type of the variable.
      * @param {boolean} [readOnly=false] - The read-only flag.
      * @param {?number} [count=null] - The size.
+     * @param {boolean} [local=false] - Whether the variable is declared locally in the flow.
      */
-    constructor(name: string, type: string, readOnly?: boolean, count?: number | null);
+    constructor(name: string, type: string, readOnly?: boolean, count?: number | null, local?: boolean);
+    /**
+     * This flag can be used for type testing.
+     *
+     * @type {boolean}
+     * @readonly
+     * @default true
+     */
+    readonly isNodeVar: boolean;
+    /**
+     * The name of the variable.
+     *
+     * @type {string}
+     */
+    name: string;
+    /**
+     * The type of the variable.
+     *
+     * @type {string}
+     */
+    type: string;
+    /**
+     *  The read-only flag.
+     *
+     * @type {boolean}
+     */
+    readOnly: boolean;
+    /**
+     * Whether the variable is declared locally in the flow.
+     *
+     * @type {boolean}
+     * @default false
+     */
+    local: boolean;
+    /**
+     * The size.
+     *
+     * @type {?number}
+     */
+    count: number | null;
 }
+
 export default NodeVar;

@@ -1,16 +1,4 @@
-import {
-    Camera,
-    Color,
-    ColorRepresentation,
-    DataTexture,
-    Material,
-    MeshNormalMaterial,
-    Scene,
-    ShaderMaterial,
-    Vector3,
-    WebGLRenderer,
-    WebGLRenderTarget,
-} from "three";
+import { Camera, DataTexture, MeshNormalMaterial, Scene, ShaderMaterial, Vector3, WebGLRenderTarget } from "three";
 
 import { FullScreenQuad, Pass } from "./Pass.js";
 
@@ -43,26 +31,9 @@ export class SSAOPass extends Pass {
     blurMaterial: ShaderMaterial;
     depthRenderMaterial: ShaderMaterial;
     copyMaterial: ShaderMaterial;
-    _fsQuad: FullScreenQuad; // three-modded: the JS has used _fsQuad since r175 (upstream typings still say fsQuad)
-    originalClearColor: Color;
+    _fsQuad: FullScreenQuad; // three-modded: the JS has used _fsQuad since r175 (upstream typings leave it out as internal)
 
     static OUTPUT: typeof SSAOPassOUTPUT;
 
     dipose(): void;
-    generateSampleKernel(kernelSize: number): Vector3[];
-    generateRandomKernelRotations(): void;
-    renderPass(
-        renderer: WebGLRenderer,
-        passMaterial: Material,
-        renderTarget: WebGLRenderTarget,
-        clearColor?: ColorRepresentation,
-        clearAlpha?: number,
-    ): void;
-    renderOverride(
-        renderer: WebGLRenderer,
-        overrideMaterial: Material,
-        renderTarget: WebGLRenderTarget,
-        clearColor?: ColorRepresentation,
-        clearAlpha?: number,
-    ): void;
 }

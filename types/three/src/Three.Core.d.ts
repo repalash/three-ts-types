@@ -73,12 +73,12 @@ export type { DirectionalLightShadow } from "./lights/DirectionalLightShadow.js"
 export * from "./lights/HemisphereLight.js";
 export * from "./lights/Light.js";
 export * from "./lights/LightProbe.js";
-export type { LightShadow, LightShadowJSON } from "./lights/LightShadow.js";
+export * from "./lights/LightShadow.js";
 export * from "./lights/PointLight.js";
 export type { PointLightShadow } from "./lights/PointLightShadow.js";
 export * from "./lights/RectAreaLight.js";
 export * from "./lights/SpotLight.js";
-export type { SpotLightShadow } from "./lights/SpotLightShadow.js";
+export type { SpotLightShadow, SpotLightShadowJSON } from "./lights/SpotLightShadow.js";
 export * from "./loaders/AnimationLoader.js";
 export * from "./loaders/AudioLoader.js";
 export * from "./loaders/BufferGeometryLoader.js";
@@ -105,6 +105,7 @@ export * from "./math/Euler.js";
 export * from "./math/Frustum.js";
 export * from "./math/FrustumArray.js";
 export * from "./math/Interpolant.js";
+export * from "./math/interpolants/BezierInterpolant.js";
 export * from "./math/interpolants/CubicInterpolant.js";
 export * from "./math/interpolants/DiscreteInterpolant.js";
 export * from "./math/interpolants/LinearInterpolant.js";
@@ -139,9 +140,18 @@ export * from "./objects/SkinnedMesh.js";
 export * from "./objects/Sprite.js";
 export * from "./renderers/WebGL3DRenderTarget.js";
 export * from "./renderers/WebGLArrayRenderTarget.js";
-export * from "./renderers/WebGLCubeRenderTarget.js";
 export * from "./renderers/WebGLRenderTarget.js";
-export * from "./renderers/webxr/WebXRController.js";
+export {
+    WebXRController,
+    type WebXRSpaceEventMap,
+    type XRControllerEventType,
+    type XRGripSpace,
+    type XRHandInputState,
+    type XRHandJoints,
+    type XRHandSpace,
+    type XRJointSpace,
+    type XRTargetRaySpace,
+} from "./renderers/webxr/WebXRController.js";
 export * from "./scenes/Fog.js";
 export * from "./scenes/FogExp2.js";
 export * from "./scenes/Scene.js";
@@ -149,6 +159,7 @@ export * from "./textures/CanvasTexture.js";
 export * from "./textures/CompressedArrayTexture.js";
 export * from "./textures/CompressedCubeTexture.js";
 export * from "./textures/CompressedTexture.js";
+export * from "./textures/CubeDepthTexture.js";
 export * from "./textures/CubeTexture.js";
 export * from "./textures/Data3DTexture.js";
 export * from "./textures/DataArrayTexture.js";
@@ -156,8 +167,9 @@ export * from "./textures/DataTexture.js";
 export * from "./textures/DepthTexture.js";
 export * from "./textures/ExternalTexture.js";
 export * from "./textures/FramebufferTexture.js";
-export * from "./textures/Source.js";
+export * from "./textures/HTMLTexture.js";
 export * from "./textures/Texture.js";
+export * from "./textures/TextureSource.js";
 export * from "./textures/VideoFrameTexture.js";
 export * from "./textures/VideoTexture.js";
 export { createCanvasElement, error, getConsoleFunction, log, setConsoleFunction, warn, warnOnce } from "./utils.js";

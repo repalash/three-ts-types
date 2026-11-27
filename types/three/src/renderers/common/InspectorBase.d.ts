@@ -1,43 +1,62 @@
 import { Camera } from "../../cameras/Camera.js";
+import { EventDispatcher } from "../../core/EventDispatcher.js";
 import { RenderTarget } from "../../core/RenderTarget.js";
+import Node from "../../nodes/core/Node.js";
+import NodeFrame from "../../nodes/core/NodeFrame.js";
 import ComputeNode from "../../nodes/gpgpu/ComputeNode.js";
 import { Scene } from "../../scenes/Scene.js";
 import { Texture } from "../../textures/Texture.js";
 import Renderer from "./Renderer.js";
+
+export interface InspectorBaseEventMap {
+    dispose: {};
+}
+
 /**
- * InspectorBase is the base class for all inspectors.
- *
- * @class InspectorBase
+ * InspectorBase is the base class for all inspectors. Can only be used with {@link WebGPURenderer}.
  */
-declare class InspectorBase {
-    _renderer: Renderer | null;
+declare class InspectorBase<TEventMap extends InspectorBaseEventMap = InspectorBaseEventMap>
+    extends EventDispatcher<TEventMap>
+{
     /**
-     * Creates a new InspectorBase.
+     * The current frame being processed.
+     *
+     * @type {Object}
      */
-    constructor();
+    currentFrame: unknown;
+    /**
+     * Indicates whether the inspector is running.
+     *
+     * @type {boolean}
+     * @default false
+     */
+    isRunning: boolean;
+    /**
+     * Indicates whether the inspector is enabled.
+     *
+     * @type {boolean}
+     * @default true
+     */
+    enabled: boolean;
     /**
      * Returns the node frame for the current renderer.
      *
      * @return {Object} The node frame.
      */
-    get nodeFrame(): import("../../Three.WebGPU.Nodes.js").NodeFrame;
+    get nodeFrame(): NodeFrame;
     /**
      * Sets the renderer for this inspector.
      *
-     * @param {WebGLRenderer} renderer - The renderer to associate with this inspector.
+     * @param {Renderer} renderer - The renderer to associate with this inspector.
      * @return {InspectorBase} This inspector instance.
      */
-    setRenderer(renderer: Renderer | null): this;
+    setRenderer(renderer: Renderer): InspectorBase;
     /**
      * Returns the renderer associated with this inspector.
      *
-     * @return {WebGLRenderer} The associated renderer.
+     * @return {Renderer} The associated renderer.
      */
-    getRenderer(): Renderer | null;
-    /**
-     * Initializes the inspector.
-     */
-    init(): void;
+    getRenderer(): Renderer;
     /**
      * Called when a frame begins.
      */
@@ -51,7 +70,7 @@ declare class InspectorBase {
      *
      * @param {Node} node - The node to inspect.
      */
-    inspect(): void;
+    inspect(node: Node): void;
     /**
      * When a compute operation is performed.
      *
@@ -79,7 +98,7 @@ declare class InspectorBase {
      * @param {string} uid - A unique identifier for the render context.
      * @param {Scene} scene - The scene being rendered.
      * @param {Camera} camera - The camera being used for rendering.
-     * @param {?WebGLRenderTarget} renderTarget - The render target, if any.
+     * @param {?RenderTarget} renderTarget - The render target, if any.
      */
     beginRender(uid: string, scene: Scene, camera: Camera, renderTarget: RenderTarget): void;
     /**
@@ -101,5 +120,10 @@ declare class InspectorBase {
      * @param {Texture} framebufferTexture - The texture associated with the framebuffer.
      */
     copyFramebufferToTexture(framebufferTexture: Texture): void;
+    /**
+     * Frees all internal resources of the inspector.
+     */
+    dispose(): void;
 }
+
 export default InspectorBase;

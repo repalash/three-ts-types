@@ -6,7 +6,13 @@ import prettier from 'prettier';
 import examplesFiles from '../three.js/examples/files.json' with { type: 'json' };
 
 const exceptionList = [
+    'misc_exporter_gcode',
     'misc_raycaster_helper',
+    'physics_ammo_break',
+    'physics_ammo_cloth',
+    'physics_ammo_rope',
+    'physics_ammo_terrain',
+    'physics_ammo_volume',
     'webgl_animation_skinning_blending',
     'webgl_animation_skinning_additive_blending',
     'webgl_animation_skinning_ik',
@@ -14,6 +20,7 @@ const exceptionList = [
     'webgl_depth_texture',
     'webgl_geometry_csg',
     'webgl_geometry_spline_editor',
+    'webgl_loader_3dtiles',
     'webgl_loader_collada_kinematics',
     'webgl_loader_gltf_variants',
     'webgl_loader_ifc',
@@ -26,6 +33,7 @@ const exceptionList = [
     'webgl_loader_texture_ktx2',
     'webgl_loader_texture_lottie',
     'webgl_loader_texture_pvrtc',
+    'webgl_loader_vdb',
     'webgl_materials_channels',
     'webgl_materials_matcap',
     'webgl_materials_normalmap',
@@ -37,7 +45,6 @@ const exceptionList = [
     'webgl_multiple_elements_text',
     'webgl_points_dynamic',
     'webgl_raycaster_bvh',
-    'webgl_renderer_pathtracer',
     'webgl_reversed_depth_buffer',
     'webgl_postprocessing_3dlut',
     'webgl_postprocessing_dof',
@@ -45,27 +52,25 @@ const exceptionList = [
     'webgl_rendertarget_texture2darray',
     'webgl_texture2darray',
     'webgl_worker_offscreencanvas',
-    'webgpu_compute_geometry',
-    'webgpu_compute_particles',
     'webgpu_compute_particles_fluid',
-    'webgpu_compute_particles_rain',
     'webgpu_compute_reduce',
     'webgpu_compute_water',
-    'webgpu_depth_texture',
     'webgpu_instance_sprites',
     'webgpu_instance_uniform',
     'webgpu_lights_custom',
     'webgpu_lights_projector',
     'webgpu_materials',
     'webgpu_reflection_blurred',
+    'webgpu_renderer_pathtracer',
     'webgpu_sandbox',
     'webgpu_shadertoy',
-    'webgpu_shadowmap_opacity',
     'webgpu_skinning_points',
+    'webgpu_sky',
     'webgpu_tsl_compute_attractors_particles',
     'webgpu_tsl_editor',
     'webgpu_tsl_transpiler',
     'webgpu_video_frame',
+    'webgpu_volume_fire',
     'webxr_ar_camera_access',
     'webxr_vr_handinput_cubes',
     'webxr_vr_handinput_profiles',
@@ -78,13 +83,8 @@ const exceptionList = [
     'webxr_xr_cubes',
     'webxr_xr_dragging',
     'webxr_xr_haptics',
+    'webxr_xr_marchingcubes',
     'webxr_xr_paint',
-    'webxr_xr_sculpt',
-    'physics_ammo_break',
-    'physics_ammo_cloth',
-    'physics_ammo_rope',
-    'physics_ammo_terrain',
-    'physics_ammo_volume',
 ];
 
 const re = /<script type="module">((.|\r|\n)+)<\/script>/;
@@ -110,7 +110,7 @@ for (const section of Object.values(examplesFiles)) {
             encoding: 'utf-8',
         });
         const results = re.exec(fileContents);
-        const options = await prettier.resolveConfig(file);
+        const options = await prettier.resolveConfig(import.meta.filename);
         const formattedFile = await prettier.format(results[1], { ...options, parser: 'babel' });
         fs.writeFileSync(path.join(outDir, `${file}.ts`), formattedFile);
     }

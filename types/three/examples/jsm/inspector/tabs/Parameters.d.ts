@@ -1,5 +1,14 @@
+import { Item } from "../ui/Item.js";
 import { Tab } from "../ui/Tab.js";
-import { ValueButton, ValueCheckbox, ValueColor, ValueNumber, ValueSelect, ValueSlider } from "../ui/Values.js";
+import {
+    ValueButton,
+    ValueCheckbox,
+    ValueColor,
+    ValueNumber,
+    ValueSelect,
+    ValueSlider,
+    ValueString,
+} from "../ui/Values.js";
 
 type KeyToValueOfType<T, V> = { [K in keyof T]: T[K] extends V ? K : never }[keyof T];
 
@@ -7,6 +16,7 @@ interface ValueSelectWithParameters<T = Record<string, unknown>, K extends keyof
     extends ValueSelect<T, K>
 {
     name: (name: string) => this;
+    info: (text: string) => this;
     listen: () => this;
 }
 
@@ -15,6 +25,7 @@ interface ValueNumberWithParameters<
     K extends KeyToValueOfType<T, number> = KeyToValueOfType<T, number>,
 > extends ValueNumber<T, K> {
     name: (name: string) => this;
+    info: (text: string) => this;
     listen: () => this;
 }
 
@@ -23,6 +34,7 @@ interface ValueSliderWithParameters<
     K extends KeyToValueOfType<T, number> = KeyToValueOfType<T, number>,
 > extends ValueSlider<T, K> {
     name: (name: string) => this;
+    info: (text: string) => this;
     listen: () => this;
 }
 
@@ -31,6 +43,16 @@ interface ValueCheckboxWithParameters<
     K extends KeyToValueOfType<T, boolean> = KeyToValueOfType<T, boolean>,
 > extends ValueCheckbox<T, K> {
     name: (name: string) => this;
+    info: (text: string) => this;
+    listen: () => this;
+}
+
+interface ValueStringWithParameters<
+    T = Record<string, unknown>,
+    K extends KeyToValueOfType<T, string> = KeyToValueOfType<T, string>,
+> extends ValueString<T, K> {
+    name: (name: string) => this;
+    info: (text: string) => this;
     listen: () => this;
 }
 
@@ -39,6 +61,7 @@ interface ValueButtonWithParameters<
     K extends KeyToValueOfType<T, (this: T) => void> = KeyToValueOfType<T, (this: T) => void>,
 > extends ValueButton<T, K> {
     name: (name: string) => this;
+    info: (text: string) => this;
 }
 
 interface ValueColorWithParameters<
@@ -46,13 +69,19 @@ interface ValueColorWithParameters<
     K extends keyof T = keyof T,
 > extends ValueColor<T, K> {
     name: (name: string) => this;
+    info: (text: string) => this;
     listen: () => this;
 }
 
 declare class ParametersGroup {
-    name: string;
+    paramList: Item;
 
     constructor(parameters: never, name: string);
+
+    close(): this;
+    name(name: string): this;
+    show(): this;
+    hide(): this;
 
     add<T, K extends keyof T>(
         object: T,
@@ -76,6 +105,11 @@ declare class ParametersGroup {
         property: K,
         options?: never,
     ): ValueCheckboxWithParameters<T, K>;
+    add<T, K extends KeyToValueOfType<T, string>>(
+        object: T,
+        property: K,
+        options?: never,
+    ): ValueStringWithParameters<T, K>;
     add<T, K extends KeyToValueOfType<T, (this: T) => void>>(
         object: T,
         property: K,

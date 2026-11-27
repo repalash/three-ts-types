@@ -3,6 +3,8 @@ import { Camera } from "../cameras/Camera.js";
 import { ShapeJSON } from "../extras/core/Shape.js";
 import { Material, MaterialJSON } from "../materials/Material.js";
 import { Euler } from "../math/Euler.js";
+import { Frustum } from "../math/Frustum.js";
+import { FrustumArray } from "../math/FrustumArray.js";
 import { Matrix3 } from "../math/Matrix3.js";
 import { Matrix4, Matrix4Tuple } from "../math/Matrix4.js";
 import { Quaternion } from "../math/Quaternion.js";
@@ -11,8 +13,8 @@ import { Group } from "../objects/Group.js";
 import { SkeletonJSON } from "../objects/Skeleton.js";
 import { WebGLRenderer } from "../renderers/WebGLRenderer.js";
 import { Scene } from "../scenes/Scene.js";
-import { SourceJSON } from "../textures/Source.js";
 import { TextureJSON } from "../textures/Texture.js";
+import { TextureSourceJSON } from "../textures/TextureSource.js";
 import { BufferGeometry, BufferGeometryJSON } from "./BufferGeometry.js";
 import { EventDispatcher } from "./EventDispatcher.js";
 import { Layers } from "./Layers.js";
@@ -28,11 +30,14 @@ export interface Object3DJSONObject {
     visible?: boolean;
     frustumCulled?: boolean;
     renderOrder?: number;
+    static?: boolean;
     userData?: Record<string, unknown>;
 
     layers: number;
     matrix: Matrix4Tuple;
     up: Vector3Tuple;
+
+    pivot?: Vector3Tuple;
 
     matrixAutoUpdate?: boolean;
 
@@ -52,7 +57,7 @@ export interface JSONMeta {
     geometries: Record<string, BufferGeometryJSON>;
     materials: Record<string, MaterialJSON>;
     textures: Record<string, TextureJSON>;
-    images: Record<string, SourceJSON>;
+    images: Record<string, TextureSourceJSON>;
     shapes: Record<string, ShapeJSON>;
     skeletons: Record<string, SkeletonJSON>;
     animations: Record<string, AnimationClipJSON>;
@@ -96,6 +101,11 @@ export interface Object3DEventMap {
         material: Material;
         group: Group;
     };
+
+    /**
+     * Fires when the 3D object has been disposed of.
+     */
+    dispose: {};
 }
 
 /**
@@ -283,13 +293,6 @@ export class Object3D<TEventMap extends Object3DEventMap = Object3DEventMap> ext
     animations: AnimationClip[];
 
     /**
-     * An object that can be used to store custom data about the {@link Object3D}.
-     * @remarks It should not hold references to _functions_ as these **will not** be cloned.
-     * @default `{}`
-     */
-    userData: Record<string, any>;
-
-    /**
      * Custom depth material to be used when rendering to the depth map.
      * @remarks Can only be used in context of meshes.
      * When shadow-casting with a {@link THREE.DirectionalLight | DirectionalLight} or {@link THREE.SpotLight | SpotLight},
@@ -303,6 +306,34 @@ export class Object3D<TEventMap extends Object3DEventMap = Object3DEventMap> ext
      * @defaultValue `undefined`
      */
     customDistanceMaterial?: Material | undefined;
+
+    /**
+     * Whether the 3D object is supposed to be static or not. If set to `true`, it means
+     * the 3D object is not going to be changed after the first render. This includes
+     * geometry and material settings. A static 3D object can be processed by the renderer
+     * slightly faster since certain state checks can be bypassed.
+     *
+     * Only relevant in context of {@link WebGPURenderer}.
+     *
+     * @default false
+     */
+    static: boolean;
+
+    /**
+     * An object that can be used to store custom data about the {@link Object3D}.
+     * @remarks It should not hold references to _functions_ as these **will not** be cloned.
+     * @default `{}`
+     */
+    userData: Record<string, any>;
+
+    /**
+     * The pivot point for rotation and scale transformations.
+     * When set, rotation and scale are applied around this point
+     * instead of the object's origin.
+     *
+     * @default null
+     */
+    pivot: Vector3 | null;
 
     /**
      * An optional callback that is executed immediately before a 3D object is rendered to a shadow map.
@@ -627,6 +658,14 @@ export class Object3D<TEventMap extends Object3DEventMap = Object3DEventMap> ext
     raycast(raycaster: Raycaster, intersects: Intersection[]): void;
 
     /**
+     * Returns `true` if this 3D object intersects the given frustum.
+     * @remarks Renderable 3D objects such as {@link THREE.Mesh | Mesh}, {@link THREE.Line | Line} or {@link THREE.Points | Points} override this method in order to use frustum culling. The default implementation always returns `true`.
+     * @param frustum The frustum to test.
+     * @returns Whether this 3D object intersects the given frustum or not.
+     */
+    intersectsFrustum(frustum: Frustum | FrustumArray): boolean;
+
+    /**
      * Executes the callback on this object and all descendants.
      * @remarks Note: Modifying the scene graph inside the callback is discouraged.
      * @param callback A function with as first argument an {@link Object3D} object.
@@ -662,11 +701,15 @@ export class Object3D<TEventMap extends Object3DEventMap = Object3DEventMap> ext
     updateMatrixWorld(force?: boolean): void;
 
     /**
-     * Updates the global transform of the object.
-     * @param updateParents Recursively updates global transform of ancestors.
-     * @param updateChildren Recursively updates global transform of descendants.
+     * An alternative version of {@link Object3D#updateMatrixWorld} with more control over the
+     * update of ancestor and descendant nodes.
+     *
+     * @param {boolean} [updateParents=false] Whether ancestor nodes should be updated or not.
+     * @param {boolean} [updateChildren=false] Whether descendant nodes should be updated or not.
+     * @param {boolean} [force=false] - When set to `true`, a recomputation of world matrices is forced even
+     * when {@link Object3D#matrixWorldNeedsUpdate} is `false`.
      */
-    updateWorldMatrix(updateParents: boolean, updateChildren: boolean): void;
+    updateWorldMatrix(updateParents: boolean, updateChildren: boolean, force?: boolean): void;
 
     /**
      * Convert the object to three.js {@link https://github.com/mrdoob/three.js/wiki/JSON-Object-Scene-format-4 | JSON Object/Scene format}.
@@ -688,4 +731,11 @@ export class Object3D<TEventMap extends Object3DEventMap = Object3DEventMap> ext
      * `false`, descendants are left unchanged. Default is `true`.
      */
     copy(object: Object3D, recursive?: boolean): this;
+
+    /**
+     * Frees the GPU-related resources allocated by this instance.
+     * @remarks Call this method whenever this instance is no longer used in your app.
+     * Geometries, materials and textures are potentially shared with other 3D objects and must be disposed of separately.
+     */
+    dispose(): void;
 }

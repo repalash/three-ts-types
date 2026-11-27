@@ -3,15 +3,12 @@ import { FullScreenQuad, Pass } from "./Pass.js";
 
 export class RenderTransitionPass extends Pass {
     material: ShaderMaterial;
-    _fsQuad: FullScreenQuad; // three-modded: the JS has used _fsQuad since r175 (upstream typings still say fsQuad)
+    _fsQuad: FullScreenQuad; // three-modded: the JS has used _fsQuad since r175 (upstream typings leave it out as internal)
 
     sceneA: Object3D;
     cameraA: Camera;
     sceneB: Object3D;
     cameraB: Camera;
-
-    renderTargetA: WebGLRenderTarget;
-    renderTargetB: WebGLRenderTarget;
 
     constructor(sceneA: Object3D, cameraA: Camera, sceneB: Object3D, cameraB: Camera);
 
@@ -28,6 +25,4 @@ export class RenderTransitionPass extends Pass {
     render(renderer: WebGLRenderer, writeBuffer: WebGLRenderTarget): void;
 
     dispose(): void;
-
-    createMaterial(): ShaderMaterial;
 }
