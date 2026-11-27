@@ -4,6 +4,7 @@ import { WorkerPool } from "../utils/WorkerPool.js";
 
 export interface KTX2LoaderWorkerConfig {
     astcSupported: boolean;
+    astcHDRSupported: boolean;
     etc1Supported: boolean;
     etc2Supported: boolean;
     dxtSupported: boolean;
@@ -34,6 +35,9 @@ export class KTX2Loader extends Loader<CompressedTexture> {
      */
     setWorkerLimit(limit: number): this;
 
+    /**
+     * "detectSupportAsync()" has been deprecated. Use "detectSupport()" and "await renderer.init();" when creating the renderer.
+     */
     detectSupportAsync(renderer: Renderer): Promise<this>;
 
     /**
