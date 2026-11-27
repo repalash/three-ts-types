@@ -1,4 +1,4 @@
-import { JSONMeta, Object3D, Object3DJSON, Object3DJSONObject, Object3DEventMap } from "../core/Object3D.js";
+import { JSONMeta, Object3D, Object3DEventMap, Object3DJSON, Object3DJSONObject } from "../core/Object3D.js";
 import { Material } from "../materials/Material.js";
 import { Color } from "../math/Color.js";
 import { Euler, EulerTuple } from "../math/Euler.js";

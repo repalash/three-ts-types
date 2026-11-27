@@ -55,6 +55,7 @@ export class Loader<TData = unknown, TUrl = string> {
     setPath(path: string): this;
     setResourcePath(resourcePath: string): this;
     setRequestHeader(requestHeader: { [header: string]: string }): this;
+    abort(): this;
     setPriority(value: "high" | "low" | "auto"): this;
     setCache(value: "default" | "no-store" | "reload" | "no-cache" | "force-cache"): this;
 
