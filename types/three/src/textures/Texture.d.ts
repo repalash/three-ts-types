@@ -479,7 +479,7 @@ export class Texture<TImage = unknown, TE extends TextureEventMap = TextureEvent
      * The Global default value for {@link Texture.image | .image}.
      * @defaultValue `null`.
      */
-    static DEFAULT_IMAGE: null;
+    static DEFAULT_IMAGE: unknown; // three-modded: settable, as in the JS (upstream r181 types it as null)
 
     /**
      * The Global default value for {@link mapping | .mapping}.

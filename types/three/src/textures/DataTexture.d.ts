@@ -108,4 +108,9 @@ export interface DataTextureImageData {
     data: TypedArray | null;
     width: number;
     height: number;
+    /**
+     * three-modded: `DataTextureLoader` sets it to `true` once the data is loaded (`WebGLTextures` does not upload an
+     * image whose `complete` is `false`).
+     */
+    complete?: boolean;
 }
