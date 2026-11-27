@@ -1,8 +1,21 @@
 import Node from "../core/Node.js";
 import NodeBuilder from "../core/NodeBuilder.js";
-import { NodeRepresentation, ShaderNodeObject } from "../tsl/TSLCore.js";
+import { VarNode } from "../Nodes.js";
 
-declare class LoopNode extends Node {
+type LoopNodeType = "int" | "uint" | "float";
+
+interface LoopNodeObjectParameter<TNodeType extends LoopNodeType> {
+    // TODO Expand to other types and update loop function types appropriately
+    type?: TNodeType;
+    // TODO The variable name should affect the type of the loop function
+    // name?: string;
+    start: Node<TNodeType> | number;
+    end: Node<TNodeType> | number;
+    condition?: string;
+    update?: VarNode | number | string;
+}
+
+declare class LoopNode extends Node<"void"> {
     params: unknown[];
 
     constructor(params?: unknown[]);
@@ -12,11 +25,19 @@ declare class LoopNode extends Node {
 
 export default LoopNode;
 
-export const Loop: (...params: unknown[]) => ShaderNodeObject<Node>;
-export const Continue: () => ShaderNodeObject<Node>;
-export const Break: () => ShaderNodeObject<Node>;
+interface Loop {
+    (i: number, func: (inputs: { readonly i: Node<"int"> }) => void): LoopNode;
+    <TNodeType extends LoopNodeType>(
+        i: LoopNodeObjectParameter<TNodeType>,
+        func: (inputs: { readonly i: Node<TNodeType> }) => void,
+    ): LoopNode;
+    <TNodeType extends LoopNodeType>(
+        i: LoopNodeObjectParameter<TNodeType>,
+        j: LoopNodeObjectParameter<TNodeType>,
+        func: (inputs: { readonly i: Node<TNodeType>; readonly j: Node<TNodeType> }) => void,
+    ): LoopNode;
+}
 
-/**
- * @deprecated loop() has been renamed to Loop()
- */
-export const loop: (...params: unknown[]) => ShaderNodeObject<Node>;
+export const Loop: Loop;
+export const Continue: () => Node;
+export const Break: () => Node;

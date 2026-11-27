@@ -50,13 +50,15 @@ export const AdditiveBlending: 2;
 export const SubtractiveBlending: 3;
 export const MultiplyBlending: 4;
 export const CustomBlending: 5;
+export const MaterialBlending: 6;
 export type Blending =
     | typeof NoBlending
     | typeof NormalBlending
     | typeof AdditiveBlending
     | typeof SubtractiveBlending
     | typeof MultiplyBlending
-    | typeof CustomBlending;
+    | typeof CustomBlending
+    | typeof MaterialBlending;
 
 // custom blending equations
 // (numbers start from 100 not to clash with other
@@ -337,6 +339,7 @@ export const UnsignedShort4444Type: 1017;
 export const UnsignedShort5551Type: 1018;
 export const UnsignedInt248Type: 1020;
 export const UnsignedInt5999Type: 35902;
+export const UnsignedInt101111Type: 35899;
 
 export type AttributeGPUType = typeof FloatType | typeof IntType;
 
@@ -358,7 +361,8 @@ export type TextureDataType =
     | typeof UnsignedShort4444Type
     | typeof UnsignedShort5551Type
     | typeof UnsignedInt248Type
-    | typeof UnsignedInt5999Type;
+    | typeof UnsignedInt5999Type
+    | typeof UnsignedInt101111Type;
 
 ///////////////////////////////////////////////////////////////////////////////
 // Pixel formats
@@ -370,19 +374,6 @@ export const RGBFormat: 1022;
 
 /** {@link RGBAFormat} is the default and reads the red, green, blue and alpha components. */
 export const RGBAFormat: 1023;
-
-/**
- * {@link LuminanceFormat} reads each element as a single luminance component.
- * This is then converted to a floating point, clamped to the range `[0,1]`, and then assembled into an RGBA element by
- * placing the luminance value in the red, green and blue channels, and attaching `1.0` to the alpha channel.
- */
-export const LuminanceFormat: 1024;
-
-/**
- * {@link LuminanceAlphaFormat} reads each element as a luminance/alpha double.
- * The same process occurs as for the {@link LuminanceFormat}, except that the alpha channel may have values other than `1.0`.
- */
-export const LuminanceAlphaFormat: 1025;
 
 /**
  * {@link DepthFormat} reads each element as a single depth value, converts it to floating point, and clamps to the range `[0,1]`.
@@ -420,7 +411,7 @@ export const RGFormat: 1030;
 export const RGIntegerFormat: 1031;
 
 /**
- * {@link RGBIntegerFormat} discrads the alpha components and reads the red, green, and blue components.
+ * {@link RGBIntegerFormat} discards the alpha components and reads the red, green, and blue components.
  */
 export const RGBIntegerFormat: 1032;
 
@@ -440,8 +431,6 @@ export type PixelFormat =
     | typeof AlphaFormat
     | typeof RGBFormat
     | typeof RGBAFormat
-    | typeof LuminanceFormat
-    | typeof LuminanceAlphaFormat
     | typeof DepthFormat
     | typeof DepthStencilFormat
     | typeof RedFormat
@@ -478,7 +467,7 @@ export const RGBA_S3TC_DXT1_Format: 33777;
  */
 export const RGBA_S3TC_DXT3_Format: 33778;
 /**
- * A DXT5-compressed image in an RGBA image format. It also provides a 4:1 compression, but differs to the DXT3 compression in how the alpha compression is done.
+ * A DXT5-compressed image in an RGBA image format. It also provides a 4:1 compression, but differs from the DXT3 compression in how the alpha compression is done.
  * @remarks Require support for the _WEBGL_compressed_texture_s3tc_ WebGL extension.
  */
 export const RGBA_S3TC_DXT5_Format: 33779;
@@ -520,6 +509,11 @@ export const RGB_ETC2_Format: 37492;
  * @remarks Require support for the _WEBGL_compressed_texture_etc1_ (ETC1) or _WEBGL_compressed_texture_etc_ (ETC2) WebGL extension.
  */
 export const RGBA_ETC2_EAC_Format: 37496;
+
+export const R11_EAC_Format: 37488;
+export const SIGNED_R11_EAC_Format: 37489;
+export const RG11_EAC_Format: 37490;
+export const SIGNED_RG11_EAC_Format: 37491;
 
 // ASTC compressed texture formats
 
@@ -611,6 +605,10 @@ export type CompressedPixelFormat =
     | typeof RGB_ETC1_Format
     | typeof RGB_ETC2_Format
     | typeof RGBA_ETC2_EAC_Format
+    | typeof R11_EAC_Format
+    | typeof SIGNED_R11_EAC_Format
+    | typeof RG11_EAC_Format
+    | typeof SIGNED_RG11_EAC_Format
     | typeof RGBA_ASTC_4x4_Format
     | typeof RGBA_ASTC_5x4_Format
     | typeof RGBA_ASTC_5x5_Format
@@ -655,7 +653,12 @@ export type AnimationActionLoopStyles = typeof LoopOnce | typeof LoopRepeat | ty
 export const InterpolateDiscrete: 2300;
 export const InterpolateLinear: 2301;
 export const InterpolateSmooth: 2302;
-export type InterpolationModes = typeof InterpolateDiscrete | typeof InterpolateLinear | typeof InterpolateSmooth;
+export const InterpolateBezier: 2303;
+export type InterpolationModes =
+    | typeof InterpolateDiscrete
+    | typeof InterpolateLinear
+    | typeof InterpolateSmooth
+    | typeof InterpolateBezier;
 
 // Interpolant ending modes
 export const ZeroCurvatureEnding: 2400;
@@ -711,24 +714,21 @@ export type NormalMapTypes = typeof TangentSpaceNormalMap | typeof ObjectSpaceNo
 export const NoColorSpace: "";
 export const SRGBColorSpace: "srgb";
 export const LinearSRGBColorSpace: "srgb-linear";
-export const RGBM16ColorSpace: 'rgbm-16';
-export const DisplayP3ColorSpace: "display-p3";
-export const LinearDisplayP3ColorSpace = "display-p3-linear";
+export const RGBM16ColorSpace: "rgbm-16";
 export type ColorSpace =
     | typeof NoColorSpace
     | typeof SRGBColorSpace
     | typeof LinearSRGBColorSpace
-    | typeof RGBM16ColorSpace
-    | typeof DisplayP3ColorSpace
-    | typeof LinearDisplayP3ColorSpace;
+    | typeof RGBM16ColorSpace;
 
 export const LinearTransfer: "linear";
 export const SRGBTransfer: "srgb";
 export type ColorSpaceTransfer = typeof LinearTransfer | typeof SRGBTransfer;
 
-export const Rec709Primaries: "rec709";
-export const P3Primaries: "p3";
-export type ColorSpacePrimaries = typeof Rec709Primaries | typeof P3Primaries;
+export const NoNormalPacking: "";
+export const NormalRGPacking: "rg";
+export const NormalGAPacking: "ga";
+export type NormalPacking = typeof NoNormalPacking | typeof NormalRGPacking | typeof NormalGAPacking;
 
 // Stencil Op types
 export const ZeroStencilOp: 0;
@@ -813,7 +813,44 @@ export type GLSLVersion = typeof GLSL1 | typeof GLSL3;
 
 export const WebGLCoordinateSystem: 2000;
 export const WebGPUCoordinateSystem: 2001;
-export type CoordinateSystem = typeof WebGLCoordinateSystem | typeof WebGPUCoordinateSystem;
+export type CoordinateSystem =
+    | typeof WebGLCoordinateSystem
+    | typeof WebGPUCoordinateSystem;
+
+export const TimestampQuery: {
+    COMPUTE: "compute";
+    RENDER: "render";
+};
+export type TimestampQuery = typeof TimestampQuery.COMPUTE | typeof TimestampQuery.RENDER;
+
+export const InterpolationSamplingType: {
+    PERSPECTIVE: "perspective";
+    LINEAR: "linear";
+    FLAT: "flat";
+};
+export type InterpolationSamplingType =
+    | typeof InterpolationSamplingType.PERSPECTIVE
+    | typeof InterpolationSamplingType.LINEAR
+    | typeof InterpolationSamplingType.FLAT;
+
+export const InterpolationSamplingMode: {
+    NORMAL: "normal";
+    CENTROID: "centroid";
+    SAMPLE: "sample";
+    FIRST: "first";
+    EITHER: "either";
+};
+export type InterpolationSamplingMode =
+    | typeof InterpolationSamplingMode.NORMAL
+    | typeof InterpolationSamplingMode.CENTROID
+    | typeof InterpolationSamplingMode.SAMPLE
+    | typeof InterpolationSamplingMode.FIRST
+    | typeof InterpolationSamplingMode.EITHER;
+
+export const Compatibility: {
+    TEXTURE_COMPARE: "depthTextureCompare";
+};
+export type Compatibility = typeof Compatibility.TEXTURE_COMPARE;
 
 ///////////////////////////////////////////////////////////////////////////////
 // Texture - Internal Pixel Formats

@@ -19,7 +19,6 @@ export default class WGSLNodeBuilder extends NodeBuilder {
     builtins: { [key in BuiltinStage]: Map<string, BuiltinType> };
     uniformGroups: { [key in NodeShaderStage]: NodeUniformsGroup };
 
-    needsToWorkingColorSpace(texture: Texture): boolean;
     _generateTextureSample(
         texture: Texture,
         textureProperty: string,
@@ -48,6 +47,7 @@ export default class WGSLNodeBuilder extends NodeBuilder {
         texture: Texture,
         textureProperty: string,
         uvIndexSnippet: string,
+        depthSnippet: string | null,
         valueSnippet: string,
     ): string;
     isUnfilterable(texture: Texture): boolean;
@@ -82,7 +82,7 @@ export default class WGSLNodeBuilder extends NodeBuilder {
         shaderStage: NodeShaderStage,
     ): string;
 
-    getPropertyName<TValue>(node: NodeVar | NodeUniform<TValue>, shaderStage: NodeShaderStage): string;
+    getPropertyName(node: NodeVar | NodeUniform<unknown, unknown>, shaderStage: NodeShaderStage): string;
 
     getOutputStructName(): string;
 

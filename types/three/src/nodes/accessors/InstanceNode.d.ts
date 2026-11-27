@@ -1,13 +1,30 @@
-import { InstancedMesh } from "../../objects/InstancedMesh.js";
+import { InstancedBufferAttribute } from "../../core/InstancedBufferAttribute.js";
+import { InstancedInterleavedBuffer } from "../../core/InstancedInterleavedBuffer.js";
+import StorageInstancedBufferAttribute from "../../renderers/common/StorageInstancedBufferAttribute.js";
 import Node from "../core/Node.js";
-import { ShaderNodeObject } from "../tsl/TSLCore.js";
 
 export default class InstanceNode extends Node {
-    instanceMesh: InstancedMesh;
+    count: number;
+    instanceMatrix: InstancedBufferAttribute | StorageInstancedBufferAttribute;
+    instanceColor: InstancedBufferAttribute | StorageInstancedBufferAttribute | null;
+
     instanceMatrixNode: Node | null;
     instanceColorNode: Node | null;
 
-    constructor(instanceMesh: InstancedMesh);
+    buffer: InstancedInterleavedBuffer | null;
+    bufferColor: InstancedBufferAttribute | null;
+
+    previousInstancedMatrixNode: Node | null;
+
+    constructor(
+        count: number,
+        instanceMatrix: InstancedBufferAttribute | StorageInstancedBufferAttribute,
+        instanceColor?: InstancedBufferAttribute | StorageInstancedBufferAttribute | null,
+    );
 }
 
-export const instance: (instanceMesh: InstancedMesh) => ShaderNodeObject<InstanceNode>;
+export const instance: (
+    count: number,
+    instanceMatrix: InstancedBufferAttribute | StorageInstancedBufferAttribute,
+    instanceColor?: InstancedBufferAttribute | StorageInstancedBufferAttribute | null,
+) => InstanceNode;

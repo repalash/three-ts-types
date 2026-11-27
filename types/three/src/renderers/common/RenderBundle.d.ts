@@ -1,9 +1,22 @@
 import { Camera } from "../../cameras/Camera.js";
-import { Object3D } from "../../core/Object3D.js";
+import BundleGroup from "./BundleGroup.js";
+
+/**
+ * This module is used to represent render bundles inside the renderer
+ * for further processing.
+ *
+ * @private
+ */
 declare class RenderBundle {
-    scene: Object3D;
+    /**
+     * Constructs a new bundle group.
+     *
+     * @param {BundleGroup} bundleGroup - The bundle group.
+     * @param {Camera} camera - The camera the bundle group is rendered with.
+     */
+    constructor(bundleGroup: BundleGroup, camera: Camera);
+    bundleGroup: BundleGroup;
     camera: Camera;
-    constructor(scene: Object3D, camera: Camera);
-    clone(): RenderBundle & this;
 }
+
 export default RenderBundle;

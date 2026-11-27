@@ -8,10 +8,10 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           path: 'three-ts-types'
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           repository: 'DefinitelyTyped/DefinitelyTyped'
           path: 'DefinitelyTyped'
@@ -20,7 +20,7 @@ jobs:
       - uses: pnpm/action-setup@v2
         with:
           version: 9
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         with:
           node-version: 'lts/*'
       - run: rsync -av --delete three-ts-types/types/three/ DefinitelyTyped/types/three
@@ -37,11 +37,11 @@ jobs:
   check-fomatting:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: pnpm/action-setup@v2
         with:
           version: 9
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         with:
           node-version: 'lts/*'
           cache: 'pnpm'
@@ -50,11 +50,11 @@ jobs:
   type-check:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: pnpm/action-setup@v2
         with:
           version: 9
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         with:
           node-version: 'lts/*'
           cache: 'pnpm'
@@ -63,13 +63,13 @@ jobs:
   test-examples:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           submodules: true
       - uses: pnpm/action-setup@v2
         with:
           version: 9
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         with:
           node-version: 'lts/*'
           cache: 'pnpm'
@@ -82,30 +82,25 @@ jobs:
         working-directory: examples-testing
       - run: pnpm run format-check
         working-directory: examples-testing
-  test-src:
+  test-jsodc:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           submodules: true
       - uses: pnpm/action-setup@v2
         with:
           version: 9
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         with:
           node-version: 'lts/*'
           cache: 'pnpm'
       - run: pnpm install
-      - run: pnpm run create-src
-        working-directory: src-testing
-      - run: git apply changes.patch
-        working-directory: src-testing
-      - run: pnpm run format-check
-        working-directory: src-testing
       - run: pnpm run build-declarations
-        working-directory: src-testing
-        continue-on-error: true
+        working-directory: jsdoc-testing
+      - run: git apply changes.patch --allow-empty
+        working-directory: jsdoc-testing
       - run: pnpm run format-dprint
-        working-directory: src-testing
+        working-directory: jsdoc-testing
       - run: pnpm run check-declarations
-        working-directory: src-testing
+        working-directory: jsdoc-testing

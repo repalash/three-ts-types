@@ -1,4 +1,6 @@
 import Node from "../core/Node.js";
-import { NodeRepresentation, ShaderNodeObject } from "../tsl/TSLCore.js";
+import TextureNode from "./TextureNode.js";
 
-export const textureBicubic: (textureNode: Node, lodNode?: NodeRepresentation) => ShaderNodeObject<Node>;
+export const textureBicubicLevel: (textureNode: Node, lodNode: Node) => TextureNode;
+
+export const textureBicubic: (textureNode: Node, strength: Node) => TextureNode;

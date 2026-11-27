@@ -29,9 +29,9 @@ export class ObjectLoader extends Loader<Object3D> {
     parseMaterials(json: unknown, textures: { [key: string]: Texture }): { [key: string]: Material };
     parseAnimations(json: unknown): { [key: string]: AnimationClip };
     parseShapes(json: any[]): { [key: string]: Shape };
-    parseImages(json: unknown, onLoad?: () => void): { [key: string]: Source };
-    parseImagesAsync(json: unknown): Promise<{ [key: string]: Source }>;
-    parseTextures(json: unknown, images: { [key: string]: Source }): { [key: string]: Texture };
+    parseImages(json: unknown, onLoad?: () => void): { [key: string]: Source<unknown> };
+    parseImagesAsync(json: unknown): Promise<{ [key: string]: Source<unknown> }>;
+    parseTextures(json: unknown, images: { [key: string]: Source<unknown> }): { [key: string]: Texture };
     parseSkeletons(json: unknown[], object: Object3D): { [key: string]: Skeleton };
     bindSkeletons(object: Object3D, skeletons: Record<string, Skeleton>): void;
     parseObject(

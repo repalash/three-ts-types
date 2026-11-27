@@ -1,4 +1,6 @@
 packages:
-  - 'examples-testing'
-  - 'src-testing'
-  - 'types/three'
+  - examples-testing
+  - jsdoc-testing
+  - types/three
+onlyBuiltDependencies:
+  - dprint

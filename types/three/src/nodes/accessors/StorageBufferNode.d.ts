@@ -1,38 +1,83 @@
+import { BufferAttribute } from "../../core/BufferAttribute.js";
 import StorageBufferAttribute from "../../renderers/common/StorageBufferAttribute.js";
 import StorageInstancedBufferAttribute from "../../renderers/common/StorageInstancedBufferAttribute.js";
-import { GPUBufferBindingType } from "../../renderers/webgpu/utils/WebGPUConstants.js";
-import { NodeOrType, NodeRepresentation, ShaderNodeObject } from "../tsl/TSLCore.js";
+import { NodeAccess } from "../core/constants.js";
+import Node from "../core/Node.js";
+import { Struct } from "../core/StructNode.js";
+import StructTypeNode from "../core/StructTypeNode.js";
 import StorageArrayElementNode from "../utils/StorageArrayElementNode.js";
 import BufferNode from "./BufferNode.js";
 
-export default class StorageBufferNode extends BufferNode {
+interface StorageBufferNodeInterface<TNodeType> {
     readonly isStorageBufferNode: true;
+
+    structTypeNode: StructTypeNode | null;
+
+    access: NodeAccess;
+    isAtomic: boolean;
+    isPBO: boolean;
+
     bufferObject: boolean;
 
-    access: GPUBufferBindingType;
+    element: (indexNode: Node | number) => StorageArrayElementNode<TNodeType>;
 
-    constructor(
-        value: StorageBufferAttribute | StorageInstancedBufferAttribute,
-        bufferType: string,
-        bufferCount?: number,
-    );
+    setPBO(value: boolean): this;
 
-    element(indexNode: NodeRepresentation): ShaderNodeObject<StorageArrayElementNode>;
+    getPBO(): boolean;
 
-    setBufferObject(value: boolean): this;
-
-    setAccess(value: GPUBufferBindingType): this;
+    setAccess(value: NodeAccess): this;
 
     toReadOnly(): this;
+
+    setAtmoic(value: boolean): this;
+
+    toAtomic(): this;
+}
+declare const StorageBufferNode: {
+    new<TNodeType>(
+        value: StorageBufferAttribute | StorageInstancedBufferAttribute,
+        bufferType?: string | Struct | null,
+        bufferCount?: number,
+    ): StorageBufferNode<TNodeType>;
+};
+
+type StorageBufferNode<TNodeType> =
+    & StorageBufferNodeInterface<TNodeType>
+    & BufferNode<TNodeType, StorageBufferAttribute | StorageInstancedBufferAttribute>;
+
+export default StorageBufferNode;
+
+interface Storage {
+    (
+        value: StorageBufferAttribute | StorageInstancedBufferAttribute | BufferAttribute,
+        type: "float",
+        count: number,
+    ): StorageBufferNode<"float">;
+    (
+        value: StorageBufferAttribute | StorageInstancedBufferAttribute | BufferAttribute,
+        type: "uint",
+        count: number,
+    ): StorageBufferNode<"uint">;
+    (
+        value: StorageBufferAttribute | StorageInstancedBufferAttribute | BufferAttribute,
+        type: "vec2",
+        count: number,
+    ): StorageBufferNode<"vec2">;
+    (
+        value: StorageBufferAttribute | StorageInstancedBufferAttribute | BufferAttribute,
+        type: "vec3",
+        count: number,
+    ): StorageBufferNode<"vec3">;
+    (
+        value: StorageBufferAttribute | StorageInstancedBufferAttribute | BufferAttribute,
+        type: "vec4",
+        count: number,
+    ): StorageBufferNode<"vec4">;
+    (
+        value: StorageBufferAttribute | StorageInstancedBufferAttribute | BufferAttribute,
+        type: Struct,
+        count: number,
+    ): StorageBufferNode<"struct">;
 }
 
-export const storage: (
-    value: StorageBufferAttribute | StorageInstancedBufferAttribute,
-    nodeOrType: NodeOrType,
-    count: number,
-) => ShaderNodeObject<StorageBufferNode>;
-export const storageObject: (
-    value: StorageBufferAttribute | StorageInstancedBufferAttribute,
-    nodeOrType: NodeOrType,
-    count: number,
-) => ShaderNodeObject<StorageBufferNode>;
+export const storage: Storage;

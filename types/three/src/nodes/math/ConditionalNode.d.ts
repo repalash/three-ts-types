@@ -1,39 +1,51 @@
 import Node from "../core/Node.js";
-import { NodeRepresentation, ShaderNodeObject } from "../tsl/TSLCore.js";
 
-declare class ConditionalNode extends Node {
-    condNode: Node;
-    ifNode: Node;
-    elseNode: Node;
-
-    constructor(condNode: Node, ifNode: Node, elseNode: Node);
+interface ConditionalNodeInterface<TNodeType> {
+    condNode: Node<"bool">;
+    ifNode: Node<TNodeType>;
+    elseNode: Node<TNodeType> | null;
 }
+
+declare const ConditionalNode: {
+    new<TNodeType>(
+        condNode: Node<"bool">,
+        ifNode: Node<TNodeType>,
+        elseNode?: Node<TNodeType> | null,
+    ): ConditionalNode<TNodeType>;
+};
+
+type ConditionalNode<TNodeType> = Node<TNodeType> & ConditionalNodeInterface<TNodeType>;
 
 export default ConditionalNode;
 
-export const select: (
-    condNode: NodeRepresentation,
-    ifNode: NodeRepresentation,
-    elseNode: NodeRepresentation,
-) => ShaderNodeObject<Node>;
-
-declare module "../tsl/TSLCore.js" {
-    interface NodeElements {
-        select: typeof select;
-    }
+interface Select {
+    (
+        condNode: Node<"bool">,
+        ifNode: Node<"float"> | number,
+        elseNode?: Node<"float"> | number | null,
+    ): Node<"float">;
+    <TNodeType>(
+        condNode: Node<"bool">,
+        ifNode: Node<TNodeType>,
+        elseNode?: Node<TNodeType> | null,
+    ): Node<TNodeType>;
 }
 
-/**
- * @deprecated cond() has been renamed to select()
- */
-export const cond: (
-    condNode: NodeRepresentation,
-    ifNode: NodeRepresentation,
-    elseNode: NodeRepresentation,
-) => ShaderNodeObject<Node>;
+export const select: Select;
 
-declare module "../tsl/TSLCore.js" {
+interface SelectExtension {
+    (
+        ifNode: Node<"float"> | number,
+        elseNode?: Node<"float"> | number | null,
+    ): Node<"float">;
+    <TNodeType>(
+        ifNode: Node<TNodeType>,
+        elseNode?: Node<TNodeType> | null,
+    ): Node<TNodeType>;
+}
+
+declare module "../core/Node.js" {
     interface NodeElements {
-        cond: typeof cond;
+        select: SelectExtension;
     }
 }
