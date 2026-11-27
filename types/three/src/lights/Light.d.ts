@@ -1,20 +1,14 @@
-import { JSONMeta, Object3D, Object3DJSON, Object3DEventMap } from "../core/Object3D.js";
+import { JSONMeta, Object3D, Object3DEventMap, Object3DJSON } from "../core/Object3D.js";
 import { Color, ColorRepresentation } from "../math/Color.js";
-import { LightShadow, LightShadowJSON } from "./LightShadow.js";
+import { LightShadow } from "./LightShadow.js";
 
 export interface LightJSON extends Object3DJSON {
     color: number;
     intensity: number;
+}
 
-    groundColor?: number;
-
-    distance?: number;
-    angle?: number;
-    decay?: number;
-    penumbra?: number;
-
-    shadow?: LightShadowJSON;
-    target?: string;
+export interface LightEventMap extends Object3DEventMap {
+    dispose: {};
 }
 
 /**
@@ -23,7 +17,7 @@ export interface LightJSON extends Object3DJSON {
  */
 export abstract class Light<
     TShadowSupport extends LightShadow | undefined = LightShadow | undefined,
-    TEventMap extends Object3DEventMap = Object3DEventMap,
+    TEventMap extends LightEventMap = LightEventMap,
 > extends Object3D<TEventMap> {
     /**
      * Creates a new {@link Light}

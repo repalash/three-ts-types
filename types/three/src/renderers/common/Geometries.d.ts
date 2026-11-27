@@ -73,6 +73,13 @@ declare class Geometries extends DataMap<{
      */
     getIndirect(renderObject: RenderObject): import("./IndirectStorageBufferAttribute.js").default | null;
     /**
+     * Returns the byte offset into the indirect attribute buffer of the given render object.
+     *
+     * @param {RenderObject} renderObject - The render object.
+     * @return {number} The byte offset into the indirect attribute buffer.
+     */
+    getIndirectOffset(renderObject: RenderObject): number | number[];
+    /**
      * Returns the index of the given render object's geometry. This is implemented
      * in a method to return a wireframe index if necessary.
      *
@@ -80,5 +87,6 @@ declare class Geometries extends DataMap<{
      * @return {?BufferAttribute} The index. Returns `null` for non-indexed geometries.
      */
     getIndex(renderObject: RenderObject): BufferAttribute | null;
+    dispose(): void;
 }
 export default Geometries;
