@@ -1,6 +1,6 @@
 import { MagnificationTextureFilter, MinificationTextureFilter, Wrapping } from "../constants.js";
+import { TypedArray } from "../core/BufferAttribute.js";
 import { Texture } from "./Texture.js";
-import { Texture3DImageData } from "./types.js";
 
 /**
  * Creates a three-dimensional texture from raw data, with parameters to divide it into width, height, and depth
@@ -32,7 +32,7 @@ import { Texture3DImageData } from "./types.js";
  * @see {@link https://threejs.org/docs/index.html#api/en/textures/Data3DTexture | Official Documentation}
  * @see {@link https://github.com/mrdoob/three.js/blob/master/src/textures/Data3DTexture.js | Source}
  */
-export class Data3DTexture extends Texture {
+export class Data3DTexture extends Texture<Data3DTextureImageData> {
     /**
      * Create a new instance of {@link Data3DTexture}
      * @param data {@link https://developer.mozilla.org/en-US/docs/Web/API/ArrayBufferView | ArrayBufferView} of the texture. Default `null`.
@@ -40,7 +40,7 @@ export class Data3DTexture extends Texture {
      * @param height Height of the texture. Default `1`.
      * @param depth Depth of the texture. Default `1`.
      */
-    constructor(data?: BufferSource | null, width?: number, height?: number, depth?: number);
+    constructor(data?: TypedArray | null, width?: number, height?: number, depth?: number);
 
     /**
      * Read-only flag to check if a given object is of type {@link Data3DTexture}.
@@ -48,13 +48,6 @@ export class Data3DTexture extends Texture {
      * @defaultValue `true`
      */
     readonly isData3DTexture: true;
-
-    /**
-     * Overridden with a record type holding data, width and height and depth.
-     * @override
-     */
-    get image(): Texture3DImageData;
-    set image(data: Texture3DImageData);
 
     /**
      * @override
@@ -93,4 +86,9 @@ export class Data3DTexture extends Texture {
     unpackAlignment: number;
 }
 
-export {};
+export interface Data3DTextureImageData {
+    data: TypedArray | null;
+    width: number;
+    height: number;
+    depth: number;
+}

@@ -122,6 +122,11 @@ declare class OrbitControls extends Controls<OrbitControlsEventMap> {
     rotateSpeed: number;
 
     /**
+     * How fast to rotate the camera when the keyboard is used. Default is 1.
+     */
+    keyRotateSpeed: number;
+
+    /**
      * Enable or disable camera panning. Default is true.
      */
     enablePan: boolean;
@@ -206,7 +211,7 @@ declare class OrbitControls extends Controls<OrbitControlsEventMap> {
      * is the scene itself.
      * @param domElement The HTML element used for event listeners. (optional)
      */
-    constructor(object: Camera, domElement?: HTMLElement | null);
+    constructor(object: Camera, domElement?: HTMLElement | SVGElement | null);
 
     /**
      * Get the current vertical rotation, in radians.

@@ -1,10 +1,15 @@
-import { ShaderMaterial } from "three";
+import { IUniform, RawShaderMaterial } from "three";
 
 import { FullScreenQuad, Pass } from "./Pass.js";
 
-export class OutputPass extends Pass {
+declare class OutputPass extends Pass {
+    readonly isOutputPass: true;
+
+    uniforms: Record<string, IUniform>;
+    material: RawShaderMaterial;
+    _fsQuad: FullScreenQuad; // three-modded: the JS has used _fsQuad since r175 (upstream typings leave it out)
+
     constructor();
-    uniforms: object;
-    material: ShaderMaterial;
-    fsQuad: FullScreenQuad;
 }
+
+export { OutputPass };
