@@ -1,9 +1,8 @@
 import LightingModel from "../core/LightingModel.js";
-import VarNode from "../core/VarNode.js";
-import { ShaderNodeObject } from "../tsl/TSLCore.js";
+import Node from "../core/Node.js";
 
 export default class ShadowMaskModel extends LightingModel {
-    shadowNode: ShaderNodeObject<VarNode>;
+    shadowNode: Node;
 
     constructor();
 }

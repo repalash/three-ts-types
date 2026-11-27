@@ -3,7 +3,6 @@ import {
     BufferAttribute,
     BufferGeometry,
     Camera,
-    ColorSpace,
     FileLoader,
     Group,
     ImageBitmapLoader,
@@ -57,7 +56,7 @@ export class GLTFLoader extends Loader<GLTF> {
 
     constructor(manager?: LoadingManager);
 
-    setDRACOLoader(dracoLoader: DRACOLoader): this;
+    setDRACOLoader(dracoLoader: DRACOLoader | null): this;
     setKTX2Loader(ktx2Loader: KTX2Loader | null): this;
     setMeshoptDecoder(meshoptDecoder: typeof MeshoptDecoder | null): this;
 
@@ -88,13 +87,14 @@ export class GLTFLoader extends Loader<GLTF> {
     };
 }
 
-export type GLTFReferenceType = "materials" | "nodes" | "textures" | "meshes";
+export type GLTFReferenceType = "materials" | "nodes" | "textures" | "meshes" | "primitives";
 
 export interface GLTFReference {
     materials?: number;
     nodes?: number;
     textures?: number;
     meshes?: number;
+    primitives?: number;
 }
 
 export class GLTFParser {
@@ -106,6 +106,9 @@ export class GLTFParser {
         ktx2Loader: KTX2Loader;
         meshoptDecoder: /* MeshoptDecoder */ any;
         crossOrigin: string;
+        priority: "high" | "low" | "auto";
+        cache: "default" | "no-store" | "reload" | "no-cache" | "force-cache";
+        withCredentials: boolean;
         requestHeader: { [header: string]: string };
     };
 
@@ -136,7 +139,7 @@ export class GLTFParser {
             texCoord?: number | undefined;
             extensions?: any;
         },
-        colorSpace?: ColorSpace | undefined,
+        colorSpace?: string | undefined,
     ) => Promise<Texture | null>;
     assignFinalMaterial: (object: Mesh) => void;
     getMaterialType: () => typeof MeshStandardMaterial;

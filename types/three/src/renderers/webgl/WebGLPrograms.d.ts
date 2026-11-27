@@ -1,12 +1,4 @@
-import {
-    ColorSpace,
-    Combine,
-    DepthPackingStrategies,
-    GLSLVersion,
-    Mapping,
-    ShadowMapType,
-    ToneMapping,
-} from "../../constants.js";
+import { Combine, DepthPackingStrategies, GLSLVersion, Mapping, ShadowMapType, ToneMapping } from "../../constants.js";
 import { Object3D } from "../../core/Object3D.js";
 import { Light } from "../../lights/Light.js";
 import { Material } from "../../materials/Material.js";
@@ -16,7 +8,7 @@ import { WebGLRenderer } from "../WebGLRenderer.js";
 import { WebGLBindingStates } from "./WebGLBindingStates.js";
 import { WebGLCapabilities } from "./WebGLCapabilities.js";
 import { WebGLClipping } from "./WebGLClipping.js";
-import { WebGLCubeMaps } from "./WebGLCubeMaps.js";
+import { WebGLEnvironments } from "./WebGLEnvironments.js";
 import { WebGLExtensions } from "./WebGLExtensions.js";
 import { WebGLLightsState } from "./WebGLLights.js";
 import { WebGLProgram } from "./WebGLProgram.js";
@@ -44,8 +36,7 @@ export interface WebGLProgramParameters {
     instancingColor: boolean;
     instancingMorph: boolean;
 
-    supportsVertexTextures: boolean;
-    outputColorSpace: ColorSpace;
+    outputColorSpace: string;
     alphaToCoverage: boolean;
 
     map: boolean;
@@ -62,6 +53,7 @@ export interface WebGLProgramParameters {
 
     normalMapObjectSpace: boolean;
     normalMapTangentSpace: boolean;
+    packedNormalMap: boolean;
 
     metalnessMap: boolean;
     roughnessMap: boolean;
@@ -74,7 +66,11 @@ export interface WebGLProgramParameters {
     clearcoatNormalMap: boolean;
     clearcoatRoughnessMap: boolean;
 
+    diffuseRoughness: boolean;
+    diffuseRoughnessMap: boolean;
+
     dispersion: boolean;
+    retroreflection: boolean;
 
     iridescence: boolean;
     iridescenceMap: boolean;
@@ -120,6 +116,7 @@ export interface WebGLProgramParameters {
     clearcoatMapUv: string | false;
     clearcoatNormalMapUv: string | false;
     clearcoatRoughnessMapUv: string | false;
+    diffuseRoughnessMapUv: string | false;
 
     iridescenceMapUv: string | false;
     iridescenceThicknessMapUv: string | false;
@@ -139,6 +136,7 @@ export interface WebGLProgramParameters {
     //
 
     vertexTangents: boolean;
+    vertexNormals: boolean;
     vertexColors: boolean;
     vertexAlphas: boolean;
     vertexUv1s: boolean;
@@ -155,8 +153,11 @@ export interface WebGLProgramParameters {
 
     sizeAttenuation: boolean;
     logarithmicDepthBuffer: boolean;
+    reverseDepthBuffer: boolean;
 
     skinning: boolean;
+
+    hasPositionAttribute: boolean;
 
     morphTargets: boolean;
     morphNormals: boolean;
@@ -164,6 +165,7 @@ export interface WebGLProgramParameters {
     morphTargetsCount: number;
     morphTextureStride: number;
 
+    numSunLights: number;
     numDirLights: number;
     numPointLights: number;
     numSpotLights: number;
@@ -171,12 +173,15 @@ export interface WebGLProgramParameters {
     numRectAreaLights: number;
     numHemiLights: number;
 
+    numSunLightShadows: number;
     numDirLightShadows: number;
     numPointLightShadows: number;
     numSpotLightShadows: number;
     numSpotLightShadowsWithMaps: number;
 
     numLightProbes: number;
+
+    numLightProbeGrids: number;
 
     numClippingPlanes: number;
     numClipIntersection: number;
@@ -189,6 +194,7 @@ export interface WebGLProgramParameters {
     toneMapping: ToneMapping;
 
     decodeVideoTexture: boolean;
+    decodeVideoTextureEmissive: boolean;
 
     premultipliedAlpha: boolean;
 
@@ -215,7 +221,7 @@ export interface WebGLProgramParametersWithUniforms extends WebGLProgramParamete
 export class WebGLPrograms {
     constructor(
         renderer: WebGLRenderer,
-        cubemaps: WebGLCubeMaps,
+        environments: WebGLEnvironments,
         extensions: WebGLExtensions,
         capabilities: WebGLCapabilities,
         bindingStates: WebGLBindingStates,
@@ -230,6 +236,7 @@ export class WebGLPrograms {
         shadows: Light[],
         scene: Scene,
         object: Object3D,
+        lightProbeGrids: unknown[],
     ): WebGLProgramParameters;
 
     getProgramCacheKey(parameters: WebGLProgramParameters): string;

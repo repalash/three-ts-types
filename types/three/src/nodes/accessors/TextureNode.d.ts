@@ -1,29 +1,25 @@
 import { Texture } from "../../textures/Texture.js";
 import Node from "../core/Node.js";
 import UniformNode from "../core/UniformNode.js";
-import { NodeRepresentation, ShaderNodeObject } from "../tsl/TSLCore.js";
 
-export default class TextureNode extends UniformNode<Texture> {
+interface TextureNodeInterface {
     readonly isTextureNode: true;
 
-    uvNode: ShaderNodeObject<Node> | null;
-    levelNode: ShaderNodeObject<Node> | null;
-    biasNode: ShaderNodeObject<Node> | null;
+    uvNode: Node<"vec2"> | Node<"vec3"> | null;
+    levelNode: Node | null;
+    biasNode: Node | null;
     compareNode: Node | null;
     depthNode: Node | null;
     gradNode: Node | null;
+    gatherNode: Node<"int"> | null;
 
     sampler: boolean;
     updateMatrix: boolean;
 
     referenceNode: Node | null;
 
-    constructor(
-        value: Texture,
-        uvNode?: ShaderNodeObject<Node> | null,
-        levelNode?: ShaderNodeObject<Node> | null,
-        biasNode?: ShaderNodeObject<Node> | null,
-    );
+    get mergeable(): boolean;
+    set mergeable(value: boolean);
 
     getDefaultUV(): Node;
 
@@ -31,36 +27,81 @@ export default class TextureNode extends UniformNode<Texture> {
 
     getSampler(): boolean;
 
-    uv(uvNode: NodeRepresentation): ShaderNodeObject<Node>;
+    sample(uvNode: Node): this;
 
-    blur(amountNode: NodeRepresentation): ShaderNodeObject<Node>;
+    load(uvNode: Node): this;
 
-    level(levelNode: NodeRepresentation): ShaderNodeObject<Node>;
+    blur(amountNode: Node): this;
 
-    size(levelNode: NodeRepresentation): ShaderNodeObject<Node>;
+    level(levelNode: Node): this;
 
-    bias(biasNode: NodeRepresentation): ShaderNodeObject<Node>;
+    size(levelNode: Node): Node;
 
-    compare(compareNode: NodeRepresentation): ShaderNodeObject<Node>;
+    bias(biasNode: Node): this;
 
-    grad(gradeNodeX: NodeRepresentation, gradeNodeY: NodeRepresentation): ShaderNodeObject<Node>;
+    getBase(): TextureNode;
 
-    depth(depthNode: NodeRepresentation): ShaderNodeObject<Node>;
+    compare(compareNode: Node<"float"> | number): this;
+
+    grad(gradeNodeX: Node, gradeNodeY: Node): this;
+
+    gather(gatherNode?: Node<"int"> | number): this;
+
+    isSampleCompare(): boolean;
+
+    depth(depthNode: Node): this;
+
+    offset(offsetNode: Node<"ivec2">): this;
 
     clone(): this;
 }
 
-export const texture: (
-    value: Texture,
-    uvNode?: NodeRepresentation,
-    levelNode?: NodeRepresentation,
-    biasNode?: NodeRepresentation,
-) => ShaderNodeObject<TextureNode>;
-export const textureLoad: (
-    value: Texture,
-    uvNode?: NodeRepresentation,
-    levelNode?: NodeRepresentation,
-    biasNode?: NodeRepresentation,
-) => ShaderNodeObject<TextureNode>;
+declare const TextureNode: {
+    new(
+        value?: Texture,
+        uvNode?: Node | null,
+        levelNode?: Node | null,
+        biasNode?: Node | null,
+    ): TextureNode;
+};
 
-export const sampler: (aTexture: Texture | TextureNode) => ShaderNodeObject<Node>;
+type TextureNode<TNodeType = "vec4"> = TextureNodeInterface & UniformNode<TNodeType, Texture>;
+
+export default TextureNode;
+
+export const texture: {
+    (
+        value?: Texture | TextureNode,
+        uvNode?: Node | null,
+        levelNode?: Node | number | null,
+        biasNode?: Node | null,
+    ): TextureNode;
+    // eslint-disable-next-line @definitelytyped/no-unnecessary-generics
+    <TNodeType>(
+        value?: Texture | TextureNode,
+        uvNode?: Node | null,
+        levelNode?: Node | number | null,
+        biasNode?: Node | null,
+    ): TextureNode<TNodeType>;
+};
+
+export const uniformTexture: (
+    value?: Texture,
+) => TextureNode;
+
+export const textureLoad: (
+    value?: Texture | TextureNode,
+    uvNode?: Node,
+    levelNode?: Node | number,
+    biasNode?: Node,
+) => TextureNode;
+
+export const textureLevel: (
+    value: Texture | TextureNode,
+    uv: Node,
+    level: Node,
+) => TextureNode;
+
+export const sampler: (value: Texture | TextureNode) => Node;
+
+export const samplerComparison: (value: Texture | TextureNode) => Node;

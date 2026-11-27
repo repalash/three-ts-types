@@ -1,4 +1,9 @@
 packages:
-  - 'examples-testing'
-  - 'src-testing'
-  - 'types/three'
+  - examples-testing
+  - jsdoc-testing
+  - tsl-testing
+  - types/three
+
+onlyBuiltDependencies:
+  - dprint
+  - esbuild

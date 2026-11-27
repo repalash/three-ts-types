@@ -4,6 +4,7 @@ import { WorkerPool } from "../utils/WorkerPool.js";
 
 export interface KTX2LoaderWorkerConfig {
     astcSupported: boolean;
+    astcHDRSupported: boolean;
     etc1Supported: boolean;
     etc2Supported: boolean;
     dxtSupported: boolean;
@@ -12,6 +13,8 @@ export interface KTX2LoaderWorkerConfig {
 }
 
 export class KTX2Loader extends Loader<CompressedTexture> {
+    readonly isKTX2Loader: true;
+
     transcoderPath: string;
     transcoderBinary: ArrayBuffer | null;
     transcoderPending: Promise<void> | null;
@@ -34,6 +37,9 @@ export class KTX2Loader extends Loader<CompressedTexture> {
      */
     setWorkerLimit(limit: number): this;
 
+    /**
+     * "detectSupportAsync()" has been deprecated. Use "detectSupport()" and "await renderer.init();" when creating the renderer.
+     */
     detectSupportAsync(renderer: Renderer): Promise<this>;
 
     /**
@@ -50,14 +56,16 @@ export class KTX2Loader extends Loader<CompressedTexture> {
     /**
      * Disposes the loader object, de-allocating any Web Workers created.
      */
-    dispose(): this;
+    dispose(): void;
 
     parse(
         buffer: ArrayBuffer,
         onLoad: (texture: CompressedTexture) => void,
         onError?: (event: ErrorEvent) => void,
-    ): this;
+    ): void;
 
-    createTexture(buffer: ArrayBuffer, config: any): Promise<CompressedTexture>;
-
+    /**
+     * three-modded: public (upstream's `_createTexture`).
+     */
+    createTexture(buffer: ArrayBuffer, config?: any): Promise<CompressedTexture>;
 }

@@ -1,0 +1,15 @@
+{
+    "include": ["../three.js/examples/jsm/**/*", "../three.js/src/**/*"],
+    "compilerOptions": {
+        "target": "es2017",
+        "module": "NodeNext",
+        "types": [],
+        "allowJs": true,
+        "declaration": true,
+        "emitDeclarationOnly": true,
+        "rootDir": "../three.js",
+        "outDir": "jsdoc",
+        "forceConsistentCasingInFileNames": true,
+        "strict": true
+    }
+}

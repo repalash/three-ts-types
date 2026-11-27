@@ -8,6 +8,8 @@ export default class PhysicalLightingModel extends LightingModel {
     anisotropy: boolean;
     transmission: boolean;
     dispersion: boolean;
+    retroreflection: boolean;
+    diffuseRoughness: boolean;
 
     clearcoatRadiance: Node | null;
     clearcoatSpecularDirect: Node | null;
@@ -15,7 +17,13 @@ export default class PhysicalLightingModel extends LightingModel {
     sheenSpecularDirect: Node | null;
     sheenSpecularIndirect: Node | null;
     iridescenceFresnel: Node | null;
-    iridescenceF0: Node | null;
+    iridescenceF0Dielectric: Node | null;
+    iridescenceF0Metallic: Node | null;
+    dfg: Node | null;
+    eonDirectionalAlbedo: Node | null;
+    multiScatteringCompensation: Node | null;
+    singleScatteringDielectric: Node | null;
+    multiScatteringDielectric: Node | null;
 
     constructor(
         clearcoat?: boolean,
@@ -24,7 +32,14 @@ export default class PhysicalLightingModel extends LightingModel {
         anisotropy?: boolean,
         transmission?: boolean,
         dispersion?: boolean,
+        retroreflection?: boolean,
+        diffuseRoughness?: boolean,
     );
 
-    computeMultiscattering(singleScatter: Node, multiScatter: Node, specularF90: Node): void;
+    computeMultiscattering(
+        singleScatter: Node,
+        multiScatter: Node,
+        specularF90: Node,
+        iridescenceF0?: Node | null,
+    ): void;
 }

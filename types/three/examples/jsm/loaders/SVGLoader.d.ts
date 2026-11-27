@@ -1,12 +1,8 @@
-import { BufferGeometry, Loader, LoadingManager, Shape, ShapePath, Vector2, Vector3 } from "three";
-
-export interface SVGResultPaths extends ShapePath {
-    userData?: Record<string, any> | undefined;
-}
+import { BufferGeometry, Loader, LoadingManager, MeshBasicMaterial, Shape, ShapePath, Vector2 } from "three";
 
 export interface SVGResult {
-    paths: SVGResultPaths[];
-    xml: XMLDocument;
+    paths: ShapePath[];
+    xml: SVGSVGElement;
 }
 
 export interface StrokeStyle {
@@ -34,7 +30,7 @@ export class SVGLoader extends Loader<SVGResult> {
     ): StrokeStyle;
 
     /**
-     * Generates a stroke with some witdh around the given path.
+     * Generates a stroke with some width around the given path.
      * @remarks The path can be open or closed (last point equals to first point)
      * @param points  Array of Vector2D (the path). Minimum 2 points.
      * @param style  Object with SVG properties as returned by SVGLoader.getStrokeStyle(), or SVGLoader.parse() in the path.userData.style object
@@ -60,5 +56,12 @@ export class SVGLoader extends Loader<SVGResult> {
         vertexOffset?: number,
     ): number;
 
+    static createFillMaterial(shapePath: ShapePath): MeshBasicMaterial | null;
+
+    static createStrokeMaterial(shapePath: ShapePath): MeshBasicMaterial | null;
+
+    /**
+     * @deprecated Use shapePath.toShapes() instead.
+     */
     static createShapes(shapePath: ShapePath): Shape[];
 }

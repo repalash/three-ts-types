@@ -1,15 +1,12 @@
 import {
     Box3,
     Camera,
-    Color,
-    ColorRepresentation,
     DataTexture,
     DepthTexture,
     MeshNormalMaterial,
     Scene,
     ShaderMaterial,
     Texture,
-    WebGLRenderer,
     WebGLRenderTarget,
 } from "three";
 
@@ -46,10 +43,7 @@ export class GTAOPass extends Pass {
 
     blendMaterial: ShaderMaterial;
 
-    fsQuad: FullScreenQuad;
-
-    originalClearColor: Color;
-
+    _fsQuad: FullScreenQuad; // three-modded: the JS has used _fsQuad since r175 (upstream typings leave it out as internal)
     depthTexture: DepthTexture;
     normalTexture: Texture;
 
@@ -86,28 +80,6 @@ export class GTAOPass extends Pass {
         rings?: number | undefined;
         samples?: number | undefined;
     }): void;
-
-    renderPass(
-        renderer: WebGLRenderer,
-        passMaterial: ShaderMaterial,
-        renderTarget: WebGLRenderTarget | null,
-        clearColor?: ColorRepresentation | undefined,
-        clearAlpha?: number | undefined,
-    ): void;
-
-    renderOverride(
-        renderer: WebGLRenderer,
-        overrideMaterial: MeshNormalMaterial,
-        renderTarget: WebGLRenderTarget | null,
-        clearColor?: ColorRepresentation | undefined,
-        clearAlpha?: number | undefined,
-    ): void;
-
-    overrideVisibility(): void;
-
-    restoreVisibility(): void;
-
-    generateNoise(size?: number): DataTexture;
 
     static OUTPUT: {
         Off: -1;

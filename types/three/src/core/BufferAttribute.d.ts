@@ -1,6 +1,7 @@
 import { AttributeGPUType, Usage } from "../constants.js";
 import { Matrix3 } from "../math/Matrix3.js";
 import { Matrix4 } from "../math/Matrix4.js";
+import { EventDispatcher } from "./EventDispatcher.js";
 
 export type TypedArray =
     | Int8Array
@@ -13,6 +14,17 @@ export type TypedArray =
     | Float32Array
     | Float64Array;
 
+export type TypedArrayConstructor =
+    | Int8ArrayConstructor
+    | Uint8ArrayConstructor
+    | Uint8ClampedArrayConstructor
+    | Int16ArrayConstructor
+    | Uint16ArrayConstructor
+    | Int32ArrayConstructor
+    | Uint32ArrayConstructor
+    | Float32ArrayConstructor
+    | Float64ArrayConstructor;
+
 export interface BufferAttributeJSON {
     itemSize: number;
     type: string;
@@ -21,6 +33,10 @@ export interface BufferAttributeJSON {
 
     name?: string;
     usage?: Usage;
+}
+
+export interface BufferAttributeEventMap {
+    dispose: {};
 }
 
 /**
@@ -37,7 +53,9 @@ export interface BufferAttributeJSON {
  * @see {@link https://threejs.org/docs/index.html#api/en/core/BufferAttribute | Official Documentation}
  * @see {@link https://github.com/mrdoob/three.js/blob/master/src/core/BufferAttribute.js | Source}
  */
-export class BufferAttribute {
+export class BufferAttribute<TEventMap extends BufferAttributeEventMap = BufferAttributeEventMap>
+    extends EventDispatcher<TEventMap>
+{
     /**
      * This creates a new {@link THREE.GLBufferAttribute | GLBufferAttribute} object.
      * @param array Must be a `TypedArray`. Used to instantiate the buffer.
@@ -56,6 +74,11 @@ export class BufferAttribute {
      * @throws `TypeError` When the {@link array} is not a `TypedArray`;
      */
     constructor(array: TypedArray, itemSize: number, normalized?: boolean);
+
+    /**
+     * Unique number for this attribute instance.
+     */
+    readonly id: number;
 
     /**
      * Optional name for this attribute instance.
@@ -94,21 +117,6 @@ export class BufferAttribute {
      * float types, see https://threejs.org/docs/#api/en/core/bufferAttributeTypes/BufferAttributeTypes.
      */
     gpuType: AttributeGPUType;
-
-    /**
-     * This can be used to only update some components of stored vectors (for example, just the component related to color).
-     * @defaultValue `{ offset: number = 0; count: number = -1 }`
-     * @deprecated Will be removed in r169. Use "addUpdateRange()" instead.
-     */
-    updateRange: {
-        /**
-         * Position at which to start update.
-         * @defaultValue `0`
-         */
-        offset: number;
-        /** @defaultValue `-1`, which means don't use update ranges. */
-        count: number;
-    };
 
     /**
      * This can be used to only update some components of stored vectors (for example, just the component related to
@@ -347,6 +355,11 @@ export class BufferAttribute {
      * Convert this object to three.js to the `data.attributes` part of {@link https://github.com/mrdoob/three.js/wiki/JSON-Geometry-format-4 | JSON Geometry format v4},
      */
     toJSON(): BufferAttributeJSON;
+
+    /**
+     * Frees the GPU-related resources allocated by this instance. Available only in {@link WebGPURenderer}.
+     */
+    dispose(): void;
 }
 
 /**

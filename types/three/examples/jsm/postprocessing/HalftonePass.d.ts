@@ -16,7 +16,7 @@ export interface HalftonePassParameters {
 }
 
 export class HalftonePass extends Pass {
-    constructor(width: number, height: number, params: HalftonePassParameters);
+    constructor(params: HalftonePassParameters);
     uniforms: {
         tDiffuse: IUniform;
         shape: IUniform<number>;
@@ -33,5 +33,5 @@ export class HalftonePass extends Pass {
         disable: IUniform<boolean>;
     };
     material: ShaderMaterial;
-    fsQuad: FullScreenQuad;
+    _fsQuad: FullScreenQuad; // three-modded: the JS has used _fsQuad since r175 (upstream typings leave it out as internal)
 }

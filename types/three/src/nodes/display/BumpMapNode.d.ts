@@ -1,16 +1,17 @@
-import TempNode from "../core/TempNode.js";
-import { NodeRepresentation, ShaderNodeObject } from "../tsl/TSLCore.js";
+import Node from "../core/Node.js";
 
-declare class BumpMapNode extends TempNode {
+declare class BumpMapNode extends Node {
     textureNode: Node;
     scaleNode: Node | null;
+    normalNode: Node;
 
-    constructor(textureNode: Node, scaleNode?: Node | null);
+    constructor(textureNode: Node, scaleNode?: Node | null, normalNode?: Node);
 }
 
 export default BumpMapNode;
 
 export const bumpMap: (
-    textureNode: NodeRepresentation,
-    scaleNode?: NodeRepresentation | null,
-) => ShaderNodeObject<BumpMapNode>;
+    textureNode: Node,
+    scaleNode?: Node | null,
+    normalNode?: Node,
+) => BumpMapNode;

@@ -1,28 +1,26 @@
 import Node from "../core/Node.js";
-import { NodeRepresentation, ShaderNodeObject } from "../tsl/TSLCore.js";
 
-export const getDirection: (uv_immutable: NodeRepresentation, face: NodeRepresentation) => ShaderNodeObject<Node>;
+export const roughnessToMip: (roughness: Node | number, maxLod: Node | number) => Node<"float">;
 
-export const textureCubeUV: (
-    envMap: NodeRepresentation,
-    sampleDir_immutable: NodeRepresentation,
-    roughness_immutable: NodeRepresentation,
-    CUBEUV_TEXEL_WIDTH: NodeRepresentation,
-    CUBEUV_TEXEL_HEIGHT: NodeRepresentation,
-    CUBEUV_MAX_MIP: NodeRepresentation,
-) => ShaderNodeObject<Node>;
+export const sphericalGaussianBlur: (params: {
+    SAMPLES: Node | number;
+    sigma: Node;
+    direction: Node;
+    envMap: Node;
+}) => Node<"vec4">;
 
-export const blur: (
-    n: NodeRepresentation,
-    latitudinal: NodeRepresentation,
-    poleAxis: NodeRepresentation,
-    outputDirection: NodeRepresentation,
-    weights: NodeRepresentation,
-    samples: NodeRepresentation,
-    dTheta: NodeRepresentation,
-    mipInt: NodeRepresentation,
-    envMap: NodeRepresentation,
-    CUBEUV_TEXEL_WIDTH: NodeRepresentation,
-    CUBEUV_TEXEL_HEIGHT: NodeRepresentation,
-    CUBEUV_MAX_MIP: NodeRepresentation,
-) => ShaderNodeObject<Node>;
+export const ggxConvolution: (params: {
+    roughness: Node;
+    lodBias: Node;
+    envMap: Node;
+    direction: Node;
+    GGX_SAMPLES: Node | number;
+}) => Node<"vec4">;
+
+export const ggxIntegration: (params: {
+    roughness: Node;
+    sourceLod: Node;
+    sourceSize: Node;
+    envMap: Node;
+    direction: Node;
+}) => Node<"vec4">;

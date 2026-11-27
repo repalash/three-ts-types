@@ -1,18 +1,48 @@
 import { Light } from "../../lights/Light.js";
 import Node from "../core/Node.js";
 import { NodeBuilder } from "../Nodes.js";
-import { ShaderNodeObject } from "../tsl/TSLCore.js";
+import LightingNode from "./LightingNode.js";
+
+export interface DirectLightData {
+    lightDirection: Node;
+    lightColor: Node;
+}
+
+export interface DirectRectAreaLightData {
+    lightColor: Node;
+    lightPosition: Node;
+    halfWidth: Node;
+    halfHeight: Node;
+    ltc_1: Node;
+    ltc_2: Node;
+}
 
 declare class LightsNode extends Node {
-    constructor(lights?: Light[]);
+    totalDiffuseNode: Node<"vec3">;
+    totalSpecularNode: Node<"vec3">;
+    outgoingLightNode: Node<"vec3">;
 
-    setupLightsNode(builder: NodeBuilder): void;
+    constructor();
+
+    setupLightsNode(builder: NodeBuilder): LightingNode[];
+
+    setupDirectLight(builder: NodeBuilder, lightNode: Node, lightData: DirectLightData): void;
+
+    setupDirectRectAreaLight(builder: NodeBuilder, lightNode: Node, lightData: DirectRectAreaLightData): void;
+
+    setupLights(builder: NodeBuilder, lightNodes: LightingNode[]): void;
+
+    getLightNodes(): LightingNode[];
 
     setLights(lights: Light[]): this;
 
     getLights(): Light[];
+
+    getBuiltinLights(): Light[];
+
+    get hasLights(): boolean;
 }
 
 export default LightsNode;
 
-export const lights: (lights: Light[]) => ShaderNodeObject<LightsNode>;
+export const lights: (lights?: Light[]) => LightsNode;

@@ -20,7 +20,7 @@ export interface OrbitControlsEventMap {
 /**
  * Orbit controls allow the camera to orbit around a target.
  */
-declare class OrbitControls extends Controls<OrbitControlsEventMap> {
+declare class OrbitControls<TCamera extends Camera = Camera> extends Controls<OrbitControlsEventMap, TCamera> {
     /**
      * The focus point of the controls, the {@link .object} orbits around this. It can be updated manually at any point
      * to change the focus of the controls.
@@ -42,6 +42,26 @@ declare class OrbitControls extends Controls<OrbitControlsEventMap> {
      * How far you can dolly out ( {@link PerspectiveCamera} only ). Default is Infinity.
      */
     maxDistance: number;
+
+    /**
+     * three-modded: move the target along when zooming in past {@link minDistance}. Default is true.
+     */
+    autoPushTarget: boolean;
+
+    /**
+     * three-modded: move the target along when zooming out past {@link maxDistance}. Default is true.
+     */
+    autoPullTarget: boolean;
+
+    /**
+     * three-modded: the upper bound of the camera position and the target. Default is (Infinity, Infinity, Infinity).
+     */
+    clampMax: Vector3;
+
+    /**
+     * three-modded: the lower bound of the camera position and the target. Default is (-Infinity, -Infinity, -Infinity).
+     */
+    clampMin: Vector3;
 
     /**
      * How far you can zoom in ( {@link OrthographicCamera} only ). Default is 0.
@@ -109,6 +129,16 @@ declare class OrbitControls extends Controls<OrbitControlsEventMap> {
     zoomSpeed: number;
 
     /**
+     * three-modded: the largest zoom step per update, used with damping. Default is 1.
+     */
+    maxZoomSpeed: number;
+
+    /**
+     * three-modded: dolly also changes the camera's zoom ( {@link PerspectiveCamera} only ). Default is false.
+     */
+    dollyZoom: boolean;
+
+    /**
      * Enable or disable horizontal and vertical rotation of the camera. Default is true.
      * Note that it is possible to disable a single axis by setting the min and max of the
      * [polar angle]{@link .minPolarAngle} or [azimuth angle]{@link .minAzimuthAngle} to the same value, which will
@@ -120,6 +150,11 @@ declare class OrbitControls extends Controls<OrbitControlsEventMap> {
      * Speed of rotation. Default is 1.
      */
     rotateSpeed: number;
+
+    /**
+     * How fast to rotate the camera when the keyboard is used. Default is 1.
+     */
+    keyRotateSpeed: number;
 
     /**
      * Enable or disable camera panning. Default is true.
@@ -206,7 +241,10 @@ declare class OrbitControls extends Controls<OrbitControlsEventMap> {
      * is the scene itself.
      * @param domElement The HTML element used for event listeners. (optional)
      */
-    constructor(object: Camera, domElement?: HTMLElement | null);
+    constructor(object: TCamera, domElement?: HTMLElement | SVGElement | null);
+
+    set cursorStyle(type: "auto" | "grab");
+    get cursorStyle(): "auto" | "grab";
 
     /**
      * Get the current vertical rotation, in radians.
@@ -244,6 +282,42 @@ declare class OrbitControls extends Controls<OrbitControlsEventMap> {
      * state.
      */
     reset(): void;
+
+    /**
+     * Programmatically pan the camera.
+     *
+     * @param {number} deltaX - The horizontal pan amount in pixels.
+     * @param {number} deltaY - The vertical pan amount in pixels.
+     */
+    pan(deltaX: number, deltaY: number): void;
+
+    /**
+     * Programmatically dolly in (zoom in for perspective camera).
+     *
+     * @param {number} dollyScale - The dolly scale factor.
+     */
+    dollyIn(dollyScale: number): void;
+
+    /**
+     * Programmatically dolly out (zoom out for perspective camera).
+     *
+     * @param {number} dollyScale - The dolly scale factor.
+     */
+    dollyOut(dollyScale: number): void;
+
+    /**
+     * Programmatically rotate the camera left (around the vertical axis).
+     *
+     * @param {number} angle - The rotation angle in radians.
+     */
+    rotateLeft(angle: number): void;
+
+    /**
+     * Programmatically rotate the camera up (around the horizontal axis).
+     *
+     * @param {number} angle - The rotation angle in radians.
+     */
+    rotateUp(angle: number): void;
 
     /**
      * Update the controls. Must be called after any manual changes to the camera's transform, or in the update loop if

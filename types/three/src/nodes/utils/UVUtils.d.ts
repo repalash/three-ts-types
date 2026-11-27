@@ -1,14 +1,19 @@
-import OperatorNode from "../math/OperatorNode.js";
-import { NodeRepresentation, ShaderNodeObject } from "../tsl/TSLCore.js";
+import ContextNode from "../core/ContextNode.js";
+import Node from "../core/Node.js";
+
+export function replaceDefaultUV<TNodeType>(
+    callback: ((node: Node) => Node<"vec2">) | Node<"vec2">,
+    node?: Node<TNodeType> | null,
+): ContextNode<TNodeType>;
 
 export const rotateUV: (
-    uv: NodeRepresentation,
-    rotation: NodeRepresentation,
-    center?: NodeRepresentation,
-) => ShaderNodeObject<OperatorNode>;
+    uv: Node,
+    rotation: Node,
+    center?: Node,
+) => Node<"vec2">;
 
 export const spherizeUV: (
-    uv: NodeRepresentation,
-    strength: NodeRepresentation,
-    center?: NodeRepresentation,
-) => ShaderNodeObject<OperatorNode>;
+    uv: Node,
+    strength: Node | number,
+    center?: Node,
+) => Node<"vec2">;

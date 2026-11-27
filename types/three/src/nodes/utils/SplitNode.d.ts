@@ -1,7 +1,5 @@
 import Node from "../core/Node.js";
-import { SwizzleOption } from "../tsl/TSLCore.js";
 
-/** swizzle node */
 export default class SplitNode extends Node {
     node: Node;
     components: string;
@@ -10,6 +8,7 @@ export default class SplitNode extends Node {
      * @param node the input node
      * @param components swizzle like string, default = "x"
      */
-    constructor(node: Node, components?: SwizzleOption);
+    constructor(node: Node, components?: string);
+
     getVectorLength(): number;
 }

@@ -1,6 +1,7 @@
-import { BufferAttributeJSON } from "./../core/BufferAttribute.js";
+import { BufferAttribute, BufferAttributeJSON } from "./../core/BufferAttribute.js";
 import { BufferGeometry } from "../core/BufferGeometry.js";
 import { InstancedBufferAttribute } from "../core/InstancedBufferAttribute.js";
+import { InterleavedBufferAttribute } from "../core/InterleavedBufferAttribute.js";
 import { JSONMeta, Object3D, Object3DEventMap } from "../core/Object3D.js";
 import { Material } from "../materials/Material.js";
 import { Box3 } from "../math/Box3.js";
@@ -20,15 +21,10 @@ export interface InstancedMeshJSON extends MeshJSONObject {
     object: InstancedMeshJSONObject;
 }
 
-export interface InstancedMeshEventMap extends Object3DEventMap {
-    dispose: {};
-}
-
 /**
  * A special version of {@link THREE.Mesh | Mesh} with instanced rendering support
  * @remarks
  * Use {@link InstancedMesh} if you have to render a large number of objects with the same geometry and material(s) but with different world transformations
- * @remarks
  * The usage of {@link InstancedMesh} will help you to reduce the number of draw calls and thus improve the overall rendering performance in your application.
  * @see Example: {@link https://threejs.org/examples/#webgl_instancing_dynamic | WebGL / instancing / dynamic}
  * @see Example: {@link https://threejs.org/examples/#webgl_instancing_performance | WebGL / instancing / performance}
@@ -40,22 +36,50 @@ export interface InstancedMeshEventMap extends Object3DEventMap {
 export class InstancedMesh<
     TGeometry extends BufferGeometry = BufferGeometry,
     TMaterial extends Material | Material[] = Material | Material[],
-    TEventMap extends InstancedMeshEventMap = InstancedMeshEventMap,
+    TEventMap extends Object3DEventMap = Object3DEventMap,
 > extends Mesh<TGeometry, TMaterial, TEventMap> {
-    /**
-     * Create a new instance of {@link InstancedMesh}
-     * @param geometry An instance of {@link BufferGeometry}.
-     * @param material A single or an array of {@link Material}. Default is a new {@link MeshBasicMaterial}.
-     * @param count The **maximum** number of instances of this Mesh. Expects a `Integer`
-     */
-    constructor(geometry: TGeometry | undefined, material: TMaterial | undefined, count: number);
-
     /**
      * Read-only flag to check if a given object is of type {@link InstancedMesh}.
      * @remarks This is a _constant_ value
      * @defaultValue `true`
      */
     readonly isInstancedMesh: true;
+
+    /**
+     * Represents the local transformation of all instances.
+     * You have to set {@link InstancedBufferAttribute.needsUpdate | .instanceMatrix.needsUpdate()} flag to `true` if you modify instanced data via {@link setMatrixAt | .setMatrixAt()}.
+     */
+    instanceMatrix: InstancedBufferAttribute;
+
+    /**
+     * Represents the colors of all instances.
+     * You have to set {@link InstancedBufferAttribute.needsUpdate | .instanceColor.needsUpdate()} flag to `true` if you modify instanced data via {@link setColorAt | .setColorAt()}.
+     * @defaultValue `null`
+     */
+    instanceColor: InstancedBufferAttribute | null;
+
+    /**
+     * Represents the morph target weights of all instances. You have to set its {@link .needsUpdate} flag to true if
+     * you modify instanced data via {@link .setMorphAt}.
+     */
+    morphTexture: DataTexture | null;
+
+    /**
+     * three-modded: the instance TRS attributes (`TRANSLATION`, `ROTATION`, `SCALE`) GLTFLoader read from
+     * `EXT_mesh_gpu_instancing`, kept for export.
+     * @defaultValue `null`
+     */
+    sourceTrs: { [name: string]: BufferAttribute | InterleavedBufferAttribute } | null;
+
+    /**
+     * The number of instances.
+     * @remarks
+     * The `count` value passed into the {@link InstancedMesh | constructor} represents the **maximum** number of instances of this mesh.
+     * You can change the number of instances at runtime to an integer value in the range `[0, count]`.
+     * If you need more instances than the original `count` value, you have to create a new InstancedMesh.
+     * Expects a `Integer`
+     */
+    count: number;
 
     /**
      * This bounding box encloses all instances of the {@link InstancedMesh},, which can be calculated with {@link computeBoundingBox | .computeBoundingBox()}.
@@ -72,33 +96,12 @@ export class InstancedMesh<
     boundingSphere: Sphere | null;
 
     /**
-     * The number of instances.
-     * @remarks
-     * The `count` value passed into the {@link InstancedMesh | constructor} represents the **maximum** number of instances of this mesh.
-     * You can change the number of instances at runtime to an integer value in the range `[0, count]`.
-     * @remarks If you need more instances than the original `count` value, you have to create a new InstancedMesh.
-     * @remarks Expects a `Integer`
+     * Create a new instance of {@link InstancedMesh}
+     * @param geometry An instance of {@link BufferGeometry}.
+     * @param material A single or an array of {@link Material}. Default is a new {@link MeshBasicMaterial}.
+     * @param count The **maximum** number of instances of this Mesh. Expects a `Integer`
      */
-    count: number;
-
-    /**
-     * Represents the colors of all instances.
-     * You have to set {@link InstancedBufferAttribute.needsUpdate | .instanceColor.needsUpdate()} flag to `true` if you modify instanced data via {@link setColorAt | .setColorAt()}.
-     * @defaultValue `null`
-     */
-    instanceColor: InstancedBufferAttribute | null;
-
-    /**
-     * Represents the local transformation of all instances.
-     * You have to set {@link InstancedBufferAttribute.needsUpdate | .instanceMatrix.needsUpdate()} flag to `true` if you modify instanced data via {@link setMatrixAt | .setMatrixAt()}.
-     */
-    instanceMatrix: InstancedBufferAttribute;
-
-    /**
-     * Represents the morph target weights of all instances. You have to set its {@link .needsUpdate} flag to true if
-     * you modify instanced data via {@link .setMorphAt}.
-     */
-    morphTexture: DataTexture | null;
+    constructor(geometry: TGeometry | undefined, material: TMaterial | undefined, count: number);
 
     /**
      * Computes the bounding box of the instanced mesh, and updates the {@link .boundingBox} attribute. The bounding box
@@ -119,7 +122,7 @@ export class InstancedMesh<
      * @param index The index of an instance. Values have to be in the range `[0, count]`. Expects a `Integer`
      * @param color This color object will be set to the color of the defined instance.
      */
-    getColorAt(index: number, color: Color): void;
+    getColorAt(index: number, color: Color): Color;
 
     /**
      * Sets the given color to the defined instance
@@ -128,14 +131,14 @@ export class InstancedMesh<
      * @param index The index of an instance. Values have to be in the range `[0, count]`. Expects a `Integer`
      * @param color The color of a single instance.
      */
-    setColorAt(index: number, color: Color): void;
+    setColorAt(index: number, color: Color): this;
 
     /**
      * Get the local transformation matrix of the defined instance.
      * @param index The index of an instance Values have to be in the range `[0, count]`. Expects a `Integer`
      * @param matrix This 4x4 matrix will be set to the local transformation matrix of the defined instance.
      */
-    getMatrixAt(index: number, matrix: Matrix4): void;
+    getMatrixAt(index: number, matrix: Matrix4): Matrix4;
 
     /**
      * Get the morph target weights of the defined instance.
@@ -145,13 +148,14 @@ export class InstancedMesh<
     getMorphAt(index: number, mesh: Mesh): void;
 
     /**
-     * Sets the given local transformation matrix to the defined instance.
-     * @remarks
-     * Make sure you set {@link InstancedBufferAttribute.needsUpdate | .instanceMatrix.needsUpdate()} flag to `true` after updating all the matrices.
+     * Sets the given local transformation matrix to the defined instance. Make sure you set
+     * {@link InstancedBufferAttribute.needsUpdate | .instanceMatrix.needsUpdate()} flag to `true` after updating all
+     * the matrices.
+     * Negatively scaled matrices are not supported.
      * @param index The index of an instance. Values have to be in the range `[0, count]`. Expects a `Integer`
      * @param matrix A 4x4 matrix representing the local transformation of a single instance.
      */
-    setMatrixAt(index: number, matrix: Matrix4): void;
+    setMatrixAt(index: number, matrix: Matrix4): this;
 
     /**
      * Sets the morph target weights to the defined instance. Make sure you set {@link .morphTexture}{@link .needsUpdate}
@@ -159,7 +163,7 @@ export class InstancedMesh<
      * @param index The index of an instance. Values have to be in the range [0, count].
      * @param mesh A mesh with {@link .morphTargetInfluences} property containing the morph target weights of a single instance.
      */
-    setMorphAt(index: number, mesh: Mesh): void;
+    setMorphAt(index: number, mesh: Mesh): this;
 
     /**
      * No effect in {@link InstancedMesh}.
@@ -173,7 +177,7 @@ export class InstancedMesh<
      * @remarks
      * Call this method whenever this instance is no longer used in your app.
      */
-    dispose(): this;
+    dispose(): void;
 
     toJSON(meta?: JSONMeta): InstancedMeshJSON;
 

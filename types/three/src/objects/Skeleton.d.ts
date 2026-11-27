@@ -61,12 +61,26 @@ export class Skeleton {
     /**
      * The array buffer holding the bone data when using a vertex texture.
      */
-    boneMatrices: Float32Array;
+    boneMatrices: Float32Array | null;
+
+    /**
+     * An array buffer holding the bone data of the previous frame.
+     * Required for computing velocity.
+     * @default null
+     */
+    previousBoneMatrices: Float32Array | null;
 
     /**
      * The {@link THREE.DataTexture | DataTexture} holding the bone data when using a vertex texture.
      */
-    boneTexture: null | DataTexture;
+    boneTexture: DataTexture | null;
+
+    /**
+     * A texture holding the bone data of the previous frame.
+     * Required for computing velocity.
+     * @default null
+     */
+    previousBoneTexture: DataTexture | null;
 
     frame: number;
 

@@ -1,7 +1,7 @@
 import { Camera } from "../cameras/Camera.js";
-import { ColorSpace, CullFace, ShadowMapType, ToneMapping, WebGLCoordinateSystem } from "../constants.js";
+import { TextureDataType, ToneMapping, WebGLCoordinateSystem } from "../constants.js";
 import { TypedArray } from "../core/BufferAttribute.js";
-import { BufferGeometry } from "../core/BufferGeometry.js";
+import { BufferGeometry, GeometryGroup } from "../core/BufferGeometry.js";
 import { Object3D } from "../core/Object3D.js";
 import { Material } from "../materials/Material.js";
 import { Box2 } from "../math/Box2.js";
@@ -12,31 +12,23 @@ import { Vector2 } from "../math/Vector2.js";
 import { Vector3 } from "../math/Vector3.js";
 import { Vector4 } from "../math/Vector4.js";
 import { Scene } from "../scenes/Scene.js";
-import { Data3DTexture } from "../textures/Data3DTexture.js";
-import { DataArrayTexture } from "../textures/DataArrayTexture.js";
+import { DepthTexture } from "../textures/DepthTexture.js";
 import { OffscreenCanvas, Texture } from "../textures/Texture.js";
-import { WebGLCapabilities } from "./webgl/WebGLCapabilities.js";
+import { WebGLCapabilities, WebGLCapabilitiesParameters } from "./webgl/WebGLCapabilities.js";
 import { WebGLExtensions } from "./webgl/WebGLExtensions.js";
 import { WebGLInfo } from "./webgl/WebGLInfo.js";
 import { WebGLProgram } from "./webgl/WebGLProgram.js";
+import { WebGLProgramParametersWithUniforms } from "./webgl/WebGLPrograms.js";
 import { WebGLProperties } from "./webgl/WebGLProperties.js";
 import { WebGLRenderLists } from "./webgl/WebGLRenderLists.js";
 import { WebGLShadowMap } from "./webgl/WebGLShadowMap.js";
 import { WebGLState } from "./webgl/WebGLState.js";
 import { WebGLRenderTarget } from "./WebGLRenderTarget.js";
 import { WebXRManager } from "./webxr/WebXRManager.js";
-import { WebGLCubeMaps } from "./webgl/WebGLCubeMaps.js";
-import { WebGLCubeUVMaps } from "./webgl/WebGLCubeUVMaps.js";
+import { WebGLEnvironments } from "./webgl/WebGLEnvironments.js";
 import { WebGLMaterials } from "./webgl/WebGLMaterials.js";
 
-export interface Renderer {
-    domElement: HTMLCanvasElement;
-
-    render(scene: Object3D, camera: Camera): void;
-    setSize(width: number, height: number, updateStyle?: boolean): void;
-}
-
-export interface WebGLRendererParameters {
+export interface WebGLRendererParameters extends WebGLCapabilitiesParameters {
     /**
      * A Canvas where the renderer draws its output.
      */
@@ -48,11 +40,6 @@ export interface WebGLRendererParameters {
      * Default is null
      */
     context?: WebGLRenderingContext | undefined;
-
-    /**
-     * shader precision. Can be "highp", "mediump" or "lowp".
-     */
-    precision?: string | undefined;
 
     /**
      * default is false.
@@ -82,7 +69,7 @@ export interface WebGLRendererParameters {
     /**
      * Can be "high-performance", "low-power" or "default"
      */
-    powerPreference?: string | undefined;
+    powerPreference?: WebGLPowerPreference | undefined;
 
     /**
      * default is true.
@@ -92,12 +79,12 @@ export interface WebGLRendererParameters {
     /**
      * default is false.
      */
-    logarithmicDepthBuffer?: boolean | undefined;
+    failIfMajorPerformanceCaveat?: boolean | undefined;
 
     /**
-     * default is false.
+     * @default UnsignedByteType
      */
-    failIfMajorPerformanceCaveat?: boolean | undefined;
+    outputBufferType?: TextureDataType | undefined;
 }
 
 export interface WebGLDebug {
@@ -105,6 +92,17 @@ export interface WebGLDebug {
      * Enables error checking and reporting when shader programs are being compiled.
      */
     checkShaderErrors: boolean;
+
+    /**
+     * Diagnostics configuration for the shader generation. Only relevant for TSL.
+     */
+    diagnostics: {
+        /**
+         * Whether declaration names that collide with reserved keywords of the shading language should be renamed or
+         * not.
+         */
+        keywords: boolean;
+    };
 
     /**
      * A callback function that can be used for custom error reporting. The callback receives the WebGL context, an
@@ -122,13 +120,33 @@ export interface WebGLDebug {
         | null;
 }
 
+export interface Effect {
+    needsDepthTexture?: boolean;
+    setSize(width: number, height: number): void;
+    setDepthTexture?(depthTexture: DepthTexture): void;
+    render(
+        renderer: WebGLRenderer,
+        writeBuffer: WebGLRenderTarget,
+        readBuffer: WebGLRenderTarget,
+        deltaTime: number,
+        maskActive: boolean,
+    ): void;
+}
+
+export interface NodesHandler {
+    setRenderer(renderer: WebGLRenderer): void;
+    renderStart(scene: Object3D, camera: Camera): void;
+    renderEnd(): void;
+    build(material: Material, object: Object3D, parameters: WebGLProgramParametersWithUniforms): void;
+}
+
 /**
  * The WebGL renderer displays your beautifully crafted scenes using WebGL, if your device supports it.
  * This renderer has way better performance than CanvasRenderer.
  *
  * see {@link https://github.com/mrdoob/three.js/blob/master/src/renderers/WebGLRenderer.js|src/renderers/WebGLRenderer.js}
  */
-export class WebGLRenderer implements Renderer {
+export class WebGLRenderer {
     /**
      * parameters is an optional object with properties defining the renderer's behavior.
      * The constructor also accepts no parameters at all.
@@ -196,8 +214,8 @@ export class WebGLRenderer implements Renderer {
      * {@link SRGBColorSpace} and {@link LinearSRGBColorSpace}.
      * @default THREE.SRGBColorSpace.
      */
-    get outputColorSpace(): ColorSpace;
-    set outputColorSpace(colorSpace: ColorSpace);
+    get outputColorSpace(): string;
+    set outputColorSpace(colorSpace: string);
 
     get coordinateSystem(): typeof WebGLCoordinateSystem;
 
@@ -211,19 +229,23 @@ export class WebGLRenderer implements Renderer {
      */
     toneMappingExposure: number;
 
+    /**
+     * The normalized resolution scale for the transmission render target, measured in percentage of viewport
+     * dimensions. Lowering this value can result in significant improvements to {@link MeshPhysicalMaterial}
+     * transmission performance. Default is `1`.
+     */
+    transmissionResolutionScale: number;
+
     info: WebGLInfo;
 
     shadowMap: WebGLShadowMap;
-
-    pixelRatio: number;
 
     capabilities: WebGLCapabilities;
     properties: WebGLProperties;
     renderLists: WebGLRenderLists;
     state: WebGLState;
     background: /*WebGLBackground*/ any;
-    cubemaps: WebGLCubeMaps;
-    cubeuvmaps: WebGLCubeUVMaps;
+    environments: WebGLEnvironments;
     materials: WebGLMaterials;
 
     xr: WebXRManager;
@@ -232,25 +254,12 @@ export class WebGLRenderer implements Renderer {
      * Return the WebGL context.
      */
     getContext(): WebGLRenderingContext | WebGL2RenderingContext;
-    getContextAttributes(): any;
+    getContextAttributes(): WebGLContextAttributes;
     forceContextLoss(): void;
     forceContextRestore(): void;
 
-    /**
-     * @deprecated Use {@link WebGLCapabilities#getMaxAnisotropy .capabilities.getMaxAnisotropy()} instead.
-     */
-    getMaxAnisotropy(): number;
-
-    /**
-     * @deprecated Use {@link WebGLCapabilities#precision .capabilities.precision} instead.
-     */
-    getPrecision(): string;
-
     getPixelRatio(): number;
     setPixelRatio(value: number): void;
-
-    getDrawingBufferSize(target: Vector2): Vector2;
-    setDrawingBufferSize(width: number, height: number, pixelRatio: number): void;
 
     getSize(target: Vector2): Vector2;
 
@@ -258,6 +267,11 @@ export class WebGLRenderer implements Renderer {
      * Resizes the output canvas to (width, height), and also sets the viewport to fit that size, starting in (0, 0).
      */
     setSize(width: number, height: number, updateStyle?: boolean): void;
+
+    getDrawingBufferSize(target: Vector2): Vector2;
+    setDrawingBufferSize(width: number, height: number, pixelRatio: number): void;
+
+    setEffects(effects: Effect[] | null): void;
 
     getCurrentViewport(target: Vector4): Vector4;
 
@@ -295,12 +309,12 @@ export class WebGLRenderer implements Renderer {
     /**
      * Sets the custom opaque sort function for the WebGLRenderLists. Pass null to use the default painterSortStable function.
      */
-    setOpaqueSort(method: (a: any, b: any) => number): void;
+    setOpaqueSort(method: ((a: any, b: any) => number) | null): void;
 
     /**
      * Sets the custom transparent sort function for the WebGLRenderLists. Pass null to use the default reversePainterSortStable function.
      */
-    setTransparentSort(method: (a: any, b: any) => number): void;
+    setTransparentSort(method: ((a: any, b: any) => number) | null): void;
 
     /**
      * Returns a THREE.Color instance with the current clear color.
@@ -328,12 +342,9 @@ export class WebGLRenderer implements Renderer {
     clearColor(): void;
     clearDepth(): void;
     clearStencil(): void;
-    clearTarget(renderTarget: WebGLRenderTarget, color: boolean, depth: boolean, stencil: boolean): void;
 
-    /**
-     * @deprecated Use {@link WebGLState#reset .state.reset()} instead.
-     */
-    resetGLState(): void;
+    setNodesHandler(nodesHandler: NodesHandler): void;
+
     dispose(): void;
 
     renderBufferDirect(
@@ -342,7 +353,7 @@ export class WebGLRenderer implements Renderer {
         geometry: BufferGeometry,
         material: Material,
         object: Object3D,
-        geometryGroup: any,
+        group: GeometryGroup,
     ): void;
 
     /**
@@ -350,11 +361,6 @@ export class WebGLRenderer implements Renderer {
      * @param callback The function will be called every available frame. If `null` is passed it will stop any already ongoing animation.
      */
     setAnimationLoop(callback: XRFrameRequestCallback | null): void;
-
-    /**
-     * @deprecated Use {@link WebGLRenderer#setAnimationLoop .setAnimationLoop()} instead.
-     */
-    animate(callback: () => void): void;
 
     /**
      * Compiles all materials in the scene with the camera. This is useful to precompile shaders before the first
@@ -400,11 +406,6 @@ export class WebGLRenderer implements Renderer {
     getRenderTarget(): WebGLRenderTarget | null;
 
     /**
-     * @deprecated Use {@link WebGLRenderer#getRenderTarget .getRenderTarget()} instead.
-     */
-    getCurrentRenderTarget(): WebGLRenderTarget | null;
-
-    /**
      * Sets the active render target.
      *
      * @param renderTarget The {@link WebGLRenderTarget renderTarget} that needs to be activated. When `null` is given, the canvas is set as the active render target instead.
@@ -412,13 +413,13 @@ export class WebGLRenderer implements Renderer {
      * @param activeMipmapLevel Specifies the active mipmap level.
      */
     setRenderTarget(
-        renderTarget: WebGLRenderTarget | null,
+        renderTarget: WebGLRenderTarget | WebGLRenderTarget<Texture[]> | null,
         activeCubeFace?: number,
         activeMipmapLevel?: number,
     ): void;
 
     readRenderTargetPixels(
-        renderTarget: WebGLRenderTarget,
+        renderTarget: WebGLRenderTarget | WebGLRenderTarget<Texture[]>,
         x: number,
         y: number,
         width: number,
@@ -429,13 +430,14 @@ export class WebGLRenderer implements Renderer {
     ): void;
 
     readRenderTargetPixelsAsync(
-        renderTarget: WebGLRenderTarget,
+        renderTarget: WebGLRenderTarget | WebGLRenderTarget<Texture[]>,
         x: number,
         y: number,
         width: number,
         height: number,
         buffer: TypedArray,
         activeCubeFaceIndex?: number,
+        textureIndex?: number,
     ): Promise<TypedArray>;
 
     /**
@@ -449,39 +451,29 @@ export class WebGLRenderer implements Renderer {
     copyFramebufferToTexture(texture: Texture, position?: Vector2 | null, level?: number): void;
 
     /**
-     * Copies the pixels of a texture in the bounds `srcRegion` in the destination texture starting from the given
-     * position.
+     * Copies the pixels of a texture in the bounds [srcRegion]{@link Box3} in the destination texture starting from the
+     * given position. 2D Texture, 3D Textures, or a mix of the two can be used as source and destination texture
+     * arguments for copying between layers of 3d textures
+     *
+     * The `depthTexture` and `texture` property of render targets are supported as well.
+     *
+     * When using render target textures as `srcTexture` and `dstTexture`, you must make sure both render targets are
+     * initialized e.g. via {@link .initRenderTarget}().
      *
      * @param srcTexture Specifies the source texture.
      * @param dstTexture Specifies the destination texture.
      * @param srcRegion Specifies the bounds
      * @param dstPosition Specifies the pixel offset into the dstTexture where the copy will occur.
-     * @param level Specifies the destination mipmap level of the texture.
+     * @param srcLevel Specifies the source mipmap level of the texture.
+     * @param dstLevel Specifies the destination mipmap level of the texture.
      */
     copyTextureToTexture(
         srcTexture: Texture,
         dstTexture: Texture,
-        srcRegion?: Box2 | null,
-        dstPosition?: Vector2 | null,
-        level?: number,
-    ): void;
-
-    /**
-     * Copies the pixels of a texture in the bounds `srcRegion` in the destination texture starting from the given
-     * position.
-     *
-     * @param srcTexture Specifies the source texture.
-     * @param dstTexture Specifies the destination texture.
-     * @param srcRegion Specifies the bounds
-     * @param dstPosition Specifies the pixel offset into the dstTexture where the copy will occur.
-     * @param level Specifies the destination mipmap level of the texture.
-     */
-    copyTextureToTexture3D(
-        srcTexture: Texture,
-        dstTexture: Data3DTexture | DataArrayTexture,
-        srcRegion?: Box3 | null,
-        dstPosition?: Vector3 | null,
-        level?: number,
+        srcRegion?: Box2 | Box3 | null,
+        dstPosition?: Vector2 | Vector3 | null,
+        srcLevel?: number,
+        dstLevel?: number,
     ): void;
 
     /**
@@ -504,71 +496,34 @@ export class WebGLRenderer implements Renderer {
     resetState(): void;
 
     /**
-     * @deprecated Use {@link WebGLRenderer#xr .xr} instead.
+     * three-modded: called on the canvas' `webglcontextlost` event.
      */
-    vr: boolean;
-
-    /**
-     * @deprecated Use {@link WebGLShadowMap#enabled .shadowMap.enabled} instead.
-     */
-    shadowMapEnabled: boolean;
-
-    /**
-     * @deprecated Use {@link WebGLShadowMap#type .shadowMap.type} instead.
-     */
-    shadowMapType: ShadowMapType;
-
-    /**
-     * @deprecated Use {@link WebGLShadowMap#cullFace .shadowMap.cullFace} instead.
-     */
-    shadowMapCullFace: CullFace;
-
-    /**
-     * @deprecated Use {@link WebGLExtensions#get .extensions.get( 'OES_texture_float' )} instead.
-     */
-    supportsFloatTextures(): any;
-
-    /**
-     * @deprecated Use {@link WebGLExtensions#get .extensions.get( 'OES_texture_half_float' )} instead.
-     */
-    supportsHalfFloatTextures(): any;
-
-    /**
-     * @deprecated Use {@link WebGLExtensions#get .extensions.get( 'OES_standard_derivatives' )} instead.
-     */
-    supportsStandardDerivatives(): any;
-
-    /**
-     * @deprecated Use {@link WebGLExtensions#get .extensions.get( 'WEBGL_compressed_texture_s3tc' )} instead.
-     */
-    supportsCompressedTextureS3TC(): any;
-
-    /**
-     * @deprecated Use {@link WebGLExtensions#get .extensions.get( 'WEBGL_compressed_texture_pvrtc' )} instead.
-     */
-    supportsCompressedTexturePVRTC(): any;
-
-    /**
-     * @deprecated Use {@link WebGLExtensions#get .extensions.get( 'EXT_blend_minmax' )} instead.
-     */
-    supportsBlendMinMax(): any;
-
-    /**
-     * @deprecated Use {@link WebGLCapabilities#vertexTextures .capabilities.vertexTextures} instead.
-     */
-    supportsVertexTextures(): any;
-
-    /**
-     * @deprecated Use {@link WebGLExtensions#get .extensions.get( 'ANGLE_instanced_arrays' )} instead.
-     */
-    supportsInstancedArrays(): any;
-
-    /**
-     * @deprecated Use {@link WebGLRenderer#setScissorTest .setScissorTest()} instead.
-     */
-    enableScissorTest(boolean: any): any;
-
     onContextLost(event: WebGLContextEvent): void;
 
-    onContextRestore(event: WebGLContextEvent): void;
+    /**
+     * three-modded: called after the renderer has handled the canvas' `webglcontextrestored` event (without arguments).
+     */
+    onContextRestore(): void;
+
+    /**
+     * three-modded: called on the canvas' `webglcontextcreationerror` event.
+     */
+    onContextCreationError(event: WebGLContextEvent): void;
+
+    /**
+     * three-modded: makes the next render call set up its material again, even if it is the current one.
+     */
+    resetCurrentMaterial(): void;
+
+    /**
+     * three-modded: custom data. The renderer reads these flags in `render()`: `backgroundRender`, `shadowMapRender`,
+     * `sceneRender`, `opaqueRender`, `transparentRender`, `transmissionRender`, `renderTransmissionPass` (`false`
+     * skips that part), and `transmissionRenderTarget`/`blurTransmissionTarget` for a custom transmission target.
+     */
+    userData: Record<string, any>;
+
+    /**
+     * @deprecated three.js r155. three-modded keeps the property, the renderer does not use it.
+     */
+    useLegacyLights: boolean;
 }

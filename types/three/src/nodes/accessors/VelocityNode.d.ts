@@ -1,15 +1,20 @@
 import { Matrix4 } from "../../math/Matrix4.js";
-import TempNode from "../core/TempNode.js";
+import Node from "../core/Node.js";
 import UniformNode from "../core/UniformNode.js";
-import { ShaderNodeObject } from "../tsl/TSLCore.js";
 
-declare class VelocityNode extends TempNode {
-    previousProjectionMatrix: UniformNode<Matrix4>;
-    previousModelViewMatrix: UniformNode<Matrix4>;
+declare class VelocityNode extends Node {
+    projectionMatrix: Matrix4 | null;
+
+    previousModelWorldMatrix: UniformNode<"mat4">;
+    currentProjectionMatrix: UniformNode<"mat4">;
+    previousProjectionMatrix: UniformNode<"mat4">;
+    previousCameraViewMatrix: UniformNode<"mat4">;
 
     constructor();
+
+    setProjectionMatrix(projectionMatrix: Matrix4 | null): void;
 }
 
 export default VelocityNode;
 
-export const velocity: ShaderNodeObject<VelocityNode>;
+export const velocity: VelocityNode;

@@ -1,14 +1,15 @@
-import { TextureDataType } from "../../constants.js";
-import { RenderTarget } from "../../core/RenderTarget.js";
+import { RenderTarget, RenderTargetOptions } from "../../core/RenderTarget.js";
 import TextureNode from "../accessors/TextureNode.js";
 import Node from "../core/Node.js";
-import { NodeRepresentation, ShaderNodeObject } from "../tsl/TSLCore.js";
 
-export interface RTTNodeOptions {
-    type: TextureDataType;
+export interface RTTNodeOptions extends RenderTargetOptions {
+    autoUpdate?: boolean | undefined; // true
+    resolutionScale?: number | undefined; // 1
 }
 
 declare class RTTNode extends TextureNode {
+    readonly isRTTNode: true;
+
     node: Node;
     width: number | null;
     height: number | null;
@@ -18,28 +19,28 @@ declare class RTTNode extends TextureNode {
     textureNeedsUpdate: boolean;
     autoUpdate: boolean;
 
-    pixelRatio?: number;
-
     constructor(node: Node, width?: number | null, height?: number | null, options?: RTTNodeOptions);
 
-    get autoSize(): boolean;
+    get autoResize(): boolean;
 
     setSize(width: number | null, height: number | null): void;
 
-    setPixelRatio(pixelRatio: number): void;
+    setResolutionScale(resolutionScale: number): this;
+
+    getResolutionScale(): number;
 }
 
 export default RTTNode;
 
 export const rtt: (
-    node: NodeRepresentation,
+    node: Node,
     width?: number | null,
     height?: number | null,
     options?: RTTNodeOptions,
-) => ShaderNodeObject<RTTNode>;
+) => RTTNode;
 export const convertToTexture: (
     node: Node,
     width?: number | null,
     height?: number | null,
     options?: RTTNodeOptions,
-) => ShaderNodeObject<RTTNode>;
+) => RTTNode;

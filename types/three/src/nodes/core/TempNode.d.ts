@@ -1,10 +1,22 @@
 import Node from "./Node.js";
 import NodeBuilder from "./NodeBuilder.js";
 
-export default class TempNode extends Node {
+interface TempNodeInterface {
     isTempNode: true;
-
-    constructor(type: string | null);
 
     hasDependencies(builder: NodeBuilder): boolean;
 }
+
+/**
+ * @deprecated Extend Node instead.
+ */
+declare const TempNode: {
+    new<TNodeType = unknown>(type?: TNodeType | null): TempNode<TNodeType>;
+};
+
+/**
+ * @deprecated Extend Node instead.
+ */
+type TempNode<TNodeType> = Node<TNodeType> & TempNodeInterface;
+
+export default TempNode;

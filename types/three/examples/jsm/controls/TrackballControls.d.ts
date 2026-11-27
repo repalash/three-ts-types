@@ -48,6 +48,11 @@ declare class TrackballControls extends Controls<TrackballControlsEventMap> {
     panSpeed: number;
 
     /**
+     * The roll speed used for multi-touch roll. Default is `1`.
+     */
+    rollSpeed: number;
+
+    /**
      * Whether or not rotation is disabled. Default is `false`.
      */
     noRotate: boolean;
@@ -61,6 +66,11 @@ declare class TrackballControls extends Controls<TrackballControlsEventMap> {
      * Whether or not panning is disabled. Default is `false`.
      */
     noPan: boolean;
+
+    /**
+     * Whether two finger twist gesture rolls the camera around its view axis or not. Default is `false`.
+     */
+    multiTouchRoll: boolean;
 
     /**
      * Whether or not damping is disabled. Default is `false`.
@@ -124,7 +134,7 @@ declare class TrackballControls extends Controls<TrackballControlsEventMap> {
      * @param camera The camera of the rendered scene.
      * @param domElement The HTML element used for event listeners. (optional)
      */
-    constructor(camera: Camera, domElement?: HTMLElement | null);
+    constructor(camera: Camera, domElement?: HTMLElement | SVGElement | null);
 
     /**
      * Should be called if the application window is resized.

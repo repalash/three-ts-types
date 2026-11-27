@@ -1,10 +1,8 @@
-import { Camera } from "../../cameras/Camera.js";
 import { BufferGeometry } from "../../core/BufferGeometry.js";
 import { Object3D } from "../../core/Object3D.js";
 import { Material } from "../../materials/Material.js";
 import { Group } from "../../objects/Group.js";
 import { Scene } from "../../scenes/Scene.js";
-import { WebGLProgram } from "./WebGLProgram.js";
 import { WebGLProperties } from "./WebGLProperties.js";
 
 export interface RenderItem {
@@ -12,7 +10,7 @@ export interface RenderItem {
     object: Object3D;
     geometry: BufferGeometry | null;
     material: Material;
-    program: WebGLProgram;
+    materialVariant: number;
     groupOrder: number;
     renderOrder: number;
     z: number;
@@ -54,7 +52,11 @@ export class WebGLRenderList {
         z: number,
         group: Group | null,
     ): void;
-    sort(opaqueSort: (a: any, b: any) => number, transparentSort: (a: any, b: any) => number): void;
+    sort(
+        opaqueSort: (a: any, b: any) => number,
+        transparentSort: (a: any, b: any) => number,
+        reversedDepth: boolean,
+    ): void;
     finish(): void;
 }
 

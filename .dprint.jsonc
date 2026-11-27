@@ -1,7 +1,8 @@
 {
     "excludes": [
         "./examples-testing",
-        "./src-testing",
+        "./jsdoc-testing",
+        "./tsl-testing",
         "./three.js",
         "pnpm-lock.yaml"
     ],

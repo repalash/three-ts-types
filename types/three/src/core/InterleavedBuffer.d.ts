@@ -43,18 +43,6 @@ export class InterleavedBuffer {
     usage: Usage;
 
     /**
-     * Object containing offset and count.
-     * @defaultValue `{ offset: number = 0; count: number = -1 }`
-     * @deprecated Will be removed in r169. Use "addUpdateRange()" instead.
-     */
-    updateRange: {
-        /** @defaultValue `0` */
-        offset: number;
-        /** @defaultValue `-1` */
-        count: number;
-    };
-
-    /**
      * This can be used to only update some components of stored data. Use the {@link .addUpdateRange} function to add
      * ranges to this array.
      */
@@ -98,13 +86,25 @@ export class InterleavedBuffer {
     uuid: string;
 
     /**
+     * A callback function that is executed after the Renderer has transferred the geometry data to the GPU.
+     */
+    onUploadCallback: () => void;
+
+    /**
+     * Sets the value of the {@link onUploadCallback} property.
+     * @see {@link onUploadCallback}
+     * @param callback function that is executed after the Renderer has transferred the geometry data to the GPU.
+     */
+    onUpload(callback: () => void): this;
+
+    /**
      * Calls {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypedArray/set | TypedArray.set}( {@link value}, {@link offset} )
      * on the {@link BufferAttribute.array | array}.
      * @param value The source `TypedArray`.
      * @param offset index of the {@link BufferAttribute.array | array} at which to start copying. Expects a `Integer`. Default `0`.
      * @throws `RangeError` When {@link offset} is negative or is too large.
      */
-    set(value: ArrayLike<number>, offset: number): this;
+    set(value: ArrayLike<number>, offset?: number): this;
 
     /**
      * Set {@link BufferAttribute.usage | usage}
