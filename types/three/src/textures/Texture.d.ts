@@ -7,6 +7,7 @@ import {
     PixelFormat,
     PixelFormatGPU,
     TextureDataType,
+    TextureEncoding,
     Wrapping,
 } from "../constants.js";
 import { EventDispatcher } from "../core/EventDispatcher.js";
@@ -429,6 +430,12 @@ export class Texture<TImage = unknown, TEventMap extends TextureEventMap = Textu
      * @defaultValue {@link THREE.NoColorSpace}
      */
     colorSpace: string;
+
+    /**
+     * three-modded: maps to {@link colorSpace} (`sRGBEncoding` is `SRGBColorSpace`, anything else `NoColorSpace`).
+     * @deprecated Use {@link colorSpace} in three.js r152+.
+     */
+    encoding: TextureEncoding;
 
     /**
      * Indicates whether a texture belongs to a render target or not

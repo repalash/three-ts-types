@@ -1,6 +1,7 @@
-import { BufferAttributeJSON } from "./../core/BufferAttribute.js";
+import { BufferAttribute, BufferAttributeJSON } from "./../core/BufferAttribute.js";
 import { BufferGeometry } from "../core/BufferGeometry.js";
 import { InstancedBufferAttribute } from "../core/InstancedBufferAttribute.js";
+import { InterleavedBufferAttribute } from "../core/InterleavedBufferAttribute.js";
 import { JSONMeta, Object3D, Object3DEventMap } from "../core/Object3D.js";
 import { Material } from "../materials/Material.js";
 import { Box3 } from "../math/Box3.js";
@@ -62,6 +63,13 @@ export class InstancedMesh<
      * you modify instanced data via {@link .setMorphAt}.
      */
     morphTexture: DataTexture | null;
+
+    /**
+     * three-modded: the instance TRS attributes (`TRANSLATION`, `ROTATION`, `SCALE`) GLTFLoader read from
+     * `EXT_mesh_gpu_instancing`, kept for export.
+     * @defaultValue `null`
+     */
+    sourceTrs: { [name: string]: BufferAttribute | InterleavedBufferAttribute } | null;
 
     /**
      * The number of instances.

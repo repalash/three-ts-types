@@ -62,7 +62,10 @@ export class KTX2Loader extends Loader<CompressedTexture> {
         buffer: ArrayBuffer,
         onLoad: (texture: CompressedTexture) => void,
         onError?: (event: ErrorEvent) => void,
-    ): this;
+    ): void;
 
-    createTexture(buffer: ArrayBuffer, config: any): Promise<CompressedTexture>;
+    /**
+     * three-modded: public (upstream's `_createTexture`).
+     */
+    createTexture(buffer: ArrayBuffer, config?: any): Promise<CompressedTexture>;
 }

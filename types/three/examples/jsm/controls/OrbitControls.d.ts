@@ -44,6 +44,26 @@ declare class OrbitControls<TCamera extends Camera = Camera> extends Controls<Or
     maxDistance: number;
 
     /**
+     * three-modded: move the target along when zooming in past {@link minDistance}. Default is true.
+     */
+    autoPushTarget: boolean;
+
+    /**
+     * three-modded: move the target along when zooming out past {@link maxDistance}. Default is true.
+     */
+    autoPullTarget: boolean;
+
+    /**
+     * three-modded: the upper bound of the camera position and the target. Default is (Infinity, Infinity, Infinity).
+     */
+    clampMax: Vector3;
+
+    /**
+     * three-modded: the lower bound of the camera position and the target. Default is (-Infinity, -Infinity, -Infinity).
+     */
+    clampMin: Vector3;
+
+    /**
      * How far you can zoom in ( {@link OrthographicCamera} only ). Default is 0.
      */
     minZoom: number;
@@ -107,6 +127,16 @@ declare class OrbitControls<TCamera extends Camera = Camera> extends Controls<Or
      * Speed of zooming / dollying. Default is 1.
      */
     zoomSpeed: number;
+
+    /**
+     * three-modded: the largest zoom step per update, used with damping. Default is 1.
+     */
+    maxZoomSpeed: number;
+
+    /**
+     * three-modded: dolly also changes the camera's zoom ( {@link PerspectiveCamera} only ). Default is false.
+     */
+    dollyZoom: boolean;
 
     /**
      * Enable or disable horizontal and vertical rotation of the camera. Default is true.

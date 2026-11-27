@@ -12,7 +12,15 @@ export class FileLoader<TData = string | ArrayBuffer> extends Loader<TData> {
     ): void;
 
     mimeType: string;
+    /**
+     * @default 'text'
+     */
     responseType: string;
+    /**
+     * three-modded: whether loaded files are added to and read from {@link Cache}.
+     * @default true
+     */
+    useCache: boolean;
 
     setResponseType(value: string): this;
     setMimeType(value: string): this;

@@ -85,5 +85,10 @@ export class WebXRManager<TEventMap extends WebXRManagerEventMap = WebXRManagerE
 
     setAnimationLoop: (callback: XRFrameRequestCallback | null) => void;
 
+    /**
+     * three-modded: called at the start of each XR animation frame, before the viewer pose is read.
+     */
+    onPreAnimationFrameCallback: XRFrameRequestCallback | null;
+
     dispose: () => void;
 }

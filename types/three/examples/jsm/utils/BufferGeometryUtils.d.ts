@@ -14,8 +14,20 @@ import {
 export function deepCloneAttribute(attribute: BufferAttribute): BufferAttribute;
 export function mergeGeometries(geometries: BufferGeometry[], useGroups?: boolean): BufferGeometry;
 export function mergeAttributes(attributes: BufferAttribute[]): BufferAttribute;
+/**
+ * @deprecated Renamed to {@link mergeGeometries} in three.js r151 (three-modded keeps the old name).
+ */
+export function mergeBufferGeometries(geometries: BufferGeometry[], useGroups?: boolean): BufferGeometry;
+/**
+ * @deprecated Renamed to {@link mergeAttributes} in three.js r151 (three-modded keeps the old name).
+ */
+export function mergeBufferAttributes(attributes: BufferAttribute[]): BufferAttribute;
 export function interleaveAttributes(attributes: BufferAttribute[]): InterleavedBufferAttribute;
 export function estimateBytesUsed(geometry: BufferGeometry): number;
+/**
+ * three-modded: a negative `tolerance` merges no vertices (it only builds the index). `0` merges vertices that are
+ * equal within `Number.EPSILON`.
+ */
 export function mergeVertices(geometry: BufferGeometry, tolerance?: number): BufferGeometry;
 
 /**

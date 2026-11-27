@@ -495,7 +495,35 @@ export class WebGLRenderer {
      */
     resetState(): void;
 
+    /**
+     * three-modded: called on the canvas' `webglcontextlost` event.
+     */
     onContextLost(event: WebGLContextEvent): void;
 
-    onContextRestore(event: WebGLContextEvent): void;
+    /**
+     * three-modded: called after the renderer has handled the canvas' `webglcontextrestored` event (without arguments).
+     */
+    onContextRestore(): void;
+
+    /**
+     * three-modded: called on the canvas' `webglcontextcreationerror` event.
+     */
+    onContextCreationError(event: WebGLContextEvent): void;
+
+    /**
+     * three-modded: makes the next render call set up its material again, even if it is the current one.
+     */
+    resetCurrentMaterial(): void;
+
+    /**
+     * three-modded: custom data. The renderer reads these flags in `render()`: `backgroundRender`, `shadowMapRender`,
+     * `sceneRender`, `opaqueRender`, `transparentRender`, `transmissionRender`, `renderTransmissionPass` (`false`
+     * skips that part), and `transmissionRenderTarget`/`blurTransmissionTarget` for a custom transmission target.
+     */
+    userData: Record<string, any>;
+
+    /**
+     * @deprecated three.js r155. three-modded keeps the property, the renderer does not use it.
+     */
+    useLegacyLights: boolean;
 }
