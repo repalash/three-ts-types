@@ -48,6 +48,16 @@
         {
             "matchPackageNames": ["@types/webxr"],
             "enabled": false
+        },
+        {
+            "matchPackageNames": ["three-good-godrays"],
+            "matchUpdateTypes": ["major", "minor"],
+            "enabled": false
+        },
+        {
+            "matchPackageNames": ["postprocessing"],
+            "matchUpdateTypes": ["major", "minor"],
+            "enabled": false
         }
     ]
 }

@@ -1,5 +1,16 @@
 {
-    "include": ["../three.js/src/animation/**/*", "../three.js/src/materials/**/*"],
+    "include": [
+        "../three.js/src/animation/**/*",
+        "../three.js/src/audio/**/*",
+        "../three.js/src/cameras/**/*",
+        "../three.js/src/helpers/**/*",
+        "../three.js/src/lights/**/*",
+        "../three.js/src/materials/**/*",
+        "../three.js/src/nodes/**/*",
+        "../three.js/src/renderers/common/**/*",
+        "../three.js/src/renderers/webgpu/**/*",
+        "../three.js/src/scenes/**/*"
+    ],
     "compilerOptions": {
         "target": "es2017",
         "module": "NodeNext",

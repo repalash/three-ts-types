@@ -6,6 +6,7 @@ import prettier from 'prettier';
 import examplesFiles from '../three.js/examples/files.json' with { type: 'json' };
 
 const exceptionList = [
+    'misc_exporter_gcode',
     'misc_raycaster_helper',
     'webgl_animation_skinning_blending',
     'webgl_animation_skinning_additive_blending',
@@ -45,10 +46,7 @@ const exceptionList = [
     'webgl_rendertarget_texture2darray',
     'webgl_texture2darray',
     'webgl_worker_offscreencanvas',
-    'webgpu_compute_geometry',
-    'webgpu_compute_particles',
     'webgpu_compute_particles_fluid',
-    'webgpu_compute_particles_rain',
     'webgpu_compute_reduce',
     'webgpu_compute_water',
     'webgpu_depth_texture',
